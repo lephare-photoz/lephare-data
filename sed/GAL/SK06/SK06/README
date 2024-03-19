@@ -1,0 +1,86 @@
+Starburst models, May 2006
+R.Siebenmorgen and E. Kr"ugel, AA submm., astroph/0606444
+
+Spatially integrated SEDs are computed for starbursts at a distance of
+50 Mpc. Free model parameter are the radius, total luminosity, visual
+extinction (measured from center to surface) and as secondary
+parameter the luminosity ratio of hots spots to total.
+
+Models are sorted in directories named by the applied radius of the
+nucleus. Subdirectories therein give the ratio of the OB luminosity
+with respect to the total luminosity. One may also find subdirectories
+called HL which are computed for high luminosity objects. Each file in
+the subdirectories contain a particular SED model.  The files have two
+columns and are plain ASCII. The first column is the wavelengths in
+microns, the second column is the flux in Jy (at distance of 50Mpc).
+
+Directories for 9kpc and 15kpc are attempted to include models for
+high redshift objects. Here only OB stars are treated and distributed
+out to the edge of the galaxy. 40% of them are embedded in
+circumstellar dust (hot spots) and there is no old stellar population.
+
+
+Notation:
+---------
+
+Main directories are: 
+./0.35kpc
+./1kpc 
+./3kpc
+./9kpc
+./15kpc
+Subdirectory names are:
+./HL
+./OB40
+./OB60
+./OB90
+
+
+File naming convention:
+<L><Av>_<nhs>.plot
+where:
+ L   is the logarithm of total luminosity in solar units: log10(L/Lsun)
+ Av  is the total visual extinction measured from the surface to the center
+ nhs is the dust density within the hot spots [1/cm^3]
+
+Example:
+./0.35kpc/OB90/L1170Av35.9_2.5d3.plot
+
+This file denotes a model with a galactic radius R=0.35kpc, a ratio of
+OB luminosity to total luminosity of 90%, a total luminosity of
+10^(11.7) Lsun (~1.93e+45 erg/s), a visual extinction of Av=35.9mag
+and a hot spot density of n(hs) = 2500/cm^3.
+
+Usage:
+------
+
+You may start with some guess of the bolometric IR luminosity of your
+starburst galaxy. Select your choice of particular parameters. For
+example, in the file above: log(L/Lsun)=11.7, radius=350pc, OB90,
+Av35.9 and n(hs)=2500. Read both columns of this file and scale the
+flux, f(model) of column 2, to the distance D[Mpc] of your object
+following:
+
+     f = f(model)*(50/D)^2
+
+For red shifted objects scale using luminosity distance and red
+shift the wavelengths (first column) as described for example in
+D.W. Hogg, 'Distance measures in cosmology' available at:
+astro-ph/9905116
+
+Reference:
+----------
+
+If you make use of these SED in your journal article we would
+appreciate that you refer to: 
+Siebenmorgen R. and Kr\"ugel E., 2006 AA submm., astroph/0606444
+
+
+Further questions please contact us:
+Ralf Siebenmorgen     rsiebenm@eso.org
+Endrik Kruegel        p309ekr@mpifr-bonn.mpg.de
+
+			== oo ==
+
+
+

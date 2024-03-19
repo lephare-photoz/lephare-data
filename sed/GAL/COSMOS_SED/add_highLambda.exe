@@ -1,0 +1,6 @@
+#! /bin/sh
+
+for i in `ls *$3*_nodust.sed`
+do
+    echo "1000000000. 0." >> $i
+done

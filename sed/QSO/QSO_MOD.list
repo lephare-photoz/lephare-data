@@ -1,0 +1,11 @@
+qso_template_norm.sed	
+qso_low_template_norm.sed	
+qso_high_template_norm.sed
+QSO_SDSS.sed
+QSO_Cristiani.sed
+QSO_VVDS.sed
+QSO_SYNTH-0.7_84.sed
+QSO_SYNTH-1.0_84.sed
+Redqso_template_norm.sed	
+MR_QSO1.sed
+MR_QSO2.sed

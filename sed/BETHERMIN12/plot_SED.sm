@@ -1,0 +1,23 @@
+plotsed 3
+    
+   macro read "/home/oilbert/bin/lit_macro.sm" lit
+
+   ctype black lweight 3 expand 1.3
+   data sed_z19_MS.dat read {l 1 f 2} 
+   erase limits $1 $2 f box 
+
+   ctype black   plotsed_sub sed_z19_MS.dat 0.19
+   ctype magenta plotsed_sub sed_z43_MS.dat 0.43
+   ctype blue    plotsed_sub sed_z74_MS.dat 0.74
+   ctype cyan    plotsed_sub sed_z129_MS.dat 1.29
+
+   lweight 7 ctype black relocate 270000 -1000 draw 270000 1000 ctype black lweight 3
+end
+
+plotsed_sub 2
+
+   data $1
+   read {l 1 f 2}
+   connect (l*(1+$2)) f
+
+end

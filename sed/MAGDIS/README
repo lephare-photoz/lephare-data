@@ -1,0 +1,11 @@
+
+
+http://georgiosmagdis.pbworks.com/w/file/59020295/
+
+.r convert_ascii.pro
+convert_ascii,'sed_z1_U1.save','MOD_TOT_Z1','sed_z1_U1.dat'
+
+macro read plot_SED.sm
+plotsed 0 300000
+macro read plot_SED.sm
+plotsed 0 3000000

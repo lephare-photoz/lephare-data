@@ -1,0 +1,28 @@
+plotsed 2
+    
+   macro read "/home/oilbert/bin/lit_macro.sm" lit
+
+   ctype black lweight 3 expand 1.3
+   data sb_U.dat read {l 1 f 2} 
+   erase limits $1 $2 f box 
+
+   ctype blue   plotsed_sub sed_z1_U1.dat
+   ctype blue   plotsed_sub sed_z2_U2.dat
+   ctype cyan   plotsed_sub sed_z3_U3.dat
+   ctype green  plotsed_sub sed_z4_U4.dat
+   ctype green  plotsed_sub sed_z5_U5.dat
+   ctype brown  plotsed_sub sed_z6_U6.dat
+   ctype orange plotsed_sub sed_z7_U7.dat
+   ctype red    plotsed_sub sed_z8_U8.dat
+   ctype black  plotsed_sub sed_z9_U9.dat
+   ctype gold   plotsed_sub sb_U.dat
+
+end
+
+plotsed_sub 1
+
+   data $1
+   read {l 1 f 2}
+   connect l f
+
+end

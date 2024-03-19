@@ -1,0 +1,165 @@
+#1 arg -> redshift
+plot 5
+
+   macro read "/home/ilbert/bin/lit_macro.sm" lit
+
+   erase lweight 3 expand 1.3 ctype black
+   #limits 2.8 4.6 24 33.9 box
+   #limits 2.8 4.6 30 33.9 box
+   limits $2 $3 $4 $5 box
+   #limits 2.9 4 31.5 33.5 box
+
+   ctype red 
+   plotCOSMOS chary_elbaz_1.sed $1
+   plotCOSMOS chary_elbaz_2.sed $1
+   plotCOSMOS chary_elbaz_3.sed $1
+   plotCOSMOS chary_elbaz_4.sed $1
+   plotCOSMOS chary_elbaz_5.sed $1
+   plotCOSMOS chary_elbaz_6.sed $1
+   plotCOSMOS chary_elbaz_7.sed $1
+   plotCOSMOS chary_elbaz_8.sed $1
+   plotCOSMOS chary_elbaz_9.sed $1
+   plotCOSMOS chary_elbaz_10.sed $1
+   plotCOSMOS chary_elbaz_11.sed $1
+   plotCOSMOS chary_elbaz_12.sed $1
+   plotCOSMOS chary_elbaz_13.sed $1
+   plotCOSMOS chary_elbaz_14.sed $1
+   plotCOSMOS chary_elbaz_15.sed $1
+   plotCOSMOS chary_elbaz_16.sed $1
+   plotCOSMOS chary_elbaz_17.sed $1
+   plotCOSMOS chary_elbaz_18.sed $1
+   plotCOSMOS chary_elbaz_19.sed $1
+   plotCOSMOS chary_elbaz_20.sed $1
+   plotCOSMOS chary_elbaz_21.sed $1
+   plotCOSMOS chary_elbaz_22.sed $1
+   plotCOSMOS chary_elbaz_23.sed $1
+   plotCOSMOS chary_elbaz_24.sed $1
+   plotCOSMOS chary_elbaz_25.sed $1
+   plotCOSMOS chary_elbaz_26.sed $1
+   plotCOSMOS chary_elbaz_27.sed $1
+   plotCOSMOS chary_elbaz_28.sed $1
+   plotCOSMOS chary_elbaz_29.sed $1
+   plotCOSMOS chary_elbaz_30.sed $1
+   plotCOSMOS chary_elbaz_31.sed $1
+   plotCOSMOS chary_elbaz_32.sed $1
+   plotCOSMOS chary_elbaz_33.sed $1
+   plotCOSMOS chary_elbaz_34.sed $1
+   plotCOSMOS chary_elbaz_35.sed $1
+   plotCOSMOS chary_elbaz_36.sed $1
+   plotCOSMOS chary_elbaz_37.sed $1
+   plotCOSMOS chary_elbaz_38.sed $1
+   plotCOSMOS chary_elbaz_39.sed $1
+   plotCOSMOS chary_elbaz_40.sed $1
+   plotCOSMOS chary_elbaz_41.sed $1
+   plotCOSMOS chary_elbaz_42.sed $1
+   plotCOSMOS chary_elbaz_43.sed $1
+   plotCOSMOS chary_elbaz_44.sed $1
+   plotCOSMOS chary_elbaz_45.sed $1
+   plotCOSMOS chary_elbaz_46.sed $1
+   plotCOSMOS chary_elbaz_47.sed $1
+   plotCOSMOS chary_elbaz_48.sed $1
+   plotCOSMOS chary_elbaz_49.sed $1
+   plotCOSMOS chary_elbaz_50.sed $1
+   plotCOSMOS chary_elbaz_51.sed $1
+   plotCOSMOS chary_elbaz_52.sed $1
+   plotCOSMOS chary_elbaz_53.sed $1
+   plotCOSMOS chary_elbaz_54.sed $1
+   plotCOSMOS chary_elbaz_55.sed $1
+   plotCOSMOS chary_elbaz_56.sed $1
+   plotCOSMOS chary_elbaz_57.sed $1
+   plotCOSMOS chary_elbaz_58.sed $1
+   plotCOSMOS chary_elbaz_59.sed $1
+   plotCOSMOS chary_elbaz_60.sed $1
+   plotCOSMOS chary_elbaz_61.sed $1
+   plotCOSMOS chary_elbaz_62.sed $1
+   plotCOSMOS chary_elbaz_63.sed $1
+   plotCOSMOS chary_elbaz_64.sed $1
+   plotCOSMOS chary_elbaz_65.sed $1
+   plotCOSMOS chary_elbaz_66.sed $1
+   plotCOSMOS chary_elbaz_67.sed $1
+   plotCOSMOS chary_elbaz_68.sed $1
+   plotCOSMOS chary_elbaz_69.sed $1
+   plotCOSMOS chary_elbaz_70.sed $1
+   plotCOSMOS chary_elbaz_71.sed $1
+   plotCOSMOS chary_elbaz_72.sed $1
+   plotCOSMOS chary_elbaz_73.sed $1
+   plotCOSMOS chary_elbaz_74.sed $1
+   plotCOSMOS chary_elbaz_75.sed $1
+   plotCOSMOS chary_elbaz_76.sed $1
+   plotCOSMOS chary_elbaz_77.sed $1
+   plotCOSMOS chary_elbaz_78.sed $1
+   plotCOSMOS chary_elbaz_79.sed $1
+   plotCOSMOS chary_elbaz_80.sed $1
+   plotCOSMOS chary_elbaz_81.sed $1
+   plotCOSMOS chary_elbaz_82.sed $1
+   plotCOSMOS chary_elbaz_83.sed $1
+   plotCOSMOS chary_elbaz_84.sed $1
+   plotCOSMOS chary_elbaz_85.sed $1
+   plotCOSMOS chary_elbaz_86.sed $1
+   plotCOSMOS chary_elbaz_87.sed $1
+   plotCOSMOS chary_elbaz_88.sed $1
+   plotCOSMOS chary_elbaz_89.sed $1
+   plotCOSMOS chary_elbaz_90.sed $1
+   plotCOSMOS chary_elbaz_91.sed $1
+   plotCOSMOS chary_elbaz_92.sed $1
+   plotCOSMOS chary_elbaz_93.sed $1
+   plotCOSMOS chary_elbaz_94.sed $1
+   plotCOSMOS chary_elbaz_95.sed $1
+   plotCOSMOS chary_elbaz_96.sed $1
+   plotCOSMOS chary_elbaz_97.sed $1
+   plotCOSMOS chary_elbaz_98.sed $1
+   plotCOSMOS chary_elbaz_99.sed $1
+   plotCOSMOS chary_elbaz_100.sed $1
+   plotCOSMOS chary_elbaz_101.sed $1
+   plotCOSMOS chary_elbaz_102.sed $1
+   plotCOSMOS chary_elbaz_103.sed $1
+   plotCOSMOS chary_elbaz_104.sed $1
+   plotCOSMOS chary_elbaz_105.sed $1
+
+
+   ctype magenta  filt "spitzer/irac_1.pb" $4 $5
+   ctype blue     filt "spitzer/irac_2.pb" $4 $5
+   ctype green    filt "spitzer/mips_24.pb" $4 $5
+   ctype red      filt "herschel/PACS_100.pb"  $4 $5
+   ctype red      filt "herschel/PACS_160.pb"  $4 $5
+   ctype black    filt "herschel/SPIRE_PSW.pb"  $4 $5
+   ctype black    filt "herschel/SPIRE_PMW.pb" $4 $5
+   ctype black    filt "herschel/SPIRE_PLW.pb" $4 $5
+
+end
+
+
+plotCOSMOS 2
+
+
+    data $1
+    read {l 1 f1 2}
+
+    set fl1=f1 if(l>30000 && l<70000)
+    vecminmax fl1 min1 sum1
+
+    data chary_elbaz_1.sed
+    read {l2 1 f2 2}
+    set fl2=f2 if(l2>30000 && l2<70000)
+    vecminmax fl2 min2 sum2
+
+    set f = f1 * $sum2 / $sum1
+
+    #lweight 4 ltype 2 connect (lg(l)) (lg(f))
+    lweight 1 connect (lg(l)) (lg(f))
+
+
+    ltype 0 lweight 3
+    define bid ?
+end
+
+
+filt 3
+
+  data "../../../filt/"$1
+  read {l 1 t 2}
+  vecminmax t min max
+  connect (lg(l)) (t*$($3-$2)/$max+$2)
+
+end
+

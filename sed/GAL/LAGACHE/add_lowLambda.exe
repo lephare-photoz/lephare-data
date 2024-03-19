@@ -1,0 +1,8 @@
+#! /bin/sh
+
+for i in `ls *$3*.sed`
+do
+    echo "10. 0." > inter.dat
+    mv $i inter2.dat
+    cat inter.dat inter2.dat > $i
+done

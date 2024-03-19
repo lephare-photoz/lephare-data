@@ -1,0 +1,9 @@
+#! /bin/sh
+
+for i in `ls *z**$3*.dat`
+do
+    echo "10. 0." > inter.dat
+    echo "9990. 0." >> inter.dat
+    mv $i inter2.dat
+    cat inter.dat inter2.dat > $i
+done

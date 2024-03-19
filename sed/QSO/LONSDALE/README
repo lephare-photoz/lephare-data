@@ -1,0 +1,36 @@
+ From  M. Polletta, January 24, 20
+ Format  2 columns:
+ 1) lambda (A) 
+ 2) F_lambda/F_lambda(5500A) (erg cm-2 s-1 A-1)
+-------------------------------------------------------------------------------
+ Filename               Template             Spectral type       Reference
+-------------------------------------------------------------------------------
+ Ell2_template.sed      Ell(2)                Ell (t= 2 Gyr)  GRASIL (Silva L., Granato G.L., Bressan A.,
+                                                              Danese L. 1998, ApJ, 509, 103)
+ Ell5_template.sed      Ell(5)                Ell (t= 5 Gyr)    "
+ Ell13_template.sed     Ell(13)               Ell (t=13 Gyr)    "
+ Sa_template.sed        Sa                    Sa                "  PAH modified using IRS spectra
+ Sb_template.sed        Sb                    Sb                "       "
+ Sc_template.sed        Sc                    Sc                "       "
+ Sd_template.sed        Sd                    Sd                "       "
+ Sdm_template.sed       Sdm                   Sdm               "       "
+ N6090_template.sed     NGC6090(SB)           Starburst         "  PAH modified using ISO PHT-S spectra
+ M82_template.sed       M82(SB)               Starburst         "       "
+ A220_template.sed      Arp220                ULIRG             "       "
+ Sey1_template.sed      Sey1                  Seyfert1          (Polletta et al., in prep.)
+ Sey2_template.sed      Sey2                  Seyfert2                 "
+ Sey18_template.sed     Sey1.8                Seyfert1.8               "
+ I19254s_template.sed   IRAS19254-7245 South  Seyfert 2+ULIRG  (Berta et al. 2003)
+ Mrk231_template.sed    Mrk231                Type-1 AGN+ULIRG         "
+ qso_template.sed       QSO1                  Type-1 QSO        (optical: composite quasar spectrum from
+                                                                 the Large Bright Quasar Survey
+                                                                 Brotherton M.S. et al. 2001, ApJ, 546, 775
+                                                                 Infrared: average SED of SWIRE quasars)
+ qso_low_template.sed   QSO1                  Type-1 QSO        (Same as QSO1, but infrared from average SED
+                                                                 of SWIRE quasars with the lowest IR/Opt ratio)
+ qso_high_template.sed  QSO1                  Type-1 QSO        (Same as QSO1, but infrared from average SED
+                                                                 of SWIRE quasars with the highest IR/Opt ratio)
+ Redqso_template.sed    QSO2                  Type-2 QSO        (optical: FIRST J013435.7-093102 spectrum
+                                                                 Gregg M.D. et al. 2002, ApJ, 564, 133
+                                                                 Infrared: average SED of quasars with similar
+                                                                 optical spectra)

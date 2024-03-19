@@ -1,0 +1,8 @@
+macro read plot_SED.sm
+!more plot_SED.sm
+!emacs -nw plot_SED.sm
+macro read plot_SED.sm
+plotsed 10 100000
+plotsed 10 1000000
+macro read plot_SED.sm
+plotsed 10 1000000

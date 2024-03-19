@@ -1,0 +1,24 @@
+##################################
+#     Bruzual & Charlot 03
+##################################
+
+
+Version used in the COSMOS mass function
+Ilbert et al. 2009
+
+List of SED: BC03_CAL_MOD.list
+
+Templates are generated with Bruzual & Charlot (2003)
+They don't include extinction
+3 different metallicities
+Exponentially decreasing SFR with tau=0.1,0.3,1,2,3,5,10,15,30
+
+
+Templates are used in ascii.
+
+#############################
+# Update
+
+Templates and ages used for Ilbert et al. 2015, Laigle et al. 2016, Weaver et al. 2022 and the GAZPAR interface
+AGE_BC03COMB.dat
+BC03COMB_MOD.list

@@ -1,0 +1,17 @@
+
+Model from Béthermin et al. (2012, astro-ph:1208.6512, ApJL 757 23).
+Extracted from Magdis+2012 with a finer grid in redshift.
+http://irfu.cea.fr/Sap/Phocea/Page/index.php?id=537.  The original
+SEDs are redshifted, in Jy, and normalized at LIR = 1 Lsun. The
+redshift effect is thus included in the computation and lambda_grids
+is thus observer frame.
+
+.r convert_ascii.pro
+convert_ascii
+
+The SED in ascii are assumed to be at 10 pc, and are converted in erg/s/cm/A
+
+macro read plot_SED.sm
+plotsed 0 300000
+macro read plot_SED.sm
+plotsed 0 3000000

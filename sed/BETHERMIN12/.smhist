@@ -1,0 +1,79 @@
+  macro read "/home/ilbert/bin/lit_macro.sm" lit
+ macro read "/home/ilbert/bin/lit_macro.sm" lit
+macro read plot_SED.sm
+plotsed
+macro read plot_SED.sm
+plotsed
+macro read plot_SED.sm
+plotsed
+macro read plot_SED.sm
+plotsed
+macro read plot_SED.sm
+plotsed
+macro read plot_SED.sm
+plotsed
+macro read plot_SED.sm
+!ls -alrt
+macro read plot_SED.sm
+plotsed 0 800000
+macro read plot_SED.sm
+plotsed 0 300000
+macro read plot_SED.sm
+plotsed 0 3000000
+macro read plot_SED.sm
+plotsed 0 3000000
+macro read plot_SED.sm
+plotsed 0 3000000
+1
+macro read plot_SED.sm
+plotsed 0 3000000 1
+!more ../DALE/dale_1.sed
+!more ../DALE/dale_10.sed
+!more ../DALE/README
+data "../CHARY_ELBAZ/CHARY_ELBAZ/chary_elbaz_54.sed"
+read {l 1 f 2}
+erase limits l f box connect l f
+erase limits 0 100000 f box connect l f
+erase limits 0 1000000 f box connect l f
+data BETHERMIN_MOD.list read {z 3}
+set i=0,6,0.015
+erase limits 0 6 0 6 box points i z
+erase limits 0 6 0 6 box points i (lg(1+z))
+set i=0,6,0.01
+erase limits 0 6 0 6 box points i (lg(1+z))
+set i=0,6,0.001
+erase limits 0 6 0 6 box points i (lg(1+z))
+set i=0,6,0.005
+erase limits 0 6 0 6 box points i (lg(1+z))
+set i=0,600,0.005
+erase limits 0 6 0 6 box points i (lg(1+z))
+macro read plot_SED.sm
+plotsed 1 200000 1
+plotsed 1 2000000 1
+macro read plot_SED.sm
+plotsed 1 2000000 1
+!ls -alrt
+macro read plot_SED.sm
+plotsed 1 2000000 1
+plotsed 1 260000 1
+macro read plot_SED.sm
+plotsed 1 260000 1
+macro read plot_SED.sm
+plotsed 1 260000 1
+plotsed 1 300000 1
+plotsed 1 6000000 1
+plotsed 1 600000 1
+macro read plot_SED.sm
+plotsed 1 600000 1
+macro read plot_SED.sm
+plotsed 1 600000 1
+macro read plot_SED.sm
+plotsed 0 300000
+macro read plot_SED.sm
+!more plot_SED.sm
+macro read plot_SED.sm
+plotsed 0 300000 1
+plotsed 0 3000000 1
+!more plot_SED.sm
+macro read plot_SED.sm
+plotsed 0 3000000 1

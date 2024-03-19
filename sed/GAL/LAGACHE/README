@@ -1,0 +1,16 @@
+#########################################################################
+#          LAGACHE & DOLE FIR templates   -> LAGACHE.list               #
+#                                                                       #
+#    * 46 templates with different IR Luminosity                        #
+#           The LIR is saved in  LAGACHE_SB.list / LAGACHE_COLD.list    #
+#                                                                       #
+#    * 5614  elements of lambda from 3600 A < lambda < 1 10^8 A         #
+#            reduce the sampling for short and long wavelengths         #
+#    * Original Units are  lbda [m];  Lnu  [W]                          #
+#    * converted in  lbda [A] ; Llda = nu Lnu/lbda  [ /Lo erg/s/A]      # 
+#    * Useful to express it as flux in erg/s/cm^2/A                     #
+#    * A scaling factor can be applied as Lo/(4.pi.D^2) ;  D=10pc       #
+#    *   Lsol=3.826e33[erg/s]  ,   pc=3.086e18[cm]                      #
+#    *  GAL_FSCALE  =  Lsol/(4*3.141593*100*pc**2)                      #
+#    *  GAL_FSCALE  =  3.197004226e-07					#
+#########################################################################

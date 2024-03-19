@@ -1,0 +1,4 @@
+macro read plot_polletta.sm
+!more plot_polletta.sm
+macro read plot_polletta.sm
+plotCOSMOS Ell1_A_0.sed  2
