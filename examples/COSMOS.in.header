@@ -1,0 +1,71 @@
+# Extracted from COSMOS2020 classic (Weaver+22)
+# Limited to the spec-z sample
+# Input in flux (erg/s/cm2/Hz)
+
+# From /data1/ANALYSES/ZPHOT/COSMOS/COSMOS2020_v2_070521/INIT_CLASSIC/COSMOS2020_aper2_spectro.in
+# awk '{print NR,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34,$35,$36,$37,$38,$39,$40,$41,$42,$43,$44,$45,$46,$47,$48,$49,$50,$51,$52,$53,$64,$65,$66,$67,$68,$69,$70,$71," 0 ",$77,$78}' /data1/ANALYSES/ZPHOT/COSMOS/COSMOS2020_v2_070521/INIT_CLASSIC/COSMOS2020_aper2_spectro.in > COSMOS.in
+
+       1         number
+       2         U1_flux
+       3         U1_fluxerr
+       4         U2_flux
+       5         U2_fluxerr
+       6         g_flux
+       7         g_fluxerr
+       8         r_flux
+       9         r_fluxerr
+      10         i_flux
+      11         i_fluxerr
+      12         z_flux
+      13         z_fluxerr
+      14         y_flux
+      15         y_fluxerr
+      16         Y_flux
+      17         Y_fluxerr
+      18         J_flux
+      19         J_fluxerr
+      20         H_flux
+      21         H_fluxerr
+      22         Ks_flux
+      23         Ks_fluxerr
+      24         IA484_flux
+      25         IA484_fluxerr
+      26         IA527_flux
+      27         IA527_fluxerr
+      28         IA624_flux
+      29         IA624_fluxerr
+      30         IA679_flux
+      31         IA679_fluxerr
+      32         IA738_flux
+      33         IA738_fluxerr
+      34         IA767_flux
+      35         IA767_fluxerr
+      36         IB427_flux
+      37         IB427_fluxerr
+      38         IB464_flux
+      39         IB464_fluxerr
+      40         IB505_flux
+      41         IB505_fluxerr
+      42         IB574_flux
+      43         IB574_fluxerr
+      44         IB709_flux
+      45         IB709_fluxerr
+      46         IB827_flux
+      47         IB827_fluxerr
+      48         NB711_flux
+      49         NB711_fluxerr
+      50         NB816_flux
+      51         NB816_fluxerr
+      52         NB118_flux
+      53         NB118_fluxerr
+      54 	 splash_1
+      55 	 splash_1err
+      56 	 splash_2
+      57 	 splash_2err
+      58         ch3
+      59         ch3_err
+      60         ch4
+      61         ch4_err
+      62         context
+      63         zs
+      64         fl

@@ -1,0 +1,53 @@
+#! /bin/csh
+
+
+# Location of the code
+export LEPHAREDIR='/home/oilbert/LEPHARE/'
+# Where to store the libraries (if not create with the make file, you must have a $LEPHAREWORK/filt, $LEPHAREWORK/lib_bin, $LEPHAREWORK/lib_mag
+export LEPHAREWORK='WORK'
+# Maximum number of threads
+export OMP_NUM_THREADS='30' 
+
+ 
+#############
+##  LIBRARY
+
+# Read the filters and compile them within one file stored in $WORK/filt
+$LEPHAREDIR/bin/filter -c COSMOS.para
+
+# Case of the galaxy templates used in Ilbert 2013
+# Read the galaxy templates and store them in $WORK/lib_binxs
+$LEPHAREDIR/bin/sedtolib -c COSMOS.para -t G -GAL_SED COSMOS_MOD.list  -GAL_LIB LIB_VISTA 
+# Use the galaxy templates + filters to derive a library of predicted magnitudes and store in $WORK/lib_mag
+# Case emission lines correlated to UV light + free factor in scaling the lines 
+$LEPHAREDIR/bin/mag_gal  -c COSMOS.para -t G -GAL_LIB_IN LIB_VISTA -GAL_LIB_OUT VISTA_COSMOS_FREE -MOD_EXTINC 18,26,26,33,26,33,26,33  -EXTINC_LAW SMC_prevot.dat,SB_calzetti.dat,SB_calzetti_bump1.dat,SB_calzetti_bump2.dat  -EM_LINES EMP_UV  -EM_DISPERSION 0.5,0.75,1.,1.5,2. 
+
+# STAR
+# Read the stellar templates and store them in $WORK/lib_bin
+$LEPHAREDIR/bin/sedtolib -c COSMOS.para -t S -STAR_SED STAR_MOD_ALL.list
+# Use the stellar templates + filters to derive a library of predicted magnitudes and store in $WORK/lib_mag
+$LEPHAREDIR/bin/mag_gal -c COSMOS.para -t S -LIB_ASCII YES -STAR_LIB_OUT ALLSTAR_COSMOS 
+
+# AGN from Salvato 2009
+# Read the AGN templates and store them in $WORK/lib_bin
+$LEPHAREDIR/bin/sedtolib -c COSMOS.para -t Q -QSO_SED  $LEPHAREDIR/sed/QSO/SALVATO09/AGN_MOD.list
+# Use the AGN templates + filters to derive a library of predicted magnitudes and store in $WORK/lib_mag
+$LEPHAREDIR/bin/mag_gal -c COSMOS.para -t Q -MOD_EXTINC 0,1000  -EB_V 0.,0.1,0.2,0.3 -EXTINC_LAW SB_calzetti.dat -LIB_ASCII NO 
+
+
+###################################################
+# PHOTOMETRIC REDSHIFTS
+###################################################
+
+
+# Compute the photo-z and derive the adapation of the zero-points
+$LEPHAREDIR/bin/zphota -c COSMOS.para -CAT_IN COSMOS.in -CAT_OUT zphot_short.out -ZPHOTLIB VISTA_COSMOS_FREE,ALLSTAR_COSMOS,QSO_COSMOS  -ADD_EMLINES 0,100 -AUTO_ADAPT YES 
+
+
+#######################################################
+#  FIGURES
+#######################################################
+
+# Diadgnostics on the photo-z quality
+# results in figuresLPZ.pdf
+python figuresLPZ.py zphot_short.out

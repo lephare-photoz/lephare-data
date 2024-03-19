@@ -1,0 +1,9 @@
+#######################################
+# Computing ATMOSPHERIC AND GALACTIC EXTINCTION 
+# with the following options: 
+# Filters: filter_extinc.dat
+# Atmospheric extinction curve: extinc_etc.dat
+# Galactic extinction curve: CARDELLI
+# Output file: filter_extinc.dat
+#######################################
+ Filters Ext(mag/airmass) Albda/Av Albda/E(B-V) 

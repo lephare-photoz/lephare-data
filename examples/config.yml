@@ -1,0 +1,38 @@
+filters:
+  trans: 1
+  calib: 0
+  list:
+    - name: svo:CFHT/MegaCam.u_1
+    - name: svo:CFHT/MegaCam.u
+    - name: svo:Subaru/HSC.g
+    - name: svo:Subaru/HSC.r
+    - name: svo:Subaru/HSC.i
+    - name: svo:Subaru/HSC.z
+    - name: svo:Subaru/HSC.Y
+    - name: svo:Paranal/VISTA.Y
+    - name: svo:Paranal/VISTA.J
+    - name: svo:Paranal/VISTA.H
+    - name: svo:Paranal/VISTA.Ks
+    - name: svo:Subaru/Suprime.IB427
+    - name: svo:Subaru/Suprime.IB464
+    - name: svo:Subaru/Suprime.IB484
+    - name: svo:Subaru/Suprime.IB505
+    - name: svo:Subaru/Suprime.IB527
+    - name: svo:Subaru/Suprime.IB574
+    - name: svo:Subaru/Suprime.IB624
+    - name: svo:Subaru/Suprime.IB679
+    - name: svo:Subaru/Suprime.IB709
+    - name: svo:Subaru/Suprime.IB738
+    - name: svo:Subaru/Suprime.IB767
+    - name: svo:Subaru/Suprime.IB827
+    - name: svo:Subaru/Suprime.NB711
+    - name: svo:Subaru/Suprime.NB816
+    - name: svo:Paranal/VISTA.NB118
+    - name: svo:Spitzer/IRAC.I1
+      calib: 1
+    - name: svo:Spitzer/IRAC.I2
+      calib: 1
+    - name: svo:Spitzer/IRAC.I3
+      calib: 1
+    - name: svo:Spitzer/IRAC.I4
+      calib: 1

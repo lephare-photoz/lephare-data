@@ -1,0 +1,131 @@
+#! /bin/csh
+
+
+# Location of the code
+export LEPHAREDIR='/home/oilbert/LEPHARE/'
+# Where to store the libraries (if not created with the make file, you must have a $LEPHAREWORK/filt, $LEPHAREWORK/lib_bin, $LEPHAREWORK/lib_mag
+export LEPHAREWORK='WORK'
+# Shift to apply to the photometry (systematic offsets) for zphota
+export SHIFT="0.051121,-0.016466,-0.084605,-0.058664,-0.039816,-0.053934,-0.072388,-0.023517,-0.001748,0.013681,-0.036044,0.041802,0.017099,0.006699,0.006539,0.021207,0.063196,0.015433,-0.163286,0.032249,0.039840,0.050121,0.025781,0.012588,0.052423,0.034833,0.018244,-0.024611,0.000000,0.000000"
+# Maximum number of threads
+export OMP_NUM_THREADS='25' 
+
+ 
+#############
+##  LIBRARY
+
+# Read the filters and compile them within one file stored in $WORK/filt
+$LEPHAREDIR/bin/filter -c COSMOS.para
+# read a second set of filter which could be used to compute predicted magnitudes in some bands not present in the dataset (useful for simulation)
+$LEPHAREDIR/bin/filter -c COSMOS.para  -FILTER_LIST euclid/EUC_riz.lowres,euclid/EUC_Y.lowres,euclid/EUC_J.lowres,euclid/EUC_H.lowres -FILTER_CALIB 0 -FILTER_FILE filter_add
+
+# Case of the galaxy templates used in Ilbert 2013
+# Read the galaxy templates and store them in $WORK/lib_bin
+$LEPHAREDIR/bin/sedtolib -c COSMOS.para -t G -GAL_SED COSMOS_MOD.list  -GAL_LIB LIB_VISTA 
+# Use the galaxy templates + filters to derive a library of predicted magnitudes and store in $WORK/lib_mag
+# Case emission lines correlated to UV light + free factor in scaling the lines 
+$LEPHAREDIR/bin/mag_gal  -c COSMOS.para -t G -GAL_LIB_IN LIB_VISTA -GAL_LIB_OUT VISTA_COSMOS_FREE -MOD_EXTINC 18,26,26,33,26,33,26,33  -EXTINC_LAW SMC_prevot.dat,SB_calzetti.dat,SB_calzetti_bump1.dat,SB_calzetti_bump2.dat  -EM_LINES EMP_UV  -EM_DISPERSION 0.5,0.75,1.,1.5,2.
+# Case emission lines correlated to UV light + no free factor in scaling the lines 
+$LEPHAREDIR/bin/mag_gal  -c COSMOS.para -t G -GAL_LIB_IN LIB_VISTA -GAL_LIB_OUT VISTA_COSMOS -MOD_EXTINC 18,26,26,33,26,33,26,33  -EXTINC_LAW SMC_prevot.dat,SB_calzetti.dat,SB_calzetti_bump1.dat,SB_calzetti_bump2.dat -EM_LINES EMP_UV  -EM_DISPERSION 1.
+
+# STAR
+# Read the stellar templates and store them in $WORK/lib_bin
+$LEPHAREDIR/bin/sedtolib -c COSMOS.para -t S -STAR_SED STAR_MOD_ALL.list
+# Use the stellar templates + filters to derive a library of predicted magnitudes and store in $WORK/lib_mag
+$LEPHAREDIR/bin/mag_gal -c COSMOS.para -t S -LIB_ASCII YES -STAR_LIB_OUT ALLSTAR_COSMOS 
+
+# AGN from Salvato 2009
+# Read the AGN templates and store them in $WORK/lib_bin
+$LEPHAREDIR/bin/sedtolib -c COSMOS.para -t Q -QSO_SED  $LEPHAREDIR/sed/QSO/SALVATO09/AGN_MOD.list
+# Use the AGN templates + filters to derive a library of predicted magnitudes and store in $WORK/lib_mag
+$LEPHAREDIR/bin/mag_gal -c COSMOS.para -t Q -MOD_EXTINC 0,1000  -EB_V 0.,0.1,0.2,0.3 -EXTINC_LAW SB_calzetti.dat -LIB_ASCII NO
+
+
+# BC03 library as Ilbert+2015
+# Library to derive physical parameters
+# Read the galaxy BC03 templates and store them in $WORK/lib_bin
+$LEPHAREDIR/bin/sedtolib -c COSMOS.para -t G -GAL_SED BC03COMB_MOD.list -GAL_LIB LIB_COMB -SEL_AGE AGE_BC03COMB.dat
+# Use the galaxy BC03 templates + filters to derive a library of predicted magnitudes and store in $WORK/lib_mag
+# Use the "physical" recipes to generate the lines
+# Add the dust component with one template of Bethermin+12
+$LEPHAREDIR/bin/mag_gal  -c COSMOS.para -t G -GAL_LIB_IN LIB_COMB  -GAL_LIB_OUT BC03_COSMOS  -MOD_EXTINC 3,12,3,12 -EXTINC_LAW SB_calzetti.dat,extlaw_0.9.dat -EB_V 0.,0.1,0.2,0.3,0.4,0.5,0.6,0.7 -Z_STEP 0.03,0,6 -EM_LINES PHYS -EM_DISPERSION 0.25,0.5,1,2,4 -ADD_DUSTEM YES
+
+
+
+###################################################
+# PHOTOMETRIC REDSHIFTS
+###################################################
+
+
+# Compute the photo-z and derive the adapation of the zero-points
+$LEPHAREDIR/bin/zphota -c COSMOS.para -CAT_IN COSMOS.in -CAT_OUT zphot_vista_adapt.out -ZPHOTLIB VISTA_COSMOS_FREE,ALLSTAR_COSMOS,QSO_COSMOS  -ADD_EMLINES 0,100 -AUTO_ADAPT YES  
+# Compute the photo-z without the adapation of the zero-points and applying the shifts given in keyword
+$LEPHAREDIR/bin/zphota -c COSMOS.para -CAT_IN COSMOS.in  -CAT_OUT zphot_vista_shift.out -ZPHOTLIB VISTA_COSMOS_FREE,ALLSTAR_COSMOS,QSO_COSMOS   -ADD_EMLINES 0,100 -AUTO_ADAPT NO -APPLY_SYSSHIFT $SHIFT -PDZ_OUT zphot_vista_shift -PDZ_TYPE BAY_ZG
+# No emission lines
+$LEPHAREDIR/bin/zphota -c COSMOS.para -CAT_IN COSMOS.in  -CAT_OUT zphot_vista_noline.out -ZPHOTLIB VISTA_COSMOS_FREE,ALLSTAR_COSMOS,QSO_COSMOS  -ADD_EMLINES 0,0 -AUTO_ADAPT NO -APPLY_SYSSHIFT $SHIFT 
+# No shifts
+$LEPHAREDIR/bin/zphota -c COSMOS.para -CAT_IN COSMOS.in  -CAT_OUT zphot_vista_noadapt.out -ZPHOTLIB VISTA_COSMOS_FREE,ALLSTAR_COSMOS,QSO_COSMOS   -ADD_EMLINES 0,100 -AUTO_ADAPT NO 
+
+# Extract Id*.spec and Id*.chi for few sources
+$LEPHAREDIR/bin/zphota -c COSMOS.para -CAT_IN COSMOS.in  -CAT_OUT zphot_vista_select.out -ZPHOTLIB VISTA_COSMOS_FREE,ALLSTAR_COSMOS,QSO_COSMOS   -ADD_EMLINES 0,100 -AUTO_ADAPT NO -APPLY_SYSSHIFT $SHIFT -PDZ_OUT NONE -PDZ_TYPE BAY_ZG -CAT_LINES 12000,12010 -SPEC_OUT YES 
+
+# Derive the stellar masses
+$LEPHAREDIR/bin/zphota -c COSMOS.para -CAT_IN COSMOS.in  -CAT_OUT masses.out -ZPHOTLIB BC03_COSMOS  -ADD_EMLINES 0,100 -AUTO_ADAPT NO -APPLY_SYSSHIFT $SHIFT  -ZFIX YES -PARA_OUT output_mass.para
+
+
+#######################################################
+#  FIGURES
+#######################################################
+
+# Diadgnostics on the photo-z quality
+# results in figuresLPZ.pdf
+python figuresLPZ.py zphot_vista_adapt.out
+
+# Diadgnostics on the physical parameter quality
+# results in figuresLPP.pdf
+python figuresLPP.py masses.out
+
+# Plot the best-fit templates
+# Results in MULTISPEC.pdf
+python spec.py Id*spec -d pdf
+
+
+
+#################
+
+######################################
+#  LIR
+#######################################################
+
+# Filters including the FIR
+$LEPHAREDIR/bin/filter -c HERSCHEL.para
+
+#IR library from Dale
+$LEPHAREDIR/bin/sedtolib -c HERSCHEL.para -t G -GAL_SED DALE.list  -GAL_LIB LIB_DALE 
+$LEPHAREDIR/bin/mag_gal  -c HERSCHEL.para -t G -GAL_LIB_IN LIB_DALE  -GAL_LIB_OUT DALE_COSMOS -MOD_EXTINC 0,0
+
+# BC03 SED
+$LEPHAREDIR/bin/sedtolib -c HERSCHEL.para -t G -GAL_SED BC03COMB_MOD.list -GAL_LIB LIB_BC03CAL -SEL_AGE AGE_BC03COMB.dat
+$LEPHAREDIR/bin/mag_gal  -c HERSCHEL.para -t G -GAL_LIB_IN LIB_BC03CAL -GAL_LIB_OUT BC_COSMOS  -MOD_EXTINC 1,14,1,14 -EXTINC_LAW SB_calzetti.dat,extlaw_0.9.dat -EB_V 0.,0.1,0.2,0.3,0.4,0.5,0.6,0.7 
+
+# Fit in FIR
+$LEPHAREDIR/bin/zphota -c HERSCHEL.para -CAT_IN MIPS.in -CAT_OUT lumFIR.out -ZPHOTLIB BC_COSMOS  -ADD_EMLINES 0,100 -AUTO_ADAPT NO  -ZFIX YES -FIR_LIB DALE_COSMOS  -FIR_SUBSTELLAR YES  -FIR_FREESCALE YES  -FIR_CONT 8257536
+
+# Fit in FIR with SED in output
+$LEPHAREDIR/bin/zphota -c HERSCHEL.para -CAT_IN MIPS.in -CAT_OUT testFIR.out -ZPHOTLIB BC_COSMOS  -ADD_EMLINES 0,100 -AUTO_ADAPT NO  -ZFIX YES -FIR_LIB DALE_COSMOS  -FIR_SUBSTELLAR YES  -FIR_FREESCALE YES  -FIR_CONT 8257536 -CAT_LINES 11980,12010 -SPEC_OUT YES
+
+# Plot the best-fit templates
+# Results in MULTISPEC.pdf
+python spec.py Id*spec -d pdf
+
+
+
+#########################################################
+# EXTINCTION
+#########################################################
+
+
+$LEPHAREDIR/bin/filter -c COSMOS.para  -FILTER_LIST cosmos/u_cfht.lowres,cosmos/B_subaru.lowres,cosmos/V_subaru.lowres,cosmos/r_subaru.lowres,cosmos/i_subaru.lowres,cosmos/suprime_FDCCD_z.res,vista/Y.lowres,vista/J.lowres,vista/H.lowres,vista/K.lowres -FILTER_CALIB 0 -FILTER_FILE filter_extinc
+# Read the filters and compute extinctions
+$LEPHAREDIR/bin/filter_extinc -c COSMOS.para -FILTER_FILE filter_extinc.dat
+
