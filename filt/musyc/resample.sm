@@ -1,0 +1,31 @@
+#
+#resample
+# 1 arg: input
+# 2 arg: output
+# 3 arg: step
+resample 3
+
+  #Read file
+  data $1
+  read {li 1 fi 2}
+
+  !head -n 1 $1 > bid
+
+  #lambda min max
+  vecminmax li min max
+  set lo=$min,$max,$3
+
+  #Reinterp
+  interp2 li fi lo fo 
+
+  #Output
+  define print_noheader 1
+  !\cp bid $2 
+  print + $2 '%12.0f %12.5f \n ' {lo fo}
+
+  echo New dimen $(dimen(fo))
+
+  erase limits li fi box connect li fi
+  ctype red connect lo fo ctype black
+
+end

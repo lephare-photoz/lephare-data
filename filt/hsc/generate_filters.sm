@@ -1,0 +1,63 @@
+#
+generate 4
+
+  macro read "/home/ilbert/bin/lit_macro.sm" lit
+
+  ctype black lweight 4
+
+  #QE
+  data "qe_ccd_HSC.txt"
+  read {lQE 1 tQE 2}
+  sort {lQE tQE}
+
+  #Primary Reflectivity
+  data "M1-2010s.txt"
+  read {lP 1 tP 2}
+  set lP=lP*10.
+  sort {lP tP}
+
+  #Transmittance of the Primary Focus Unit
+  data "throughput_popt2.txt"
+  read {lO 1 tO 2}
+  sort {lO tO}
+
+  #Transmittance of the dewar window 
+  data "throughput_win.txt"
+  read {lW 1 tW 2}
+  sort {lW tW}
+
+  #Atmosphere
+  data "atm_airmass1.2.cat"
+  read {lA 1 tA 2}
+  sort {lA tA}
+
+  data "HSC-"$1".txt"
+  read {lf 1 tf 2}
+  sort {lf tf}
+
+  #reinterpole dans le systeme du filtre
+  interp2 lQE tQE lf tiQE
+  interp2 lP  tP  lf tiP
+  interp2 lO  tO  lf tiO
+  interp2 lA  tA  lf tiA
+  interp2 lW  tW  lf tiW
+
+  #Multiplie la transmission du filtres par toutes les etapes
+  set tf$1 = tf * tiQE * tiP * tiO * tiA
+
+  #cherche le max
+  vecminmax tf min max
+
+  #Plot
+  erase limits $2 $3 0 1.1 box 
+  ctype black  ltype 0 connect lf (tf/$max)
+  ctype red    ltype 0 connect lf (tf$1/$max) 
+
+  set t= (tf$1/$max) 
+  #Output
+  #define print_noheader 1
+  #!rm $4
+  #print + $4 '%12.0f %12.5f \n ' {lf t}
+
+end
+

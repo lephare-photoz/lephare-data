@@ -1,0 +1,55 @@
+#
+# resample les filtres
+
+macro read resample.sm
+resample u_cfht.res    u_cfht.lowres    20
+resample B_subaru.res  B_subaru.lowres  20
+resample V_subaru.res  V_subaru.lowres  20
+resample g_subaru.res  g_subaru.lowres  20
+resample r_subaru.res  r_subaru.lowres  20
+resample i_subaru.res  i_subaru.lowres  20
+resample z_subaru.res  z_subaru.lowres  20
+resample suprime_FDCCD_z.res.txt z09_subaru.lowres 20
+resample WFCAM_Y.res.txt Y_wfcam.lowres  20
+resample J_wfcam.res   J_wfcam.lowres   20
+resample wircam_H.res  H_wircam_peter.lowres  30
+resample flamingos_Ks.res flamingos_Ks.lowres 30
+resample wircam_Ks.res  K_wircam_peter.lowres  30
+resample i_cfht.res    i_cfht.lowres    30
+resample u_SDSS.res    u_SDSS.lowres    50
+resample g_SDSS.res    g_SDSS.lowres    50
+resample r_SDSS.res    r_SDSS.lowres    50
+resample i_SDSS.res    i_SDSS.lowres    50
+resample z_SDSS.res    z_SDSS.lowres    50      
+resample IB427.pb IB427.lowres  10
+resample IB464.pb IB464.lowres  10
+resample IB484.pb IB484.lowres  10
+resample IB505.pb IB505.lowres  10
+resample IB527.pb IB527.lowres  10
+resample IB574.pb IB574.lowres  10
+resample IB624.pb IB624.lowres  10
+resample IB679.pb IB679.lowres  5
+resample IB709.pb IB709.lowres  10
+resample IB738.pb IB738.lowres  10
+resample IB767.pb IB767.lowres  5
+resample IB827.pb IB827.lowres  10
+resample IB828.pb IB828.lowres  10
+resample IB829.pb IB829.lowres  10
+resample NB711.pb NB711.lowres  10
+resample NB816.pb NB816.lowres  5
+resample irac_ch1.res irac_ch1.lowres  70
+resample irac_ch2.res irac_ch2.lowres  100
+resample irac_ch3.res irac_ch3.lowres  150
+resample irac_ch4.res irac_ch4.lowres  200
+
+galex1500.res,cosmos/galex2500.res
+jkc/U.pb
+jkc/B.pb
+jkc/V.pb
+jkc/R.pb
+jkc/I.pb
+
+
+
+
+,hst/f814.pb

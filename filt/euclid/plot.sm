@@ -1,0 +1,68 @@
+plot
+    macro read "/home/ilbert/bin/lit_macro.sm" lit
+    expand 1.3 lweight 4 ctype black
+
+    data EUC_riz.lowres read {lriz 1 triz 2}
+    data EUC_Y.lowres read {lY 1 tY 2}
+    data EUC_J.lowres read {lJ 1 tJ 2}
+    data EUC_H.lowres read {lH 1 tH 2}
+
+    erase limits 2000 22000 0 1.1 box
+ 
+    vecminmax triz min max 
+    connect lriz (triz/$max)
+
+
+    #ltype 1
+    #vecminmax tY min max 
+    #ctype blue connect lY (tY/$max)
+    #vecminmax tJ min max 
+    #ctype green connect lJ (tJ/$max)
+    #vecminmax tH min max 
+    #ctype red connect lH (tH/$max)
+    #ctype black
+
+    ltype 0 
+    data myY.lowres read {lY 1 tY 2}
+    data myJ.lowres read {lJ 1 tJ 2}
+    data myH.lowres read {lH 1 tH 2}
+    vecminmax tY min max 
+    ctype blue connect lY (tY/$max)
+    vecminmax tJ min max 
+    ctype green connect lJ (tJ/$max)
+    vecminmax tH min max 
+    ctype red connect lH (tH/$max)
+    ctype black
+
+
+
+    data "../sdss/up.pb" read {lu 1 tu 2}
+    data "../sdss/gp.pb" read {lgp 1 tg 2}
+    data "../sdss/rp.pb" read {lr 1 tr 2}
+    data "../sdss/ip.pb" read {li 1 ti 2}
+    data "../sdss/zp.pb" read {lz 1 tz 2}
+    data "../wircam/Y.final" read {lY 1 tY 2}
+
+    ltype 2 ctype cyan
+    vecminmax tu min max 
+    ctype blue connect lu (tu/$max)
+
+    ltype 2 ctype cyan
+    vecminmax tu min max 
+    connect lu (tu/$max)
+    ctype orange
+    vecminmax tg min max 
+    connect lgp (tg/$max)
+    vecminmax tr min max 
+    connect lr (tr/$max)
+    vecminmax ti min max 
+    connect li (ti/$max)
+    vecminmax tz min max 
+    connect lz (tz/$max)
+    vecminmax tY min max 
+    connect lY (tY/$max)
+
+    ctype black ltype 0
+    xlabel \lambda (\AA)
+    ylabel T
+end

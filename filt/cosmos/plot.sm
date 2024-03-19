@@ -1,0 +1,139 @@
+plot 
+   expand 1.3 lweight 3
+
+   erase limits $(lg(3500)) $(lg(50000)) 0 1.1 box
+
+   ctype blue lweight 1
+   plot_sub galex2500.lowres
+   ctype black
+   plot_sub u_cfht.lowres
+   plot_sub B_subaru.lowres
+   plot_sub g_subaru.lowres
+   plot_sub V_subaru.lowres
+   plot_sub r_subaru.lowres
+   plot_sub i_subaru.lowres
+   plot_sub z_subaru.lowres
+   plot_sub z09_subaru.lowres
+   plot_sub IB427.lowres
+   plot_sub IB464.lowres
+   plot_sub IB484.lowres
+   plot_sub IB505.lowres
+   plot_sub IB527.lowres
+   plot_sub IB574.lowres
+   plot_sub IB624.lowres
+   plot_sub IB679.lowres
+   plot_sub IB709.lowres
+   plot_sub IB738.lowres
+   plot_sub IB767.lowres
+   plot_sub IB827.lowres
+   ltype 1 plot_sub J_wfcam.lowres ltype 0 
+   plot_sub H_wircam_peter.lowres
+   plot_sub K_wircam_peter.lowres
+   plot_sub irac_ch1.lowres
+   plot_sub irac_ch2.lowres
+   plot_sub irac_ch3.lowres
+   plot_sub irac_ch4.lowres
+   ctype black 
+
+   ctype red lweight 3
+   plot_sub "../vista/Y.pb"
+   plot_sub "../vista/J.pb"
+   plot_sub "../vista/H.pb"
+   plot_sub "../vista/K.pb"
+   ctype black
+
+   xlabel log(\lambda)
+   ylabel T
+
+   ctype cyan do i=0,3 {relocate $(lg($(line[$i])*3.4)) -100 draw  $(lg($(line[$i])*3.4)) 100}
+   ctype cyan do i=0,3 {relocate $(lg($(line[$i])*3.4)) -100 draw  $(lg($(line[$i])*3.4)) 100}
+
+
+   ctype blue do i=0,3 {relocate $(lg($(line[$i])*3.5)) -100 draw  $(lg($(line[$i])*3.5)) 100}
+   ctype blue do i=0,3 {relocate $(lg($(line[$i])*3.7)) -100 draw  $(lg($(line[$i])*3.7)) 100}
+   ctype green do i=0,3 {relocate $(lg($(line[$i])*2.9)) -100 draw  $(lg($(line[$i])*2.9)) 100}
+   ctype green do i=0,3 {relocate $(lg($(line[$i])*3.1)) -100 draw  $(lg($(line[$i])*3.1)) 100}
+   ctype black
+
+end
+
+plot_sub 1
+
+   data $1  
+   read {l 1 t 2}
+   vecminmax t min max
+   set t = t/$max
+   connect (lg(l)) t
+
+end
+
+
+plot_lin 
+   expand 1.3 lweight 3
+
+   erase limits 3000 7000 0 1.1 box
+
+   ctype blue lweight 1
+   plot_sub_lin galex2500.lowres
+   ctype black
+   plot_sub_lin u_cfht.lowres
+   plot_sub_lin B_subaru.lowres
+   #plot_sub_lin g_subaru.lowres
+   plot_sub_lin V_subaru.lowres
+   plot_sub_lin r_subaru.lowres
+   plot_sub_lin i_subaru.lowres
+   #plot_sub_lin z_subaru.lowres
+   plot_sub_lin z09_subaru.lowres
+   ctype red
+   plot_sub_lin IB427.lowres
+   plot_sub_lin IB464.lowres
+   plot_sub_lin IB484.lowres
+   plot_sub_lin IB505.lowres
+   plot_sub_lin IB527.lowres
+   plot_sub_lin IB574.lowres
+   plot_sub_lin IB624.lowres
+   plot_sub_lin IB679.lowres
+   plot_sub_lin IB709.lowres
+   plot_sub_lin IB738.lowres
+   plot_sub_lin IB767.lowres
+   plot_sub_lin IB827.lowres
+   ltype 1 plot_sub_lin J_wfcam.lowres ltype 0 
+   plot_sub_lin H_wircam_peter.lowres
+   plot_sub_lin K_wircam_peter.lowres
+   plot_sub_lin irac_ch1.lowres
+   plot_sub_lin irac_ch2.lowres
+   plot_sub_lin irac_ch3.lowres
+   plot_sub_lin irac_ch4.lowres
+   ctype black 
+
+   ctype red lweight 3
+   plot_sub_lin "../vista/Y.pb"
+   plot_sub_lin "../vista/J.pb"
+   plot_sub_lin "../vista/H.pb"
+   plot_sub_lin "../vista/K.pb"
+   ctype black
+
+   xlabel log(\lambda)
+   ylabel T
+
+   ctype cyan do i=0,3 {relocate $(lg($(line[$i])*3.4)) -100 draw  $(lg($(line[$i])*3.4)) 100}
+   ctype cyan do i=0,3 {relocate $(lg($(line[$i])*3.4)) -100 draw  $(lg($(line[$i])*3.4)) 100}
+
+
+   ctype blue do i=0,3 {relocate $(lg($(line[$i])*3.5)) -100 draw  $(lg($(line[$i])*3.5)) 100}
+   ctype blue do i=0,3 {relocate $(lg($(line[$i])*3.7)) -100 draw  $(lg($(line[$i])*3.7)) 100}
+   ctype green do i=0,3 {relocate $(lg($(line[$i])*2.9)) -100 draw  $(lg($(line[$i])*2.9)) 100}
+   ctype green do i=0,3 {relocate $(lg($(line[$i])*3.1)) -100 draw  $(lg($(line[$i])*3.1)) 100}
+   ctype black
+
+end
+
+plot_sub_lin 1
+
+   data $1  
+   read {l 1 t 2}
+   vecminmax t min max
+   set t = t/$max
+   connect l t
+
+end

@@ -1,0 +1,62 @@
+#
+#convolve with transmission
+convolve 3
+
+  #filter file
+  data $1
+  read {l 1 f 2}
+
+  #transmission file
+  data $2
+  read {lt 1 t 2}
+
+  #reinterpole dans le systeme du filtre
+  interp2 lt t l tinterp
+
+
+
+
+  set fconv = f *  tinterp
+
+  define print_noheader 1
+  print $3 {l fconv}
+   
+
+end
+
+
+
+
+
+
+
+#
+#resample
+# 1 arg: input
+# 2 arg: output
+# 3 arg: step
+resample 3
+
+  #Read file
+  data $1
+  read {li 1 fi 2}
+
+  #lambda min max
+  #cut when 0.1%
+  vecminmax fi fmin fmax
+  set lbid=li if(fi>0.001*$fmax)
+  vecminmax lbid min max
+  set lo=$min,$max,$3
+
+  #Reinterp
+  interp2 li fi lo fo 
+
+  #Output
+  print $2 '%15.5f %15.5f \n'  {lo fo}
+
+
+  erase limits li fi box connect li fi ctype red  connect lo fo ctype black
+
+  echo $(dimen(li)) $(dimen(lo))
+
+end

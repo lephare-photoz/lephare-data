@@ -1,0 +1,162 @@
+plot_original
+
+  lweight 3 expand 1.3 ctype black
+  erase limits 0 35 0 1.1 box
+
+  do i=1,10 {
+
+    if($i==0){lweight $($i/4.) ctype cyan}
+    if($i==1){lweight $($i/4.) ctype blue}
+    if($i==2){lweight $($i/4.) ctype green}
+    if($i==3){lweight $($i/4.) ctype magenta}
+    if($i==4){lweight $($i/4.) ctype red}
+    if($i==5){lweight $($i/4.) ctype black}  
+    if($i==6){lweight $($i/4.) ctype cyan}    
+    if($i==7){lweight $($i/4.) ctype blue}    
+    if($i==8){lweight $($i/4.) ctype green}   
+    if($i==9){lweight $($i/4.) ctype magenta} 
+    if($i==10){lweight $($i/4.) ctype red}	    
+    if($i==11){lweight $($i/4.) ctype black}   
+    if($i==12){lweight $($i/4.) ctype cyan}   
+    if($i==13){lweight $($i/4.) ctype blue}   
+
+    data "filt"$i".dat"
+    read {l 1 t1 2 t2 3 t3 4 }
+    vecminmax t1 min max1
+    vecminmax t2 min max2
+    vecminmax t3 min max3
+    #connect l (t1/$max1)
+    connect l (t2/$max2)
+    #connect l (t3/$max3)
+    
+    define bid ?
+  }
+
+  #set lambdaFilt = { 5.6 7.7 10.0 11.3 12.8 15 18 21 25.5 10.65 11.4 15.5 23}
+  #set widthFilt  = { 1.2 2.2 2.0 0.7 2.4 3.0 3.0 5.0 4.0 0.53 0.57 0.78 4.6 }
+  set lambdaFilt = { 5.6 7.7 10.0 11.3 12.8 15 18 21 25.5}
+  set widthFilt  = { 1.2 2.2 2.0 0.7 2.4 3.0 3.0 5.0 4.0 }
+  set h=lambdaFilt/50. + 0.1
+  errorbar lambdaFilt h  (widthFilt/2.) 1 
+  errorbar lambdaFilt h  (widthFilt/2.) 3 
+
+end
+
+
+
+
+plot_finalMIRI
+
+  lweight 3 expand 1.3 ctype black
+  erase limits 0 350000 0 1.1 box
+
+  do i=1,9 {
+
+
+    if($i==1){data MIRI_F560W.pb    ctype cyan}
+    if($i==2){data MIRI_F770W.pb    ctype blue}
+    if($i==3){data MIRI_F1000W.pb    ctype green}
+    if($i==4){data MIRI_F1130W.pb   ctype magenta}
+    if($i==5){data MIRI_F1280W.pb   ctype red}
+    if($i==6){data MIRI_F1500W.pb   ctype black}  
+    if($i==7){data MIRI_F1800W.pb   ctype cyan}    
+    if($i==8){data MIRI_F2100W.pb   ctype blue}    
+    if($i==9){data MIRI_F2550W.pb   ctype green}   
+
+    read {l 1 t 2}
+    vecminmax t min max
+    connect l (t/$max)
+    
+    define bid ?
+  }
+
+
+  do i=1,9 {
+
+
+    if($i==1){data FTrans_f560w.dat    ctype cyan}
+    if($i==2){data FTrans_f770w.dat    ctype blue}
+    if($i==3){data FTrans_f1000w.dat    ctype green}
+    if($i==4){data FTrans_f1130w.dat   ctype magenta}
+    if($i==5){data FTrans_f1280w.dat   ctype red}
+    if($i==6){data FTrans_f1500w.dat   ctype black}  
+    if($i==7){data FTrans_f1800w.dat   ctype cyan}    
+    if($i==8){data FTrans_f2100w.dat   ctype blue}    
+    if($i==9){data FTrans_f2550w.dat   ctype green}   
+
+    read {l 1 t 2}
+    vecminmax t min max
+    ltype 2 connect l (t/$max) ltype 0
+    
+    define bid ?
+  }
+
+  ctype black lweight 2 ltype 1
+  #set lambdaFilt = { 5.6 7.7 10.0 11.3 12.8 15 18 21 25.5 10.65 11.4 15.5 23}
+  #set widthFilt  = { 1.2 2.2 2.0 0.7 2.4 3.0 3.0 5.0 4.0 0.53 0.57 0.78 4.6 }
+  set lambdaFilt = { 5.6 7.7 10.0 11.3 12.8 15 18 21 25.5}
+  set widthFilt  = { 1.2 2.2 2.0 0.7 2.4 3.0 3.0 5.0 4.0 }
+  set h=lambdaFilt/50. + 0.1
+  set lambdaFilt = lambdaFilt*10000
+  set widthFilt  = widthFilt*10000
+  errorbar lambdaFilt h  (widthFilt/2.) 1 
+  errorbar lambdaFilt h  (widthFilt/2.) 3 
+
+
+  lweight 3 ltype 0 
+  xlabel \lambda in \AA
+  ylabel Transmission
+end
+
+
+
+
+
+plot_finalNIRCAM
+
+  lweight 3 expand 1.3 ctype black
+  erase limits 0 60000 0 1.1 box
+
+  do i=1,8 {
+
+
+    if($i==1){data  FTrans_f070w.dat  ctype cyan}
+    if($i==2){data  FTrans_f090w.dat  ctype blue}
+    if($i==3){data  FTrans_f115w.dat   ctype green}
+    if($i==4){data  FTrans_f150w.dat  ctype magenta}
+    if($i==5){data  FTrans_f200w.dat  ctype red}
+    if($i==6){data  FTrans_f277w.dat  ctype black}  
+    if($i==7){data  FTrans_f356w.dat  ctype cyan}    
+    if($i==8){data  FTrans_f444w.dat  ctype blue}    
+
+    read {l 1 t 2}
+    vecminmax t min max
+    connect l (t/$max)
+    
+    define bid ?
+  }
+
+
+  do i=1,9 {
+
+
+    if($i==1){data MIRI_F560W.pb    ctype cyan}
+    if($i==2){data MIRI_F770W.pb    ctype blue}
+    if($i==3){data MIRI_F1000W.pb    ctype green}
+    if($i==4){data MIRI_F1130W.pb   ctype magenta}
+    if($i==5){data MIRI_F1280W.pb   ctype red}
+    if($i==6){data MIRI_F1500W.pb   ctype black}  
+    if($i==7){data MIRI_F1800W.pb   ctype cyan}    
+    if($i==8){data MIRI_F2100W.pb   ctype blue}    
+    if($i==9){data MIRI_F2550W.pb   ctype green}   
+
+    read {l 1 t 2}
+    vecminmax t min max
+    ltype  2 connect l (t/$max)
+    
+  }
+
+  lweight 3 ltype 0 ctype black
+  xlabel \lambda in \AA
+  ylabel Transmission
+end

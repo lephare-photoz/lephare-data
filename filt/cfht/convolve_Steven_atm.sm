@@ -1,0 +1,35 @@
+#
+#
+# Start with the Steven Gwyn filters 
+# scanned original filters at CFHT * QE * Optics * Primary
+# Multiply by thye atmosphere which was missing in Steven filters
+convo 1
+
+  macro read "/home/ilbert/bin/lit_macro.sm" lit
+
+  ctype black lweight 4
+
+  #Atmosphere
+  data atm_airmass1.2.cat
+  read {lA 1 tA 2}
+
+  data $1
+  read {lf 1 tf 2}
+
+  #reinterpole dans le systeme du filtre
+  interp2 lA  tA  lf tA2
+
+  #Multiplie la transmission du filtres de Steven par atmosphere
+  set tfconv = tf * tA2
+
+  #cherche le max
+  vecminmax tfconv min max
+  set tfconv = tfconv/$max
+
+  #Output
+  define print_noheader 1
+  !rm "atm_"$1
+  print + "atm_"$1 '%12.0f %12.5f \n ' {lf tfconv}
+
+end
+

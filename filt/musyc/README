@@ -1,0 +1,74 @@
+Used for the photometry of Cardamone et al. 2010
+
+
+##############
+# Optical WFI
+
+UU38BVRI from WFI 
+Filter taken in Taylor et al. 2010
+http://www.astro.yale.edu/MUSYC/
+
+-> resample
+macro read resample.sm 
+resample ecdfs.U38.filt.dat U38.lowres  10
+resample ecdfs.U.filt.dat   U.lowres	10
+resample ecdfs.B.filt.dat   B.lowres	10
+resample ecdfs.V.filt.dat   V.lowres	15
+resample ecdfs.R.filt.dat   R.lowres	15
+resample ecdfs.I.filt.dat   I.lowres    20 
+
+
+##############
+# Optical CTIO
+
+
+Filter taken in Taylor et al. 2010
+http://www.astro.yale.edu/MUSYC/
+
+-> resample
+macro read resample.sm 
+resample ecdfs.z.filt.dat z.lowres  20
+
+
+
+##############
+# NIR CTIO
+
+Filter taken in Taylor et al. 2010
+http://www.astro.yale.edu/MUSYC/
+
+-> resample
+macro read resample.sm 
+mv ecdfs.J.filt.dat J.lowres
+resample ecdfs.K.filt.dat K.lowres  30
+
+
+
+
+
+##############
+# NIR NTT
+
+Filter taken in Taylor et al. 2010
+http://www.astro.yale.edu/MUSYC/
+
+-> resample
+macro read resample.sm 
+resample ecdfs.H.filt.dat H.lowres  40
+
+
+
+##############
+# Medium band Subaru
+
+macro read resample.sm 
+resample ecdfs.z.filt.dat z.lowres  20
+  
+macro read resample.sm 
+resample IB445.pb IB445.lowres 5
+resample IB550.pb IB550.lowres 10
+resample IB598.pb IB598.lowres 10
+resample IB651.pb IB651.lowres 7
+resample IB797.pb IB797.lowres 10
+resample IB856.pb IB856.lowres 15
+

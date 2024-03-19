@@ -1,0 +1,15 @@
+
+MediumFilters_Imaka.zip -> filtres medium prepares par Denis.
+
+#broad bands
+y.dat, z.dat _> broad bands fournies par Denis
+MegaCam_Filters_data.txt -> ugriz de Megacam. Prendre gri
+awk 'NR>2 {print $1,$3}' MegaCam_Filters_data.txt > g.dat
+awk 'NR>2 {print $1,$5}' MegaCam_Filters_data.txt > r.dat
+awk 'NR>2 {print $1,$4}' MegaCam_Filters_data.txt > i.dat
+
+Transmission-imaka.png
+en ascii QE.dat
+
+imaka/g.dat.new,imaka/r.dat.new,imaka/i.dat.new,imaka/z.dat.new,imaka/y.dat.new,imaka/f1.dat.new,imaka/f2.dat.new,imaka/f3.dat.new,imaka/f4.dat.new,imaka/f5.dat.new,imaka/f6.dat.new,imaka/f7.dat.new,imaka/f8.dat.new,imaka/f9.dat.new,imaka/f10.dat.new,imaka/f11.dat.new,imaka/f12.dat.new
+

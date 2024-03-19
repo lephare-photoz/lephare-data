@@ -1,0 +1,121 @@
+Basic Table of Contents for NIRCam PCE (throughput) tarball:
+
+Top Level Directories:
+
+DBS - contains DBS throughput curve files and plot
+OTE - contains OET throughput curve and plot
+QE - contains QE coefficients and QE plot
+optics - contains optics throughput curves and plot
+modA - Module A throughput curves
+modB - Module B throughput curves
+modAB_mean - module-averaged throughput curves
+
+
+Within each directory:
+
+DBS:
+Contains the 4 files with tabulated DBS values.
+DBS_LW_ModA_highres.txt	
+DBS_LW_ModB_highres.txt	
+DBS_SW_ModA__highres_1_minus_trans_plus_absorb.txt
+DBS_SW_ModB_highres.txt	
+
+The SW Mod A file contains the corrected DBS curve which we calculated
+using 1 - (transmission+absorption).
+
+DBS_ModA_curves.pdf - plot of DBS mod A curves
+DBS_ModA_curves.pdf - plot of DBS mod B curves
+new_DBS_SWA_highres_1_minus_trans_plus_absorb_zoom* - plots of updated SWA curve.
+plot_dbs.py - script to produce DBS plots
+
+
+OTE:
+jwst_telescope_ote_thruput.txt - tabulated OTE throughput curve
+OTE_throughput_plot.pdf	- plot of OTE throughput
+plot_ote.py - script used to produce plot
+
+
+QE: 
+QE_curves.pdf - plot of QE curves
+plot_qe.py - script used to produce plot. Script includes the polynomial
+             coefficients used to described the curves.
+
+
+optics:
+NIRCam_optics_transmission_29Oct2015.csv - tabulated throughput values for the
+                                           various optics components
+Optics_components_plot.pdf - plot of optics components		
+nircam_optics_filter_average.dat - filter-averaged optics values. Used primarily
+for the scatter term.	
+plot_optics.py - script used to produce plot
+
+
+modA:
+
+  filters_only:
+       tabulated throughputs for filters only. One file for each filter, named
+       <filter>_FM.xlsx_filteronly_modA_sorted.txt
+
+  nrc_instrument_only:
+       tabulated throughputs for all NIRCam-specific components. One file for
+       each filter, named:
+       <filter>_nrc_only_throughput_moda_sorted.txt
+
+  nrc_plus_ote: 
+       tabulated throughputs (PCE) for NIRCam plus the OTE. One file for each 
+       filter, named:
+       <filter>_nircam_plus_ote_throughput_moda_sorted.txt
+
+       plots of PCE curves. One file for each filter:
+       <filter>_nrc_and_ote_throughput_moda.png
+
+       plots showing the contribution of each component to the total PCE. One
+       plot for each filter, named:
+       Step_by_step_plot_<filter>_modA.pdf
+
+       Table showing the contribution of each component to the PCE at a central
+       wavelength. One file for each filter, named:
+       Ste_by_step_table_<filter>_modA.txt
+
+       Table listing the properties of each filter. Bandwidth, effective response,
+       half-power points, etc.
+       nircam_modA_plus_ote_filter_properties.txt
+       nircam_modA_plus_ote_filter_properties.xls
+
+
+modB:
+       organized the same as modA
+
+       
+
+modAB_mean:
+	filters_only:
+		tabulated throughputs for filters only. One file for each 
+		filter, named
+                <filter>_filteronly_ModAB_mean.txt
+		plot of throughput for each filter, named:
+		<filter>_filteronly_throughput_modmean.pdf
+		Plot showing throughput for all filters on one plot:
+		filter_only_throughput_plot_for_filter_only_meanmod.list.pdf
+
+	nrc_instrument_only:
+		tabulated throughputs for filters only. One file for each 
+		filter, named
+                <filter>_NRConly_ModAB_mean.txt
+		plot of throughput for each filter, named:
+		<filter>_nrc_only_throughput_modmean.pdf
+		Plot showing throughput for all filters on one plot:
+		filter_and_nircam_optics_throughput_plot_for_nrc_only_meanmod.list.pdf
+
+	nrc_plus_ote:
+		tabulated throughputs for filters only. One file for each 
+		filter, named
+                <filter>_NRC_and_OTE_ModAB_mean.txt
+		plot of throughput for each filter, named:
+		<filter>_nrc_and_ote_throughput_modmean.pdf
+		Plot showing throughput for all filters on one plot:
+		nircam_plus_ote_system_throughput_plot_for_nrc_and_ote_meanmod.list.pdf
+		Table listing the properties of each filter. Bandwidth, 
+		effective response, half-power points, etc.
+		nircam_modABmean_plus_ote_filter_properties.txt
+		nircam_modABmean_plus_ote_filter_properties.xls

@@ -1,0 +1,138 @@
+#
+test 3
+
+  macro read "/home/ilbert/bin/lit_macro.sm" lit
+
+  ctype black lweight 4
+
+  #QE
+  data MegaCam_QE_data.txt
+  #data "E2V_CCD42-90_QEmodel.txt"
+  read {lQE 1 tQE 2}
+  set lQE=lQE*10
+
+  #Primary
+  data CFHT_Primary_Transmission.txt
+  read {lP 1 tP 2}
+  set lP=lP*10.
+
+  #Optics
+  data CFHT_MegaPrime_Transmission.txt
+  read {lO 1 tO 2}
+  set lO = lO*10.
+
+  #Atmosphere
+  data atm_airmass1.2.cat
+  read {lA 1 tA 2}
+
+  data MegaCam_Filters_data.txt
+  read {lf 1 tfu 2 tfg 3 tfi 4 tfr 5 tfz 6} 
+  set lf=lf*10
+
+  #reinterpole dans le systeme du filtre
+  interp2 lQE tQE lf tiQE
+  interp2 lP  tP  lf tiP
+  interp2 lO  tO  lf tiO
+  interp2 lA  tA  lf tiA
+
+  #Multiplie la transmission du filtres par toutes les etapes
+  set fu = tfu * tiQE * tiP * tiO * tiA
+  set fg = tfg * tiQE * tiP * tiO * tiA
+  set fr = tfr * tiQE * tiP * tiO * tiA
+  set fi = tfi * tiQE * tiP * tiO * tiA
+  set fz = tfz * tiQE * tiP * tiO * tiA
+
+  #Multiplie la transmission du filtres par toutes les etapes sauf airmass
+  set fu2 = tfu * tiQE * tiP * tiO
+  set fg2 = tfg * tiQE * tiP * tiO
+  set fr2 = tfr * tiQE * tiP * tiO
+  set fi2 = tfi * tiQE * tiP * tiO
+  set fz2 = tfz * tiQE * tiP * tiO
+
+  #cherche le max
+  vecminmax fu min maxu
+  vecminmax fg min maxg
+  vecminmax fr min maxr
+  vecminmax fi min maxi
+  vecminmax fz min maxz
+
+  #cherche le max 2
+  vecminmax fu2 min maxu2
+  vecminmax fg2 min maxg2
+  vecminmax fr2 min maxr2
+  vecminmax fi2 min maxi2
+  vecminmax fz2 min maxz2
+
+  #Renormalization
+  set fu = fu / $maxu
+  set fg = fg / $maxg
+  set fr = fr / $maxr
+  set fi = fi / $maxi
+  set fz = fz / $maxz
+
+  #Renormalization 2
+  set fu2 = fu2 / $maxu2
+  set fg2 = fg2 / $maxg2
+  set fr2 = fr2 / $maxr2
+  set fi2 = fi2 / $maxi2
+  set fz2 = fz2 / $maxz2
+
+   #cherche le max
+  vecminmax tfu min maxu
+  vecminmax tfg min maxg
+  vecminmax tfr min maxr
+  vecminmax tfi min maxi
+  vecminmax tfz min maxz
+
+  #Renormalization 
+  set tfu = tfu / $maxu
+  set tfg = tfg / $maxg
+  set tfr = tfr / $maxr
+  set tfi = tfi / $maxi
+  set tfz = tfz / $maxz
+
+  #Plot
+  erase limits $1 $2 0 1.1 box 
+  ctype blue  ltype 0 connect lf tf$3 
+  loclab 0.7 0.9 putlabel 6 \r Original
+
+  ltype 2 ctype green  connect lf f$3"2" 
+  ltype 0 loclab 0.7 0.85 putlabel 6 \r Convolved no Airmass
+
+  ctype green  connect lf f$3 
+  loclab 0.7 0.80 putlabel 6 \r Convolved
+
+  ctype black lweight 5  
+  plot_one $3"Mega.fil"
+  loclab 0.7 0.75 putlabel 6 \r Gwyn
+
+  ctype red lweight 5  
+  plot_one "atm_"$3"MegaOld.fil"
+  loclab 0.7 0.70 putlabel 6 \r Gwyn*Atm
+
+  ctype black lweight 1  
+  plot_one "iMegaNew.fil"
+  ctype red lweight 1  
+  plot_one "atm_iMegaNew.fil"
+ 
+  ctype pink lweight 3 ltype 0 
+  plot_one $3"p.pb"
+  loclab 0.7 0.65 putlabel 6 \r Mine
+
+  ctype brown lweight 3 ltype 0
+  plot_one $3"_megaprime_sagem.res"
+  loclab 0.7 0.60 putlabel 6 \r Peter
+
+end
+
+
+plot_one 1
+
+  #Read file
+  data $1
+  read {l 1 f 2}
+  vecminmax f min max
+  set f=f/$max
+  connect l f 
+
+end

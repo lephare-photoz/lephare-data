@@ -1,0 +1,99 @@
+plot erase
+
+    lweight 3 expand 1.3 ltype 0
+
+    limits 3000 17000 0 1.1 box
+    ctype magenta ltype 0 filtre "F0_ccd.pb" 
+    ctype magenta ltype 1 filtre "F1_ccd.pb" 
+    ctype blue    ltype 0 filtre "F2_ccd.pb" 
+    ctype blue    ltype 1 filtre "F3_ccd.pb" 
+    ctype green   ltype 0 filtre "F4_ccd.pb" 
+    ctype black   ltype 0 filtre "F5_ccd.pb" 
+    ctype red     ltype 0 filtre "F6_ccd.pb" 
+    ctype red     ltype 1 filtre "F7_ccd.pb" 
+    ctype black   ltype 0 filtre "F8_ccd.pb" 
+
+    ctype black 
+    xlabel \lambda (\AA)
+    ylabel T
+    toplabel SNAP filters
+end
+
+
+
+plotNewU erase
+
+    lweight 3 expand 1.3 ltype 0
+
+    limits 3000 17000 0 1.1 box
+    ctype magenta ltype 0 filtre "F0_ccd.pb" 
+    ctype magenta ltype 1 filtre "F1_ccd.pb" 
+    ctype blue    ltype 0 filtre "F2_ccd.pb" 
+    ctype blue    ltype 1 filtre "F3_ccd.pb" 
+    ctype green   ltype 0 filtre "F4_ccd.pb" 
+    ctype black   ltype 0 filtre "F5_ccd.pb" 
+    ctype red     ltype 0 filtre "F6_ccd.pb" 
+    ctype red     ltype 1 filtre "F7_ccd.pb" 
+    ctype black   ltype 0 filtre "F8_ccd.pb" 
+
+    ctype black 
+    xlabel \lambda (\AA)
+    ylabel T
+    toplabel SNAP filters
+end
+
+
+
+plotNewU erase
+
+    lweight 3 expand 1.3 ltype 0
+
+    limits 3000 17000 0 1.1 box
+    ctype magenta ltype 0 filtre "F0_mkfu3_conv_conv.pb"
+    ctype magenta ltype 1 filtre "F1_mkfu3_conv_conv.pb"
+    ctype blue    ltype 0 filtre "F2_mkfu3_conv_conv.pb"
+    ctype blue    ltype 1 filtre "F3_mkfu3_conv_conv.pb"
+    ctype green   ltype 0 filtre "F4_mkfu3_conv_conv.pb"
+    ctype black   ltype 0 filtre "F5_mkfu3_conv_conv.pb"
+    ctype red     ltype 0 filtre "F6_mkfu3_conv_conv.pb"
+    ctype red     ltype 1 filtre "F7_mkfu3_conv_conv.pb"
+    ctype black   ltype 0 filtre "F8_mkfu3_conv_conv.pb"
+
+    ctype black 
+    xlabel \lambda (\AA)
+    ylabel T
+    toplabel SNAP filters U3
+end
+
+
+
+plotStd erase
+
+    lweight 3 expand 1.3 ltype 0
+
+    limits 3000 17000 0 1.1 box
+    ctype magenta ltype 0 filtre "F0_ccd_conv.pb"
+    ctype magenta ltype 1 filtre "F1_ccd_conv.pb"
+    ctype blue    ltype 0 filtre "F2_ccd_conv.pb"
+    ctype blue    ltype 1 filtre "F3_ccd_conv.pb"
+    ctype green   ltype 0 filtre "F4_ccd_conv.pb"
+    ctype black   ltype 0 filtre "F5_ccd_conv.pb"
+    ctype red     ltype 0 filtre "F6_ccd_conv.pb"
+    ctype red     ltype 1 filtre "F7_ccd_conv.pb"
+    ctype black   ltype 0 filtre "F8_ccd_conv.pb"
+
+    ctype black 
+    xlabel \lambda (\AA)
+    ylabel T
+    toplabel SNAP standard filters
+end
+
+
+filtre 1
+  
+   data $1 lines 2 1000
+   read {l 1 t 2}
+   vecminmax t min max 
+   connect l (t/$max)
+
+end

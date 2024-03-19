@@ -1,0 +1,159 @@
+############################################################################
+#               EXEMPLE OF COLOR CTYPES
+# addcolor   :create new specific colors
+#
+# getctypes  :show the existing ctype color with name
+#
+# cleancolor :remove the color ctypes color$i generated with colortable
+#
+# colortable :generate a set of continue colors with knot colors
+#             defined by the vector colors :
+#             sm> set colors = {magenta red orange yellow cyan blue}
+#             sm> colortable 200 colors
+#
+# colorbarvert:draw a vertical colorbar with colors defined with colortable
+#              sm>   colorbarvert 0.1 0.2 0. 1.  2
+#                    position of the colorbar weight of each line (2)
+#
+#############################################################################
+addcolor       # add_ctype is a standard SM macro
+                add_ctype gold      218 165  32
+                add_ctype orange    255 140   0
+                add_ctype purple    160  32 240
+                add_ctype brown     165  60  10
+                add_ctype darkred   165   0   0
+                add_ctype darkgreen   0 180   0
+                add_ctype grey      128 128 128
+                add_ctype pink      255 105 180
+                set color_grey = {white black}
+                set colors  = {magenta red orange yellow green blue cyan}
+
+######################################################################
+cleancolor
+ set ctypergbs = ctype()
+ do i = 9, $(dimen(ctypergbs)-1)  {
+  del_ctype  color$i
+ }
+ ################################################
+getctypes  # show RGBs of different ctypes
+                # arg: [save vectors]
+                if (!$?1) {
+                        foreach vec (idx ctypes ctypergbs ctypereds ctypegreens ctypeblues) {
+                                set $vec local
+                        }
+                        define 1 1
+                }
+                set ctypes = ctype('jojo')
+                set ctypergbs = ctype()
+                set ctypereds = mod(ctypergbs,256)
+                set ctypegreens = mod((ctypergbs-ctypereds)/256,256)
+                set ctypeblues = (ctypergbs-ctypereds-256*ctypegreens)/(256*256)
+                set idx = 0, dimen(ctypes) - 1
+                if ($1) {
+                        print {idx ctypes ctypereds ctypegreens ctypeblues}
+                }
+                # (remplacer mod(x,y) par x % y)
+
+ ################################################
+colortable 2 # define continuous colors ... color13, color14 ...
+        # args: number-of-colors color-knot-vec
+
+        # black     0   0   0
+        # purple  128   0 128
+        # blue      0   0 256
+        # green     0 256   0
+        # yellow  256 256   0
+        # orange  256 128   0
+        # red     256   0   0
+        # magenta 256   0 256
+
+        foreach var (num num1 colnum colorknot1 colorknot2 n color i) {
+                define $var local
+        }
+        foreach vec (icolorknots colorknot1 colorknot2 n n1) {
+                set $vec local
+        }
+        foreach color (red green blue) {
+                do i = 1, 2 {
+                        set ctype$i""$color local
+                }
+                set cnum$color local
+        }
+
+        define num (int($1/(dimen($2)-1)))
+        echo $1 $(dimen($2)) $num
+        define num1 ($num-1)
+
+        set icolorknots = 1, dimen($2)
+        set colorknot1 = $2 if (icolorknots < dimen($2))
+        set colorknot2 = $2 if (icolorknots > 1)
+
+        set ctypes = ctype('jojo')
+        set ctypergbs = ctype()
+        set ctypereds = mod(ctypergbs,256)
+        set ctypegreens = mod((ctypergbs-ctypereds)/256,256)
+        set ctypeblues = (ctypergbs-ctypereds-256*ctypegreens)/(256*256)
+        define colnum (dimen(ctypergbs)-1)
+        define colnumin $colnum
+        set n1 = 0, $num1
+        set n = 0, $num
+        do i = 0, dimen(colorknot1) - 1 {
+           do j = 1, 2 {
+               define colorknot$j (colorknot$j[$i])
+               foreach color (red green blue) {
+                  set ctype$j""$color = ctype$color"s" if (ctypes == '$colorknot$j')
+                  if (dimen(ctype$j""$color) == 0) {
+                     echo cannot find color RGB numbers for $colorknot$j
+                     return
+                  }
+               }
+           }
+           foreach color (red green blue) {
+              set cnum$color = int(($num-n)/$num*ctype1$color + n/$num*ctype2$color)
+           }
+           foreach n n1 {
+              define colnum ($colnum+1)
+              add_ctype color$colnum $(cnumred[$n]) $(cnumgreen[$n]) $(cnumblue[$n])
+           }
+        }
+
+        # add color for last knot
+
+        define colnum ($colnum+1)
+        add_ctype color$colnum $(cnumred[$num]) $(cnumgreen[$num]) $(cnumblue[$num])
+        define colnumax $colnum
+
+
+ ################################################
+mod 2   # modulo
+                # args: vector integer
+                if ($2 <= 0) {
+                        echo MOD second argument must be positive
+                        return
+                }
+                set $0 = $2*($1/$2 - zint($1/$2))
+
+ #################################################
+zint 1  # signed int of absolute value of vector
+                # syntax: zint vector
+                # returns integer value for positive and
+                # integer value + 1 for non-integral negative
+                # exm 23.4 -> 23, while -23.4 -> -24, but -23 -> -23!
+                set $0 = ($1 < 0 && $1 != int($1)) ? int($1) - 1 : int($1)
+ #################################################
+colorbarvert 5  # draw a vertical colorbars with colors defined with colortable
+ # limits 0 1 0 1
+ define _xi  $1
+ define _xs  $2
+ define _yi  $3
+ define _ys  $4
+ define _dy  (($_ys-$_yi)/($colnumax-$colnumin) )
+ echo $colnumin $colnumax  $_dy
+ ltype 0
+ lweight $5
+ do i = $colnumin+1,$colnumax {
+     ctype color$i
+     define _ypos (($_yi + ($i-$colnumin)*$_dy)/1)
+     relocate $_xi $_ypos draw $_xs $_ypos
+ }
+ ctype default lweight 1   ltype 0

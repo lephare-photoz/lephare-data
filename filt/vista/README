@@ -1,0 +1,28 @@
+
+#####
+# From the ESO web site
+http://www.eso.org/sci/facilities/paranal/instruments/vircam/inst/
+
+macro read resample.sm
+convolve  VISTA_Filters_at80K_forETC_Z.dat  Z.pb Zori.pb
+convolve  VISTA_Filters_at80K_forETC_Y.dat  Y.pb Yori.pb
+convolve  VISTA_Filters_at80K_forETC_J.dat  J.pb Jori.pb
+convolve  VISTA_Filters_at80K_forETC_H.dat  H.pb Hori.pb
+convolve  VISTA_Filters_at80K_forETC_Ks.dat K.pb Kori.pb
+convolve  VISTA_Filters_forETC_NB118.dat NB118.pb NB118ori.pb
+
+
+macro read resample.sm
+resample Y.pb Y.lowres 20
+resample J.pb J.lowres 20
+resample H.pb H.lowres 20
+resample K.pb K.lowres 20
+resample NB118.pb NB118.lowres 5
+
+
+macro read resample.sm
+check "Filters_QE_Atm_curves/VISTA_Filters_at80K_forETC_Y.dat" Y.lowres
+check "Filters_QE_Atm_curves/VISTA_Filters_at80K_forETC_J.dat" J.lowres
+check "Filters_QE_Atm_curves/VISTA_Filters_at80K_forETC_H.dat" H.lowres
+check "Filters_QE_Atm_curves/VISTA_Filters_at80K_forETC_Ks.dat" K.lowres
+check "Filters_QE_Atm_curves/VISTA_Filters_forETC_NB118.dat" NB118.lowres

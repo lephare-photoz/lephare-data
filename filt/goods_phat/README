@@ -1,0 +1,25 @@
+
+
+#
+# resample les filtres
+
+macro read resample.sm
+resample  U_kpno.res              U_kpno.pb     10 		 
+resample  B_subaru.res 		  B_subaru.pb   10 		 
+resample  V_subaru.res 		  V_subaru.pb   20 		 
+resample  R_subaru.res 		  R_subaru.pb   20 		 
+resample  I_subaru.res 		  I_subaru.pb   20 		 
+resample  z_subaru.res 		  z_subaru.pb   20 		 
+resample  WFCAM_J.res 		  WFCAM_J.pb    20 		 
+resample  WFCAM_H.res 		  WFCAM_H.pb    20 		 
+resample  K_flaming_resam.res 	  K_flaming_resam.pb 30 	 
+resample  irac_ch1.res 		  irac_ch1.pb   100 		 
+resample  irac_ch2.res 		  irac_ch2.pb   100		 
+resample  irac_ch3.res 		  irac_ch3.pb   200 		 
+resample  irac_ch4.res 		  irac_ch4.pb   300 		 
+resample  HST_ACS_WFC_F435W.res   HST_ACS_WFC_F435W.pb   10  
+resample  HST_ACS_WFC_F606W.res   HST_ACS_WFC_F606W.pb   10  
+resample  HST_ACS_WFC_F775W.res   HST_ACS_WFC_F775W.pb   10  
+resample  HST_ACS_WFC_F850LP.res  HST_ACS_WFC_F850LP.pb  10 
+
+\cp  HK_88in.res 		  HK_88in.pb 	 

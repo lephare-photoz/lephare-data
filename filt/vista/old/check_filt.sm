@@ -1,0 +1,62 @@
+#
+#check_filt
+check_filt
+
+  expand 1.3 lweight 3
+
+  #erase limits 9000 24000 0 1.1 box
+  erase limits 18000 24000 0 1.1 box
+  #erase limits 13000 20000 0 1.1 box
+  #erase limits 9000 15000 0 1.1 box
+
+  ctype red 
+  plot_one Ks.tab 10
+  ctype green
+  plot_one K.pb 1
+  ctype blue
+  plot_one K_ESO.pb 1
+
+  ctype red 
+  plot_one Y.txt 1
+  ctype green
+  plot_one Y.pb 1
+  ctype blue
+  plot_one Y_ESO.pb 1
+
+  ctype red 
+  plot_one J.txt 1
+  ctype green
+  plot_one J.pb 1
+  ctype blue
+  plot_one J_ESO.pb 1
+
+  ctype red 
+  plot_one H.txt 1
+  ctype green
+  plot_one H.pb 1
+  ctype blue
+  plot_one H_ESO.pb 1
+
+
+  ctype magenta
+  plot_one "Filters_QE_Atm_curves/VISTA_Filters_at80K_forETC_Ks.dat" 10
+
+  ctype black
+
+  xlabel \lambda in \AA
+
+
+end
+
+
+plot_one 2
+
+  #Read file 1
+  data $1
+  read {l1 1 f1 2}
+  vecminmax f1 min1 max1
+  set l1=l1*$2
+  set f1=f1/$max1
+  connect l1 f1 
+
+end

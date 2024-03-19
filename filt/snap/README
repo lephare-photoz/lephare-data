@@ -1,0 +1,11 @@
+# Filtres SNAP
+
+#Plot
+macro read plot_filter.sm
+plot
+
+
+#Nouvelle version Aout 2007
+macro read plot_filter.sm
+plotNewU 
+plotStd 

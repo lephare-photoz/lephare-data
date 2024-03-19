@@ -1,0 +1,48 @@
+# VISTA/VIRCAM Instrument Characterisation Files:
+# See VIS-TRE-IOA-20000-0016, VISTA-VIRCAM Instrument data, for complete
+# explanation.
+#
+# Peter Bunclark 2006-07-21 psb@ast.cam.ac.uk
+#                2006-08-09 add VISTA-Ag plant mirrors, Z filter, atmosphere
+#
+Mirrors: a test Ag coating is given here. The uncalibrated data has
+had a scale factor of 1.0029 applied labda > 2000nm to bring it to a
+common scale.
+m1.tab		tablated from 300 to 3000nm in 1mn steps
+m2.tab		tablated from 300 to 3000nm in 1mn steps
+mirror.gnuplot	a gnuplot script to plot Ag curve.
+
+Lenses: tabulated ever nanometer 750-2500.
+concave1.tab	Lens 1 concave surface reflectance percent
+concave2.tab	Lens 2 concave surface reflectance percent
+concave3.tab	Lens 3 concave surface reflectance percent
+convex1.tab	Lens 1 convex surface reflectance percent
+convex2.tab	Lens 2 convex surface reflectance percent
+convex3.tab	Lens 3 convex surface reflectance percent
+lenses.gnuplot	a gnuplot script to plot lense reflectance data
+reflectance.tab combined table for all 4 transmission elements.
+	  	Window is simulated by duplicating lens 3 data.
+
+Filters: each filter is tabulated from 500 to 2500 nm in 1 nm steps.
+Z.tab		Z filter
+Y.tab		Y filter
+J.tab		J filter
+H.tab		H filter
+Ks.tab		K short filter
+filters.gnuplot	a gnuplot script to plot all the filters together.
+
+Quantum efficiency : tabulated every nm 806-3529nm
+qe.tab		A "typical" Quantum Efficiency curve
+qe.gnuplot	a gnuplot script to plot qe curve data
+
+Atmosphere:
+atmosphere.tab	Model atmospheric absorption
+
+
+data Ks.tab
+read { l1 1 t1 2}
+vecminmax t1 min1 max1
+data "Filters_QE_Atm_curves/VISTA_Filters_at80K_forETC_Ks.dat"
+read { l2 1 t2 2}
+vecminmax t2 min2 max2
+erase limits l1 0 1.1 box connect l1 (t1/$max1) ctype red connect l2 (t2/$max2) ctype black

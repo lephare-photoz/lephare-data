@@ -1,0 +1,23 @@
+# plot panSTARRS filters
+pstarrs
+ macro read color.sm addcolor
+ erase window 1 1 1 1 ticksize -1 1 0 0
+ set filt={g r i z y}
+ set col = {blue green red yellow cyan gold grey pink orange brown purple darkred}
+ lweight 3 expand 1.2 limits 3.55 4.07 0 1 box
+ xlabel wavelength in \AA
+ ylabel panSTARRS transmissions 
+ do i=0,dimen(filt)-1{
+ ctype $(col[$i]) 
+ data $(filt[$i]).pb read {l 1 t 2} connect (lg(l)) t
+ relocate (5000 $(19000-1000*$i)) label $(filt[$i])
+ }
+ ctype default ltype 2
+ data QE_Tonry_AA.txt read {l 1 t 2} connect (lg(l)) t
+ relocate (15000 17000) label QE Tonry 
+ ltype 4 data Al_mirror_coating_pow2.txt read {l 1 t 2} connect (lg(l)) t
+ relocate (4000 27000) label mirror reflectivities Aluminum 
+ ltype 3 data subaru_optics_scaled0.9.dat read {l 1 t 2} connect (lg(l)) t
+ relocate (24000 29000) label subaru optics 
+ ltype 0 ctype default ticksize 0 0 0 0
+end 

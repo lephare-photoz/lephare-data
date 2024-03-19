@@ -1,0 +1,8 @@
+#HAWKI filter from web page
+# don't know if detector, etc
+
+macro read resample.sm
+resample hawki_Y.dat    hawki_Y.lowres 20
+resample hawki_J.dat    hawki_J.lowres 20
+resample hawki_H.dat    hawki_H.lowres 20
+resample hawki_Kold.dat hawki_K.lowres 20

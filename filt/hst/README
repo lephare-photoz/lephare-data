@@ -1,0 +1,25 @@
+macro read resample.sm
+convolve f625w.pb responsive_qe_HRC.dat f625w_conv.pb
+resample f625w_conv.pb  f625w_res.pb 20
+
+data f625w.pb read {l 1 t 2} erase limits l t box connect l t
+data f625w_conv.pb read {l 1 t 2} ctype red  connect l t ctype black
+data f625w_res.pb read {l 1 t 2} ctype blue  connect l t ctype black
+
+
+
+
+macro read resample.sm
+convolve f475w.pb responsive_qe_HRC.dat f475w_conv.pb
+resample f475w_conv.pb  f475w_res.pb 20
+
+data f475w.pb read {l 1 t 2} erase limits l t box connect l t
+data f475w_conv.pb read {l 1 t 2} ctype red  connect l t ctype black
+data f475w_res.pb read {l 1 t 2} ctype blue  connect l t ctype black
+
+
+macro read resample.sm
+resample f555w_sys.txt  f555w_res.pb 20
+data f555w.pb read {l 1 t 2} erase limits l t box connect l t
+data f555w_res.pb read {l 1 t 2} ctype red  connect l t ctype black
+

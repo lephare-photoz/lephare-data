@@ -1,0 +1,7 @@
+                     Contributors  Element_Contribution  Throughput_at_4.0733_microns 
+                           Filter                0.8934                        0.8934 
+                   Filter*Scatter                 0.989                        0.8835 
+            Filter*Scatter*Optics                0.7327                        0.6474 
+        Filter*Scatter*Optics*DBS                0.9657                        0.6252 
+     Filter*Scatter*Optics*DBS*QE                0.8603                        0.5378 
+ Filter*Scatter*Optics*DBS*QE*OTE                0.8998                        0.4839 

@@ -1,0 +1,6 @@
+Filters taken from STSCI, in photons.
+jwst-docs.stsci.edu/jwst-near-infrared-camera/nircam-instrumentation/nircam-filters
+
+All filters in nircam_throughputs_4Nov2022_v5.tar. Use the filters nircam_throughputs/mean_throughputs/, adding the header for Le Phare.
+
+6 June: check for COSMOS-Web filters the good agreement with SVO

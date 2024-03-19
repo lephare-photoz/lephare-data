@@ -1,0 +1,29 @@
+#Y, J, H from this figure
+http://casu.ast.cam.ac.uk/surveys-projects/vista/technical/filter-set
+
+macro read resample.sm
+convolve  Ks.tab K.pb 10
+convolve  Y.txt  Y.pb 1
+convolve  J.txt  J.pb 1
+convolve  H.txt  H.pb 1
+
+macro read check_filt.sm
+check_filt
+
+
+
+
+
+#####
+# From the ESO web site
+http://www.eso.org/sci/facilities/paranal/instruments/vista/inst/
+
+macro read resample.sm
+convolve2  VISTA_Filters_at80K_forETC_Z.dat  Z_ESO.pb 10
+convolve2  VISTA_Filters_at80K_forETC_Y.dat  Y_ESO.pb 10
+convolve2  VISTA_Filters_at80K_forETC_J.dat  J_ESO.pb 10
+convolve2  VISTA_Filters_at80K_forETC_H.dat  H_ESO.pb 10
+convolve2  VISTA_Filters_at80K_forETC_Ks.dat K_ESO.pb 10
+
+http://casu.ast.cam.ac.uk/surveys-projects/vista/technical/filter-set
+http://www.eso.org/sci/facilities/paranal/instruments/vista/inst/

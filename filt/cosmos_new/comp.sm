@@ -1,0 +1,19 @@
+#
+comp 2
+  ctype black
+ 
+  #Read file
+  data $1
+  read {l1 1 f1 2}
+  vecminmax f1 min max
+  set f1=f1/$max
+
+  data $2
+  read {l2 1 f2 2}
+  vecminmax f2 min max
+  set f2=f2/$max
+
+  erase limits l1 f1 box connect l1 f1
+  ctype red connect l2 f2 ctype black
+
+end

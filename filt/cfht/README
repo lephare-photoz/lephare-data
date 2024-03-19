@@ -1,0 +1,29 @@
+#Two set of filters on the web page of Megacam
+MegaCam_Filters_data_SAGEM.txt: constructor
+MegaCam_Filters_data.txt: scanning of the filters at the telescope
+
+*Mega.fil: Steven Gwyn's filter. I check that MegaCam_Filters_data.txt*QE*M1*Opt produces the same result
+*_megaprime_sagem.res: Peter Capak's filters. I checked that MegaCam_Filters_data_SAGEM.txt*QE*M1*Opt*Atmosphere produces the same result
+
+Problem: the new filter I (called y) is not present in MegaCam_Filters_data_SAGEM.txt
+Therefore, I start with the filters from Steven including the new and old I bands, and I convolved with the atmosphere atm_airmass1.2.cat
+
+macro read convolve_Steven_atm.sm
+convo "uMega.fil"
+convo "gMega.fil"
+convo "rMega.fil"
+convo "iMegaOld.fil"
+convo "iMegaNew.fil"
+convo "zMega.fil"
+
+-> atm_*Mega*.fil are the filters from Steven convolve by the astmosphere at airmass 1.2
+
+macro read  test_filter.sm
+test 3000 6000 u
+test 4000 6000 g
+test 5000 8000 r
+test 6500 9000 i
+test 7500 11000 z
+
+
+

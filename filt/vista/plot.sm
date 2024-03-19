@@ -1,0 +1,24 @@
+plot 
+
+   erase limits 8000 25000 0 1.1 box
+
+   plot_sub Y.pb
+   plot_sub J.pb
+   plot_sub H.pb
+   plot_sub K.pb
+   ctype red plot_sub K.lowres
+   ctype green plot_sub "../cosmos/K_wircam.lowres"
+   ctype black
+
+
+end
+
+plot_sub 1
+
+   data $1  
+   read {l 1 t 2}
+   vecminmax t min max
+   set t = t/$max
+   connect l t
+
+end

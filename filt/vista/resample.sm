@@ -1,0 +1,112 @@
+
+#
+#convolve with transmission
+convolve 3
+
+  #filter file
+  data "Filters_QE_Atm_curves/"$1
+  read {l 1 f 2}
+  set l=l*10.
+ 
+  #transmission file
+  data qe.tab
+  read {lt 1 t 2}
+  set lt=lt*10.
+
+  #transmission file
+  data "trans_10_10.dat"
+  read {la 1 a 2}
+  set la=la*10000
+
+
+  #reinterpole dans le systeme du filtre
+  interp2 lt t l tinterp
+
+  #reinterpole dans le systeme du filtre
+  interp2 la a l ainterp
+
+  set fconv = f *  tinterp * ainterp
+
+  define print_noheader 1
+  print $2  '%12.2f %12.2f \n' {l fconv}
+  print $3  '%12.2f %12.2f \n' {l f}
+   
+
+end
+
+
+
+
+
+
+
+
+
+#
+#resample
+# 1 arg: input
+# 2 arg: output
+# 3 arg: step
+resample 3
+
+  #Read file
+  data $1
+  read {li 1 fi 2}
+
+  #lambda min max
+  #cut when 0.1%
+  vecminmax fi fmin fmax
+  set lbid=li if(fi>0.001*$fmax)
+  vecminmax lbid min max
+  set lo=$min,$max,$3
+
+  #Reinterp
+  interp2 li fi lo fo 
+
+  #Output
+  print $2 '%15.5f %15.5f \n'  {lo fo}
+
+
+  erase limits li fi box connect li fi ctype red  connect lo fo ctype black
+
+  echo $(dimen(li)) $(dimen(lo))
+
+end
+
+check
+
+# 1 arg: ori
+# 2 arg: final
+check 2
+
+  #Read file 1
+  data $1
+  read {l1 1 f1 2}
+  vecminmax f1 min1 max1
+  set l1=l1*10
+  set f1=f1/$max1
+
+  #Read file 1
+  data $2
+  read {l2 1 f2 2}
+  vecminmax f2 min2 max2
+  set f2=f2/$max2
+
+
+  data qe.tab
+  read {lQE 1 QE 2}
+  set lQE=lQE*10.
+  vecminmax QE minQE maxQE
+
+  #transmission file
+  data "trans_10_10.dat"
+  read {lt 1 t 2}
+  set lt=lt*10000
+
+  erase limits l1 f1 box connect l1 f1 ctype red  connect l2 f2 ctype black
+  ctype blue connect lQE (QE/$maxQE)
+  ctype green connect lt t
+  ctype black
+
+end
+

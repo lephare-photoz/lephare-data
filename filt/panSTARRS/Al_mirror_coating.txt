@@ -1,0 +1,6 @@
+# extrapolated from WhySilver.pdf
+2000 0.92
+7000 0.90
+8250 0.86
+9000 0.9
+12000 0.92

@@ -1,0 +1,25 @@
+Filter file provided by Olivier:
+fm_filters.xls
+
+Convert the 10 filters in ascii: filt*.dat
+macro read trans.sm
+plot_original
+
+Use the FM filter at 7 K (the RT is for room temperature, witness is to convert at 7K, if I well understand).
+
+Convert also in AA
+
+#PAS A REFAIRE, MODEFIE A LA MAIN
+#awk '{print $1*10000,$3}' filt1.dat > JWST_F560W.pb
+#awk '{print $1*10000,$3}' filt2.dat > JWST_F770W.pb
+#awk '{print $1*10000,$3}' filt3.dat > JWST_F1000W.pb
+#awk '{print $1*10000,$3}' filt4.dat > JWST_F1130W.pb
+#awk '{print $1*10000,$3}' filt5.dat > JWST_F1280W.pb
+#awk '{print $1*10000,$3}' filt6.dat > JWST_F1500W.pb
+#awk '{print $1*10000,$3}' filt7.dat > JWST_F1800W.pb
+#awk '{print $1*10000,$3}' filt8.dat > JWST_F2100W.pb
+#awk '{print $1*10000,$3}' filt9.dat > JWST_F2550W.pb
+
+
+macro read trans.sm
+plot_final 

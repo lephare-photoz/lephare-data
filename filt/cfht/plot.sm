@@ -1,0 +1,53 @@
+#
+comp 2
+
+  ctype black
+
+
+  erase limits $1 $2 0 1.1 box
+  
+  ctype red
+  plot_one "up.pb"
+  plot_one "gp.pb"
+  plot_one "rp.pb"
+  plot_one "ip.pb"
+  plot_one "zp.pb"
+  
+  ctype blue
+  plot_one "u_megaprime_sagem.res"
+  plot_one "g_megaprime_sagem.res"
+  plot_one "r_megaprime_sagem.res"
+  plot_one "i_megaprime_sagem.res"
+  plot_one "z_megaprime_sagem.res"
+  
+  ctype green
+  plot_one "uMega.fil"
+  plot_one "gMega.fil"
+  plot_one "rMega.fil"
+  plot_one "iMegaOld.fil"
+  plot_one "zMega.fil"
+  
+  ctype black
+  plot_one "u_sagem.lowres"
+  plot_one "g_sagem.lowres"
+  plot_one "r_sagem.lowres"
+  plot_one "i_sagem.lowres"
+  plot_one "z_sagem.lowres"
+  
+  
+  xlabel \lambda
+  ylabel T
+
+end
+
+
+plot_one 1
+
+  #Read file
+  data $1
+  read {l 1 f 2}
+  vecminmax f min max
+  set f=f/$max
+  connect l f 
+
+end

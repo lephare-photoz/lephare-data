@@ -1,0 +1,33 @@
+plot 
+   expand 1.3 lweight 3
+
+   erase limits 3000 13000 0 1.1 box
+
+   ctype red lweight 2
+   plot_sub g_hsc_old.pb
+   plot_sub r_hsc_old.pb
+   plot_sub i_hsc_old.pb
+   plot_sub z_hsc_old.pb
+   plot_sub y_hsc_old.pb
+
+   ctype black lweight 3
+   plot_sub gHSC.pb
+   plot_sub rHSC.pb
+   plot_sub iHSC.pb
+   plot_sub zHSC.pb
+   plot_sub yHSC.pb
+   xlabel log(\lambda)
+   ylabel T
+
+ 
+end
+
+plot_sub 1
+
+   data $1  
+   read {l 1 t 2}
+   vecminmax t min max
+   set t = t/$max
+   connect l t
+
+end

@@ -1,0 +1,43 @@
+#
+comp 
+  erase ctype black lweight 3
+
+  limits 7000 24000 0 1.1 box
+  
+  ctype red
+  plot_one "Y.final"
+  plot_one "J.final"
+  plot_one "H.final"
+  plot_one "K.final"
+  
+  ctype black lweight 5
+  plot_one "J_wircam.lowres"
+  plot_one "H_wircam.lowres"
+  plot_one "K_wircam.lowres"
+  lweight 3  
+
+  ctype green
+  plot_one "../jeremie/bandeY.dat"
+  plot_one "../jeremie/bandeJ.dat"
+  
+  ctype blue
+  plot_one "wircam_H_peter.res"
+  plot_one "wircam_K_peter.res"
+  
+  ctype black
+  xlabel \lambda
+  ylabel T
+
+end
+
+
+plot_one 1
+
+  #Read file
+  data $1
+  read {l 1 f 2}
+  vecminmax f min max
+  set f=f/$max
+  connect l f 
+
+end

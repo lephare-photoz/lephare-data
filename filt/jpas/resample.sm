@@ -1,0 +1,27 @@
+#
+#resample
+# 1 arg: lambda central
+# 2 arg: width
+# 3 arg: output
+# 4 arg: num du filtre
+resample 4
+
+
+  set dimen(lo)=101
+  set dimen(fo)=101
+  do i=0.,100. {
+    set lo[$i]=$1-$i/50.*$2
+    set fo[$i]=1.
+  }
+  set fo[0]=0.
+  set fo[100]=0.
+  #print {lo fo}
+
+  #Output
+  define print_noheader 1
+  !echo \# jpas$4 > $3
+  print + $3 '%12.0f %12.5f \n ' {lo fo}
+
+  erase limits lo fo box connect lo fo
+
+end

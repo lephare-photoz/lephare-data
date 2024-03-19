@@ -1,0 +1,28 @@
+macro read resample.sm
+resample pacs_transmission_blue.dat PACS_70.pb 10000
+resample pacs_transmission_green.dat PACS_100.pb 10000
+resample pacs_transmission_red.dat PACS_160.pb 10000
+
+
+data PACS_70.pb read {l1 1 t1 2}
+data PACS_100.pb read {l2 1 t2 2}
+data PACS_160.pb read {l3 1 t3 2}
+set l1=l1/10000
+set l2=l2/10000 
+set l3=l3/10000
+ctype black erase limits 50 250 0 1 box 
+ctype blue connect l1 t1
+ctype green connect l2 t2
+ctype red connect l3 t3
+
+
+data SPIRE_PSW.pb read {l1 1 t1 2}
+data SPIRE_PMW.pb read {l2 1 t2 2}
+data SPIRE_PLW.pb read {l3 1 t3 2}
+set l1=l1/10000
+set l2=l2/10000 
+set l3=l3/10000
+ctype black erase limits 200 700 0 1 box 
+ctype blue connect l1 t1
+ctype green connect l2 t2
+ctype red connect l3 t3

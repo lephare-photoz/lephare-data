@@ -1,0 +1,30 @@
+#Filtre HSC que j'ai depuis 2010
+#Aucunne idee d'ou ca vient
+#Rechantillonne les filtres 
+macro read resample.sm
+resample g_hsc20091124.txt g_hsc_old.pb 50
+resample r_hsc20091124.txt r_hsc_old.pb 50
+resample i_hsc20091124.txt i_hsc_old.pb 50
+resample z_hsc20091124.txt z_hsc_old.pb 50
+resample y_hsc20091124.txt y_hsc_old.pb 50
+
+#Version plus recente 2014
+http://www.naoj.org/Observing/Instruments/HSC/sensitivity.html
+Quantum efficiency of FDCCD -> qe_ccd_HSC.txt
+Transmittance of the dewar window -> throughput_win.txt
+Transmittance of the Primary Focus Unit of the HSC -> throughput_popt2.txt
+Reflectivity of the Primary Mirror -> M1-2010s.txt
+Suprime Atmosphere at airmass 1.2 -> atm_airmass1.2.cat
+Courbes de transmission des filtres -> HSC-g.txt, HSC-r.txt, HSC-i.txt, HSC-z.txt, HSC-Y.txt
+
+macro read generate_filters.sm
+generate g 3000 13000 "gHSC.pb"
+generate r 3000 13000 "rHSC.pb"
+generate i 3000 13000 "iHSC.pb"
+generate z 3000 13000 "zHSC.pb"
+generate Y 3000 13000 "yHSC.pb"
+
+
+#Check
+macro read plot.sm
+plot

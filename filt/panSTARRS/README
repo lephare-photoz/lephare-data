@@ -1,0 +1,10 @@
+awk '{print $1,$2*$2}' Al_mirror_coating.txt > Al_mirror_coating_pow2.txt
+
+awk '{print $1*10,$2}' QE_Hamamatsu_m.txt > QE_Hamamatsu_m_AA.txt
+
+awk '($1>370 && $1<720){print $1*10,$2/100}' panSTARRSfilters.txt > g.pb
+awk '($1>370 && $1<1080){print $3*10,$4/100}' panSTARRSfilters.txt > r.pb
+awk '($1>550 && $1<1000){print $5*10,$6/100}' panSTARRSfilters.txt > i.pb
+awk '($1>370 && $1<1080){print $7*10,$8/100}' panSTARRSfilters.txt > z.pb
+awk '($1>370 && $1<1080){print $9*10,$10/100}' panSTARRSfilters.txt > y.pb
+

@@ -1,0 +1,26 @@
+macro read resample.sm
+convolve INT_WFC_uStr.txt QE_INT_WFC.txt  uSTR_INTWFC.pb
+resample  uSTR_INTWFC.pb  uSTR_INTWFC.res 20
+
+macro read resample.sm
+convolve INT_WFC_U.txt QE_INT_WFC.txt  U_INTWFC.pb
+resample  U_INTWFC.pb  U_INTWFC.res 20
+
+macro read resample.sm
+convolve INT_WFC_g.txt QE_INT_WFC.txt  g_INTWFC.pb
+resample  g_INTWFC.pb  g_INTWFC.res 20
+
+macro read resample.sm
+convolve INT_WFC_r.txt QE_INT_WFC.txt  r_INTWFC.pb
+resample  r_INTWFC.pb  r_INTWFC.res 20
+
+macro read resample.sm
+convolve INT_WFC_i.txt QE_INT_WFC.txt  i_INTWFC.pb
+resample  i_INTWFC.pb  i_INTWFC.res 20
+
+macro read resample.sm
+convolve INT_WFC_Z.txt QE_INT_WFC.txt  Z_INTWFC.pb
+resample  Z_INTWFC.pb  Z_INTWFC.res 20
+check INT_WFC_Z.txt  Z_INTWFC.res
+
+
