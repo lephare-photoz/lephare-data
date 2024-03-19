@@ -1,0 +1,27 @@
+Bin 0.05,0.2
+Number 1000
+Output LF_SWML_B0.dat
+
+Bin 0.2,0.4
+Number 1000
+Output LF_SWML_B1.dat
+
+Bin 0.4,0.6
+Number 1000
+Output LF_SWML_B2.dat
+
+Bin 0.6,0.8
+Number 1000
+Output LF_SWML_B3.dat
+
+Bin 0.8,1.0
+Number 1000
+Output LF_SWML_B4.dat
+
+Bin 1.0,1.3
+Number 1000
+Output LF_SWML_B5.dat
+
+Bin 1.3,2.0
+Number 1000
+Output LF_SWML_B6.dat

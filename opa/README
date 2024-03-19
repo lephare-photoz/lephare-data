@@ -1,0 +1,7 @@
+# If you want to use the Meksin table (define at z<7) 
+cp OPACITY_meiksin.dat OPACITY.dat
+
+
+# If you want to use the Madau table (define at z<8) 
+cp OPACITY_madau.dat OPACITY.dat
+

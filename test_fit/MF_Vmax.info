@@ -1,0 +1,117 @@
+##############################################
+Informations about : Vmax
+##############################################
+
+#Parameters File : SCOSMOS.para
+#Input file (M+zs) : limits_noran.out
+#Librairy (mag+kcorr) : BC03_SCOSMOS 
+#Filter file : filter_cosmos.dat
+
+#Cosmology (H0,om0,l0) :  70.000  0.300  0.700
+#Solid angle (arcmin^2) :     5472.000
+
+#Selected type :                         (template min :      0 ; template max :    100)
+#Reference filter    : 10
+#Redshift bins : 
+          num, zmin, zmax : 1  0.200  0.500
+          num, zmin, zmax : 2  0.500  0.800
+          num, zmin, zmax : 3  0.800  1.100
+          num, zmin, zmax : 4  1.100  1.500
+          num, zmin, zmax : 5  1.500  2.000
+          num, zmin, zmax : 6  2.000  2.500
+          num, zmin, zmax : 7  2.500  3.000
+          num, zmin, zmax : 8  3.000  4.000
+
+
+##############################################
+RESULTS
+##############################################
+
+Bin   0.200,0.500 
+Number     26650
+Apparent magnitude                                cut 24.000 15.500  in band 11
+M faint :   12.0725
+M bright :    7.9163
+M Bias :    7.9263
+M bin number : 15 ; M bin size :    0.2771
+Output MF_Vmax0.dat
+
+---------------------------------------------
+
+Bin 0.500,0.800 
+Number    29418
+Apparent magnitude                                cut 24.000 15.500  in band 11
+M faint :   12.0101
+M bright :    8.6901
+M Bias :    8.7001
+M bin number : 13 ; M bin size :    0.2554
+Output MF_Vmax1.dat
+
+---------------------------------------------
+
+Bin   0.800,1.100 
+Number      27590
+Apparent magnitude                                cut 24.000 15.500  in band 11
+M faint :   12.1211
+M bright :    9.1214
+M Bias :    9.1313
+M bin number : 12 ; M bin size :    0.2500
+Output MF_Vmax2.dat
+
+---------------------------------------------
+
+Bin  1.100,1.500 
+Number      29383
+Apparent magnitude                                cut 24.000 15.500  in band 11
+M faint :   11.9088
+M bright :    9.4116
+M Bias :    9.4216
+M bin number : 10 ; M bin size :    0.2497
+Output MF_Vmax3.dat
+
+---------------------------------------------
+
+Bin  1.500,2.000 
+Number      20529
+Apparent magnitude                                cut 24.000 15.500  in band 11
+M faint :   11.8038
+M bright :    9.6638
+M Bias :    9.6738
+M bin number : 10 ; M bin size :    0.2140
+Output MF_Vmax4.dat
+
+---------------------------------------------
+
+Bin  2.000,2.500 
+Number       7162
+Apparent magnitude                                cut 24.000 15.500  in band 11
+M faint :   11.7753
+M bright :   10.0311
+M Bias :   10.0408
+M bin number : 10 ; M bin size :    0.1744
+Output MF_Vmax5.dat
+
+---------------------------------------------
+
+Bin  2.500,3.000 
+Number       3143
+Apparent magnitude                                cut 24.000 15.500  in band 11
+M faint :   11.8462
+M bright :   10.2280
+M Bias :   10.2380
+M bin number : 10 ; M bin size :    0.1618
+Output MF_Vmax6.dat
+
+---------------------------------------------
+
+Bin   3.000,4.000 
+Number      1817
+Apparent magnitude                                cut 24.000 15.500  in band 11
+M faint :   11.8651
+M bright :   10.2642
+M Bias :   10.2738
+M bin number : 10 ; M bin size :    0.1601
+Output MF_Vmax7.dat
+
+---------------------------------------------
+

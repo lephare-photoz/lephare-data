@@ -1,0 +1,199 @@
+# c : curve  based on Bolzonella paper (2000)
+c
+ window 1 1 1 1 erase ctype default 
+ limits 2.5 4.5  0 25  erase 
+ ticksize -1 10 0 0 box
+ expand 1.4
+ xlabel \lambda (\AA)
+ ylabel k(\lambda)
+ expand 1.
+ define lxo 17000
+ define lx 20000 
+ define lyo 29000
+ define dly 2000 
+ define ly ($lyo)
+ data MW_Allen.dat read { l 1 e 2}  set l=lg(l)
+ ctype red ltype 2 connect l e 
+ define ly ($ly-$dly) relocate ($lxo $ly) draw ($lx $ly) label MW (Allen)
+ data MW_seaton.dat read { l 1 e 2}  set l=lg(l)
+ ctype magenta ltype 3 connect l e
+ define ly ($ly-$dly)  relocate ($lxo $ly) draw ($lx $ly) label MW (Seaton)
+ data LMC_Fitzpatrick.dat read { l 1 e 2}  set l=lg(l)
+ ctype blue ltype 4 connect l e
+ define ly ($ly-$dly)   relocate ($lxo $ly) draw ($lx $ly) label LMC (Fitzpatrick)
+ data SMC_prevot.dat read { l 1 e 2}  set l=lg(l)
+ ctype green ltype 5 connect l e
+ define ly ($ly-$dly)   relocate ($lxo $ly) draw ($lx $ly) label SMC (Prevot)
+ data SB_calzetti.dat read { l 1 e 2}  set l=lg(l)
+ ctype default ltype 0 connect l e
+ define ly ($ly-$dly)  relocate ($lxo $ly) draw ($lx $ly) label SB (Calzetti)
+ 
+# c2 Starburst law based on Calzetti 2000 paper -> New normalization 
+c2
+  set ll = 400,40000,20 
+  set x= 10000/ll
+  set y = (x<=1.5873) ? ((1.17/0.44)*(-1.857+1.04*x)) : ((1.17/0.44)*(-2.156+1.509*x-0.198*x*x+0.011*x**3))
+  set sbe = y+4.05 
+  ctype default ltype 0 lweight 4 #connect (lg(ll)) sbe 
+ define ly ($ly-$dly) relocate ($lxo $ly) draw ($lx $ly) label SB2 (Calzetti)
+ define print_noheader 1
+ set sbe[0] = 0
+ #print calzetti.dat '%10.2f %8.5f \n' {ll sbe } 
+  data calzetti.dat read { l 1 e 2}  set l=lg(l) connect l sbe
+  lweight 1 
+#cm 
+cm
+ define ebv (sprintf('%6.3f',0.2))
+  set ll = 100,40000,20 
+  set x= 10000/ll
+  set y = (x<=1.5873) ? ((1.17/0.44)*(-1.857+1.04*x)) : ((1.17/0.44)*(-2.156+1.509*x-0.198*x*x+0.011*x**3))
+  set sbe = y+4.05 
+ set cl = 0.8/(0.935*0.44)*x*x/((x*x-4.6**2)**2+0.95*x*x)
+ ticksize 0 0 0 0 
+ limits 500 4000 1 4 erase ctype default expand 1.3 box
+ xlabel \lambda
+ ylabel A(\lambda) = $ebv *k_{\lambda} 
+ set al = $ebv*sbe 
+ ctype default connect ll al 
+ set alc = $ebv*(sbe+cl)
+ ctype blue connect ll alc
+ data SB_calzetti.dat read { l 1 e 2}  
+ set ec = e*$ebv 
+ ctype red connect l ec
+#cm2 
+cm2
+  set ll = 400,40000,10 
+  set x= 10000/ll
+  set y = (x<=1.5873) ? ((1.17/0.44)*(-1.857+1.04*x)) : ((1.17/0.44)*(-2.156+1.509*x-0.198*x*x+0.011*x**3))
+  set sbe = y+4.05 
+ set cl = 0.8/(0.935*0.44)*x*x/((x*x-4.6**2)**2+0.95*x*x)
+ ticksize 0 0 0 0 
+ limits 500 6000 0 25 erase ctype default expand 1.3 box
+ xlabel \lambda (\AA )
+ ylabel k_{\lambda} 
+  ctype default ltype 2 connect ll sbe 
+ ltype 0 
+ set alc = (sbe+cl)
+ # ctype default connect ll alc
+  data SB_calzetti.dat read { l 1 e 2}  
+ ctype green connect l e
+  set x= 10000/l
+  set cl = 0.8/(0.935*0.44)*x*x/((x*x-4.6**2)**2+0.95*x*x) 
+ set e2 = e + cl 
+ # ctype red connect l e2
+ define print_noheader 1
+ #print SB_calzetti_mod.dat '%10.2f %8.5f \n' {l e2 }
+ data SB_calzetti_mod.dat read { l 1 e 2 }
+ ctype blue connect l e 
+
+# galext
+galext
+  erase expand 1.
+  define TeX_strings 1 
+  ticksize 0 0 0 0 
+   define rv  (sprintf('%4.2f',3.1))
+  ### cardelli et al., 1989 
+  set l = 100,40000,1 
+  set x = 10000./l
+  set y = x - 1.82
+  set f1= 0*x
+  set f2= 0*x
+  set f1 = (x<= 1.1) ? ( 0.574 * x**(1.61)) : f1
+  set f2 = (x<= 1.1) ? (-0.527 * x**(1.61)) : f2
+  set bid1 = 1+0.17699*y -0.50447*y**2 -0.02427*y**3 +0.72085*y**4
+  set bid1 = bid1+0.01979*y**5 -0.77530*y**6 +0.32999*y**7 
+  set bid2 = 1.41338*y +2.28305*y**2 +1.07233*y**3
+  set bid2 = bid2-5.38434*y**4-0.62251*y**5+5.30260*y**6 -2.09002*y**7
+  set f1 = (x> 1.1 && x<3.3) ?  bid1 : f1
+  set f2 = (x> 1.1 && x<3.3) ?  bid2 : f2
+  set bid1 = 1.752 -0.316*x -0.104/((x-0.467)**2+0.341) 
+  set bid2 = -3.090 +1.825*x +1.206/((x-4.62)**2+0.262)  
+  set f1 = (x>= 3.3 && x<5.9) ?  bid1 : f1
+  set f2 = (x>= 3.3 && x<5.9) ?  bid2 : f2
+  set bid1 = -0.04473*(x-5.9)**2 - 0.009779*(x-5.9)**3
+  set bid2 =  0.2130*(x-5.9)**2  + 0.1207*(x-5.9)**3 
+  set bid1 =  1.752 -0.316*x -0.104/((x-0.467)**2+0.341) +bid1
+  set bid2 = -3.090 +1.825*x +1.206/((x-4.62)**2+0.262)  +bid2
+  set f1 = (x>= 5.9 && x<8) ?  bid1 : f1
+  set f2 = (x>= 5.9 && x<8) ?  bid2 : f2
+  set bid1 = -1.073 -0.628*(x-8)  +0.137*(x-8)**2 -0.070*(x-8)**3 
+  set bid2 =  13.670 +4.257*(x-8)  -0.420*(x-8)**2 +0.374*(x-8)**3 
+  set f1 = (x>=8) ?  bid1 : f1
+  set f2 = (x>=8) ?  bid2 : f2  
+  set ecard = f1 + f2/$rv 
+ # other curves given as k(lbda) = (Albda/Av) * Rv
+   data "MW_seaton.dat"        read {lmw  1 emw 2}
+   data "LMC_Fitzpatrick.dat"  read {llmc 1 elmc 2}
+   data "SMC_prevot.dat"       read {lsmc 1 esmc 2}
+   data "SB_calzetti.dat"      read {lsb  1 esb 2}
+
+  define xax "ang"
+  define xax "mic"
+
+
+  if ( '$xax' == 'mic') { 
+    limits 1 11  0 15  ctype default  expand 1.3 box
+    xlabel 1/\lambda(\mu m^{-1})
+    ylabel A_{\lambda}/E(B-V)
+    relocate (4500 28500) label Cardelli law (1989) 
+    connect x (ecard*3.1) 
+    do i = 1, 4 {
+      if ($i==1) { ctype red   connect (10000/lmw) (emw)
+                   relocate (4500 27500) label MW (Seaton) }
+      if ($i==2) { ctype green connect (10000/llmc) (elmc)
+                   relocate (4500 26500) label LMC (Fitzpatrick)}
+      if ($i==3) { ctype blue  connect (10000/lsmc) (esmc) 
+                   relocate (4500 25500) label SMC (Prevot) }
+      if ($i==4) { ctype cyan  connect (10000/lsb) (esb) 
+                   relocate (4500 24500) label SB (Calzetti) }
+    }   
+  }
+  if ( '$xax' == 'ang') { 
+    limits 800 5500  0 15 ctype default  expand 1.3 box
+    xlabel \lambda(\AA)
+    ylabel A_{\lambda}/E(B-V)
+    relocate (4500 28500) label MW Cardelli  (R_V=3.1) 
+    connect l (ecard*3.1) 
+    do i = 1, 4 {
+      if ($i==1) { ctype red   connect lmw (emw)
+                   relocate (4500 27500) label MW Seaton (R_V=3.1) }
+      if ($i==2) { ctype green connect llmc (elmc)
+                   relocate (4500 26500) label LMC Fitzpatrick (R_V=3.1)}
+      if ($i==3) { ctype blue  connect lsmc (esmc) 
+                   relocate (4500 25500) label SMC Prevot (R_V=2.72) }
+      if ($i==4) { ctype cyan  connect lsb (esb) 
+                   relocate (4500 24500) label SB Calzetti (R_V=4.05) }
+    }   
+   }
+  ctype default 
+ 
+
+  filt 
+
+# filt
+filt 
+ do i = 1, 5 {
+ if ($i==1) {data "/Users/stephane/lephare/filt/galex/NUV.pb"}
+ if ($i==2) {data "/Users/stephane/lephare/filt/galex/FUV.pb"}
+ if ($i==3) {data "/Users/stephane/lephare/filt/galex/UV_FOCA.pb"}
+ if ($i==4) {data "/Users/stephane/lephare/filt/hst/f300.pb"}
+ if ($i==5) {data "/Users/stephane/lephare/filt/hst/f450.pb"}
+ read { l 1 t 2}
+ vecminmax t ti ts
+ if ( '$xax' == 'ang') { 
+  set t = t/$ts*5
+  lweight 3 connect l t 
+  }
+ if ( '$xax' == 'mic') { 
+  set t = t/$ts*5
+  lweight 3 connect (10000/l) t 
+  }  }
+  lweight 1 
+  expand 1.3 ctype default 
+  relocate (23000 31500) label A_{\lambda}/E(B-V) 
+  relocate (20000 29800)             label  FUV    FOCA    NUV 
+  relocate (20000 28500)             label  8.31   9.70    8.74
+  relocate (20000 27500) ctype red   label  8.01   8.85    8.09
+  relocate (20000 26500) ctype green label  8.64   8.58    7.78
+  relocate (20000 25500) ctype blue  label 12.32   9.02    7.63
+  relocate (20000 24500) ctype cyan  label 10.22   8.84    8.21

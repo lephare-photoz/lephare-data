@@ -1,0 +1,15 @@
+export LEPHAREDIR="/home/ilbert/lephare++_v0.0"
+export LEPHAREWORK="."
+
+#Exemple of run for the mass function fit (UltraVISTA MF, Vmax)
+$LEPHAREDIR/source/fit_schechter -c FIT.para -FIT_TYPE 1 -FIT_INPUT MF_Vmax.info -FIT_OUTPUT MFfit
+
+#Exemple of run for the luminosity function fit (B band, VVDS 2005, SWML)
+$LEPHAREDIR/source/fit_schechter -c FIT.para -FIT_TYPE 0 -FIT_INPUT LF_SWML_B.info -FIT_OUTPUT LFfit -FIT_FIX_PHI1 0. -FIT_FIX_MSTAR -20.16,-999,-999,-999,-999,-999,-999 -FIT_FIX_ALPHA2 -999,-999,-999,-999,-999,-1.33,-1.33
+
+
+macro read check.sm
+checkLF 3
+checkMF 3
+
+

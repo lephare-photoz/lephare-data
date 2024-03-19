@@ -1,0 +1,49 @@
+checkLF 1
+
+  lweight 3 expand 1.3 ctype black ptype 3 0
+  erase limits -13 -24 -6 -1 box
+
+  data "LF_SWML_B"$1".dat"
+  read{ M 1 D 2 errp 3 errn 4}
+  ctype blue  points M D 
+  errorbar M D errp 2
+  errorbar M D errn 4
+  ctype black
+
+  data "LFfit"$1".dat"
+  read{ M 1 D 2}
+  connect M D
+
+  data "LF_STY_B"$1".dat"
+  read{ M 1 D 2}
+  ctype red connect M D ctype black
+
+  xlabel \r M_{AB}
+  ylabel log \phi \r   ( mag^{-1} Mpc^{-3})
+
+end
+
+checkMF 1
+
+  lweight 3 expand 1.3 ctype black ptype 3 0
+  erase limits 5 13 -6 -1 box
+
+  data "MF_Vmax"$1".dat"
+  read{ M 1 D 2 errp 3 errn 4}
+  points M D 
+  errorbar M D errp 2
+  errorbar M D errn 4
+
+  data "MFfit"$1".dat"
+  read{ M 1 D 2}
+  connect M D
+
+  data "/home/ilbert/RESULTATS/ZPHOT/VISTA/050313/MF/CVSTOCK/fit_doubleSchech_noran_All"$1".dat"
+  read{ M 1 D 2}
+  ctype red connect M D
+  ctype black
+
+  xlabel \r log(Mass)
+  ylabel log \phi \r   ( dex^{-1} Mpc^{-3})
+
+end

@@ -1,0 +1,14 @@
+#######################################################################################
+########### FIT DOUBLE SCHECHTER FUNCTION
+########### Run : $LEPHAREDIR/source/fit_schechter  -c FIT.para   
+#######################################################################################
+#
+FIT_TYPE         1              # 0 for LF/ 1 for MF / 2 for SFRF
+FIT_INPUT        MF_Vmax.info   # Information file to define the input
+FIT_OUTPUT       MFfit          # Output file for the schechter function fit
+# For all FIT_FIX_* [-999.9-def => parameter free, 1 value => same value for all z bins, N value => set one value for each z bin]
+FIT_FIX_ALPHA1  -999.9          # Fix alpha 1 
+FIT_FIX_ALPHA2  -999.9          # Fix alpha 2 
+FIT_FIX_MSTAR   -999.9          # Fix M*      
+FIT_FIX_PHI1    -999.9          # Fix phi* 1  
+FIT_FIX_PHI2    -999.9          # Fix phi* 2  

@@ -1,0 +1,251 @@
+opa
+ define TeX_strings 1
+ expand 1.01 window 1 1 1 1 
+ limits 800 1200 0.4 1.1 erase ctype default expand 1.3
+ box xlabel \lambda (\AA)
+ ylabel <Opacity> 
+ relocate (6000 31500) label Lyman absorption by IGM (Madau 1995)
+ data OPACITY.dat read { z 1 n 2.s }
+ define lfuv   1550
+ define lfoca  2010
+ define lnuv   2300
+ set lfuv  = 1550
+ set ofuv  = 1
+ set zuv   = 0
+ set lfoca = 2010
+ set ofoca  = 1
+ set lnuv  = 2300
+ set onuv  = 1
+ set zuv2   = 0
+ do i = 1, DIMEN(n),2 {
+   define file (n[$i-1])
+   define zobs (z[$i-1])
+  if (z[$i-1]<=2.2) { echo $zobs $file
+  data $file read {l 1 o 2} connect l o 
+  define lobs  ($lfuv/(1+$zobs))
+  set ls = l if ( ABS(l-$lobs)<.5 )  
+  set os = o if ( ABS(l-$lobs)<0.5 )
+  set zs = l*0 + $zobs if ( ABS(l-$lobs)<0.5 )
+  set lfuv = lfuv concat ls  
+  set ofuv = ofuv concat os  
+  set zuv  = zuv concat zs  
+  define lobs  ($lfoca/(1+$zobs))
+  set ls = l if ( ABS(l-$lobs)<1 )  
+  set os = o if ( ABS(l-$lobs)<1 )
+  set lfoca = lfoca concat ls  
+  set ofoca = ofoca concat os  
+  define lobs  ($lnuv/(1+$zobs))
+  set ls = l if ( ABS(l-$lobs)<=.5 )  
+  set os = o if ( ABS(l-$lobs)<=.5 )
+  set zs = l*0 + $zobs if ( ABS(l-$lobs)<=0.5 )
+  set lnuv = lnuv concat ls  
+  set onuv = onuv concat os  
+  set zuv2  = zuv2 concat zs  
+		 }
+			}
+  ctype blue    connect lfuv  ofuv
+  ptype 20 3    points  lfuv  ofuv
+  do i = 1,DIMEN(lfuv)-7 {  define z (sprintf('%3.1f',zuv[$i-1]))
+   define x (lfuv[$i-1]-30)  define y (ofuv[$i-1]+0.02)
+  relocate $x $y  label $z
+			}
+  define y ($y-0.1) relocate $x $y label FUV 
+  ctype yellow  connect lfoca ofoca
+  ptype 20 3    points  lfoca ofoca   
+  ctype red     connect lnuv  onuv
+  ptype 20 3   points  lnuv  onuv   
+ do i = 1,DIMEN(lnuv)-3 {  define z (sprintf('%3.1f',zuv2[$i-1]))
+   define x (lnuv[$i-1]+10)  define y (onuv[$i-1]-0.02)
+  relocate $x $y  label $z
+			}
+	label  = Z
+  define y ($y-0.1) relocate $x $y label NUV 
+  ctype default 
+
+
+end
+
+
+
+opa_madau
+
+ macro read "/home/ilbert/bin/lit_macro.sm" lit
+
+ expand 1.01 window 1 1 1 1 
+ limits 0 1200 0. 1.1 erase ctype default expand 1.3
+ box xlabel \lambda (\AA)
+ ylabel <Opacity> 
+ relocate (6000 31500) label Lyman absorption by IGM 
+
+
+ data OPACITY.dat read { z 1 n 2.s }
+ do i = 1, DIMEN(n),2 {
+
+   if( $i>0 && $i<=10){ctype cyan}
+   if($i>10 && $i<=20){ctype blue}
+   if($i>20 && $i<=30){ctype green}
+   if($i>30 && $i<=40){ctype orange}
+   if($i>40 && $i<=50){ctype red}
+   if($i>50 && $i<=60){ctype black}
+
+   define file (n[$i-1])
+   define zobs (z[$i-1])
+
+   if (z[$i-1]<=6.2) { 
+
+     echo $zobs $file
+     data $file read {l 1 o 2} connect l o 
+
+  }
+			
+ }
+
+end
+
+
+
+opa_meksin
+
+ macro read "/home/ilbert/bin/lit_macro.sm" lit
+
+ expand 1.01 window 1 1 1 1 
+ limits 800 1200 0. 1.1 erase ctype default expand 1.3
+ box xlabel \lambda (\AA)
+ ylabel <Opacity> 
+ relocate (6000 31500) label Lyman absorption by IGM 
+
+
+ data transmission_table_Meiksin.dat
+ read {l 1 t15 2 t20 3 t25 4 t30 5 t35 6 t40 7 t45 8 t50 9 t55 10 t60 11 t65 12 }
+
+ do i = 15,65,5 {
+
+   if( $i>0 && $i<=10){ctype cyan}
+   if($i>10 && $i<=20){ctype blue}
+   if($i>20 && $i<=30){ctype green}
+   if($i>30 && $i<=40){ctype orange}
+   if($i>40 && $i<=50){ctype red}
+   if($i>50 && $i<=60){ctype black}
+
+   define zobs ($i/10)
+   connect (l/$(1+$zobs)) t$i
+
+ }
+ ctype black
+
+end
+
+
+
+comp_opa
+
+ macro read "/home/ilbert/bin/lit_macro.sm" lit
+
+ expand 1.01 window 1 1 1 1 
+ limits 800 1200 0. 1.1 erase ctype default expand 1.3
+ box xlabel \lambda (\AA)
+ ylabel <Opacity> 
+ relocate (6000 31500) label Lyman absorption by IGM 
+
+
+ data transmission_table_Meiksin.dat
+ read {l 1 t15 2 t20 3 t25 4 t30 5 t35 6 t40 7 t45 8 t50 9 t55 10 t60 11 t65 12 }
+
+ do i = 15,65,5 {
+
+   if( $i>0 && $i<=10){ctype cyan}
+   if($i>10 && $i<=20){ctype blue}
+   if($i>20 && $i<=30){ctype green}
+   if($i>30 && $i<=40){ctype orange}
+   if($i>40 && $i<=50){ctype red}
+   if($i>50 && $i<=60){ctype black}
+
+   define zobs ($i/10)
+   ltype 0 connect (l/$(1+$zobs)) t$i
+
+
+   ltype 2 data "tau"$i".out" read {l2 1 o 2} connect l2 o ltype 0 
+			
+ }
+
+end
+
+
+
+generate_meksin
+
+ macro read "/home/ilbert/bin/lit_macro.sm" lit
+
+ expand 1.01 window 1 1 1 1 
+ limits 0 1200 0. 1.1 erase ctype default expand 1.3
+ box xlabel \lambda (\AA)
+ ylabel <Opacity> 
+ relocate (6000 31500) label Lyman absorption by IGM 
+
+
+ data transmission_table_Meiksin.dat
+ read {l 1 t15 2 t20 3 t25 4 t30 5 t35 6 t40 7 t45 8 t50 9 t55 10 t60 11 t65 12 t70 13 }
+
+ set lcom=0.,1216.,1.
+ set ti0=lcom*0+1
+
+ do i = 15,70,5 {  
+   define zobs ($i/10)
+   set lrf=(l/$(1+$zobs)) 
+   interp2 lrf t$i  lcom ti$i
+ }
+ echo dimen $(dimen(ti0)) $(dimen(ti70))
+ do i = 0,70 {
+
+   if( $i>0 && $i<=10){ctype cyan}
+   if($i>10 && $i<=20){ctype blue}
+   if($i>20 && $i<=30){ctype green}
+   if($i>30 && $i<=40){ctype orange}
+   if($i>40 && $i<=50){ctype red}
+   if($i>50 && $i<=60){ctype black}
+   if($i>60 && $i<=70){ctype brown}
+
+   if(         $i<=15){define zmin 0  define zmax 15}
+   if($i>15 && $i<=20){define zmin 15 define zmax 20}
+   if($i>20 && $i<=25){define zmin 20 define zmax 25}
+   if($i>25 && $i<=30){define zmin 25 define zmax 30}
+   if($i>30 && $i<=35){define zmin 30 define zmax 35}
+   if($i>35 && $i<=40){define zmin 35 define zmax 40}
+   if($i>40 && $i<=45){define zmin 40 define zmax 45}
+   if($i>45 && $i<=50){define zmin 45 define zmax 50}
+   if($i>50 && $i<=55){define zmin 50 define zmax 55}
+   if($i>55 && $i<=60){define zmin 55 define zmax 60}
+   if($i>60 && $i<=65){define zmin 60 define zmax 65}
+   if($i>65 && $i<=70){define zmin 60 define zmax 65}
+
+   set diff=($zmax-$i)/$($zmax-$zmin)
+   set t$i = diff*ti$zmin + (1-diff)*ti$zmax
+   lweight 1 connect lcom t$i
+
+   set tprint=(t$i<0)?0:t$i
+   define print_noheader 1
+   print "meskin"$i".dat" '%15.5f %15.5f  \n'  {lcom tprint}
+ }
+ ctype black
+
+ lweight 5
+ data transmission_table_Meiksin.dat
+ read {l 1 t15 2 t20 3 t25 4 t30 5 t35 6 t40 7 t45 8 t50 9 t55 10 t60 11 t65 12 t70 13 }
+
+ do i = 15,70,5 {
+
+   if( $i>0 && $i<=10){ctype cyan}
+   if($i>10 && $i<=20){ctype blue}
+   if($i>20 && $i<=30){ctype green}
+   if($i>30 && $i<=40){ctype orange}
+   if($i>40 && $i<=50){ctype red}
+   if($i>50 && $i<=60){ctype black}
+   if($i>60 && $i<=70){ctype brown}
+
+   define zobs ($i/10)
+   connect (l/$(1+$zobs)) t$i
+
+ }
+ ctype black lweight 3
+
+end
