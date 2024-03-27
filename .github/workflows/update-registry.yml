@@ -1,0 +1,14 @@
+name: Update registry file
+
+on: 
+  workflow_dispatch:
+  
+jobs:
+  get-files-job:
+    name: Get list of files in the repo
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3 # Check out the repository
+      - name: Run Python script on each file
+        run: |
+          find sed/STAR/PICKLES/ -type f -exec python scripts/add_to_registry.py {} \;
