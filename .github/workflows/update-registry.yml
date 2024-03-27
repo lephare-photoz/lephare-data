@@ -17,7 +17,7 @@ jobs:
           pip install pooch
       - name: Remove and restart current registry file
         run : 
-          rm "$REGISTRY_FILE"
+          rm -f "$REGISTRY_FILE"
 #          touch "$REGISTRY_FILE"
       - name: Add each file to registry
         run: |
