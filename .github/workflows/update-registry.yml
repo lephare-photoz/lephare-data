@@ -31,7 +31,7 @@ jobs:
         run : |
           echo "TODO commit new registry file" # note: we'll want to turn on branch protection, which will make this more complicated
           git status
-          git branch -D "$REGISTRY_BRANCH"
+          git branch -D "$REGISTRY_BRANCH" || true
           git switch -c "$REGISTRY_BRANCH"
           git status
           echo "Adding........."
