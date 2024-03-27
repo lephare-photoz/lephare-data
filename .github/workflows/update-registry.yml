@@ -38,6 +38,7 @@ jobs:
 
           echo ""
           echo "Adding........."
+          git pull
           git add "$REGISTRY_FILE"
           git commit -m "Update registry file"
           git push --set-upstream origin "$REGISTRY_BRANCH"
