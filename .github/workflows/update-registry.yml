@@ -9,6 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3 # Check out the repository
-      - name: Run Python script on each file
+      - name: Remove current registry file
+        run : 
+          echo "TODO remove current registry file"
+      - name: Add each file to registry
         run: |
           find sed/STAR/PICKLES/ -type f -exec python scripts/add_to_registry.py {} \;
+      - name: Commit new registry file
+        run : 
+          echo "TODO commit new registry file" # note: we'll want to turn on branch protection, which will make this more complicated
