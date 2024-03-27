@@ -21,7 +21,7 @@ jobs:
 #          touch "$REGISTRY_FILE"
       - name: Add each file to registry
         run: |
-          python add_to_registry.py "sed/STAR/PICKLES/" "$REGISTRY_FILE"
+          python scripts/add_to_registry.py "sed/STAR/PICKLES/" "$REGISTRY_FILE"
 #          find sed/STAR/PICKLES/ -type f -exec python scripts/add_to_registry.py {} "$REGISTRY_FILE" \;
       - name: Cat new registry file
         run : 
