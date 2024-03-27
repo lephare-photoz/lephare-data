@@ -29,13 +29,15 @@ jobs:
           cat "$REGISTRY_FILE"
       - name: Commit new registry file
         run : |
-          echo "TODO commit new registry file" # note: we'll want to turn on branch protection, which will make this more complicated
+          git config --global user.email "email@example.com"
+          git config --global user.name "Auto Updater"
+          
           git branch -D "$REGISTRY_BRANCH" || true
           git switch -c "$REGISTRY_BRANCH"
-          git config --global user.email "you@example.com"
-          git config --global user.name "Your Name"
           git status
+
+          echo ""
           echo "Adding........."
           git add "$REGISTRY_FILE"
           git commit -m "Update registry file"
-          git push
+          git push --set-upstream origin "$REGISTRY_BRANCH"
