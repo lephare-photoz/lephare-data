@@ -8,17 +8,24 @@ env:
 
 jobs:
   get-files-job:
-    name: Get list of files in the repo
+    name: Recalculate file hashes and recommit registry file
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3 # Check out the repository
-      - name: Remove current registry file
+      - name: Import packages
+        run: |
+          pip install pooch
+      - name: Remove and restart current registry file
         run : 
-          echo "Removing current registry file $REGISTRY_FILE"
           rm "$REGISTRY_FILE"
+#          touch "$REGISTRY_FILE"
       - name: Add each file to registry
         run: |
-          find sed/STAR/PICKLES/ -type f -exec python scripts/add_to_registry.py {} $REGISTRY_FILE \;
+          python add_to_registry.py "sed/STAR/PICKLES/" "$REGISTRY_FILE"
+#          find sed/STAR/PICKLES/ -type f -exec python scripts/add_to_registry.py {} "$REGISTRY_FILE" \;
+      - name: Cat new registry file
+        run : 
+          cat "$REGISTRY_FILE"
       - name: Commit new registry file
         run : 
           echo "TODO commit new registry file" # note: we'll want to turn on branch protection, which will make this more complicated
