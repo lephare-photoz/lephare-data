@@ -2,7 +2,10 @@ name: Update registry file
 
 on: 
   workflow_dispatch:
-  
+
+env:
+  REGISTRY_FILE: data-registry.txt
+
 jobs:
   get-files-job:
     name: Get list of files in the repo
@@ -11,10 +14,11 @@ jobs:
       - uses: actions/checkout@v3 # Check out the repository
       - name: Remove current registry file
         run : 
-          echo "TODO remove current registry file"
+          echo "Removing current registry file $REGISTRY_FILE"
+          rm "$REGISTRY_FILE"
       - name: Add each file to registry
         run: |
-          find sed/STAR/PICKLES/ -type f -exec python scripts/add_to_registry.py {} \;
+          find sed/STAR/PICKLES/ -type f -exec python scripts/add_to_registry.py {} $REGISTRY_FILE \;
       - name: Commit new registry file
         run : 
           echo "TODO commit new registry file" # note: we'll want to turn on branch protection, which will make this more complicated
