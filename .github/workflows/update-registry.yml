@@ -5,6 +5,7 @@ on:
 
 env:
   REGISTRY_FILE: data-registry.txt
+  REGISTRY_BRANCH: registry-branch
 
 jobs:
   get-files-job:
@@ -15,7 +16,7 @@ jobs:
       - name: Import packages
         run: |
           pip install pooch
-      - name: Remove and restart current registry file
+      - name: Remove current registry file
         run : 
           rm -f "$REGISTRY_FILE"
       - name: Add files to registry
@@ -30,7 +31,10 @@ jobs:
         run : |
           echo "TODO commit new registry file" # note: we'll want to turn on branch protection, which will make this more complicated
           git status
-          git switch registry
+          git branch -D "$REGISTRY_BRANCH"
+          git switch -c "$REGISTRY_BRANCH"
+          git status
+          echo "Adding........."
           git add "$REGISTRY_FILE"
           git commit -m "Update registry file"
           git push
