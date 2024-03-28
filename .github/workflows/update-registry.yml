@@ -27,18 +27,8 @@ jobs:
       - name: Cat new registry file
         run : 
           cat "$REGISTRY_FILE"
-      - name: Commit new registry file
-        run : |
-          git config --global user.email "email@example.com"
-          git config --global user.name "Auto Updater"
-          
-          git branch -D "$REGISTRY_BRANCH" || true
-          git switch -c "$REGISTRY_BRANCH"
-          git status
-
-          echo ""
-          echo "Adding........."
-          git pull
-          git add "$REGISTRY_FILE"
-          git commit -m "Update registry file"
-          git push --set-upstream origin "$REGISTRY_BRANCH"
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: Update registry.
+          branch: update-registry
