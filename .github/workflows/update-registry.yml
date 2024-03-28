@@ -11,9 +11,6 @@ jobs:
   get-files-job:
     name: (Re)calculate file hashes
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        data_dir: ["examples/", "ext/", "filt/", "opa/", "sed/", "test_fit/", "tools/", "vega/"]
     steps:
       - uses: actions/checkout@v3 # Check out the repository
       - name: Import packages
@@ -24,7 +21,9 @@ jobs:
           rm -f "$REGISTRY_FILE"
       - name: Add files to registry
         run: |
-           python scripts/add_to_registry.py  ${{ matrix.data_dir }} "$REGISTRY_FILE"
+            for data_dir in examples/ ext/ filt/ opa/ sed/ test_fit/ tools/ vega/; do
+              python scripts/add_to_registry.py data_dir "$REGISTRY_FILE"
+            done
       - name: Cat new registry file
         run : 
           cat "$REGISTRY_FILE"
