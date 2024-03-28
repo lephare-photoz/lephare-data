@@ -2,15 +2,18 @@ name: Update registry file
 
 on: 
   workflow_dispatch:
+  #push:
 
 env:
   REGISTRY_FILE: data-registry.txt
-  REGISTRY_BRANCH: registry-branch
 
 jobs:
   get-files-job:
     name: (Re)calculate file hashes
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        data_dir: ["examples/", "ext/", "filt/", "opa/", "sed/", "test_fit/", "tools/", "vega/"]
     steps:
       - uses: actions/checkout@v3 # Check out the repository
       - name: Import packages
@@ -21,14 +24,13 @@ jobs:
           rm -f "$REGISTRY_FILE"
       - name: Add files to registry
         run: |
-          python scripts/add_to_registry.py "sed/STAR/PICKLES/" "$REGISTRY_FILE"
-#          python scripts/add_to_registry.py "sed/" "$REGISTRY_FILE"
-#          python scripts/add_to_registry.py "filt/" "$REGISTRY_FILE"
+           python scripts/add_to_registry.py  ${{ matrix.data_dir }} "$REGISTRY_FILE"
       - name: Cat new registry file
         run : 
           cat "$REGISTRY_FILE"
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
-          commit-message: Update registry.
+          commit-message: Update registry
           branch: update-registry
+          title: Update registry file
