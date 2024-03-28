@@ -22,13 +22,12 @@ jobs:
       - name: Add files to registry
         run: |
             for data_dir in examples/ ext/ filt/ opa/ sed/ test_fit/ tools/ vega/; do
-              python scripts/add_to_registry.py data_dir "$REGISTRY_FILE"
+              python scripts/add_to_registry.py "$data_dir" "$REGISTRY_FILE"
             done
       - name: Cat new registry file
         run : 
           cat "$REGISTRY_FILE"
       # TODO: should we check for/delete unmerged PRs at this point?
-      # Otherwise, I don't think new changes will be added properly
       - name: Set output variables
         id: vars
         run: |
