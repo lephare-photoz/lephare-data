@@ -27,9 +27,20 @@ jobs:
       - name: Cat new registry file
         run : 
           cat "$REGISTRY_FILE"
+      # TODO: should we check for/delete unmerged PRs at this point?
+      # Otherwise, I don't think new changes will be added properly
+      - name: Set output variables
+        id: vars
+        run: |
+          pr_title="[Auto] Update registry file $(date +%d-%m-%Y)"
+          pr_body="This PR was auto-generated on $(date +%d-%m-%Y) \
+            by [create-pull-request](https://github.com/peter-evans/create-pull-request)."
+          echo "pr_title=$pr_title" >> $GITHUB_OUTPUT
+          echo "pr_body=$pr_body" >> $GITHUB_OUTPUT
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
           commit-message: Update registry
           branch: update-registry
-          title: Update registry file
+          title: ${{ steps.vars.outputs.pr_title }}
+          body: ${{ steps.vars.outputs.pr_body }}
