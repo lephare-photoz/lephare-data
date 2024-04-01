@@ -1,6 +1,9 @@
-*******************************************************
-                Brown dwarf templates                  
-- Baraffe+2015, CIFIST2015  for T>1200K                
-- Morley+2012, eg. sp_t400g300f                        
-- Morley+2014, eg. sp_t200g300f5h20_01                 
-*******************************************************
+#########################################################################
+#                LOW MASS STAR  library                                 #
+#           (Chabrier et al., 2000, ApJ 542, 464)                       #
+#   100 spectra of low mass stars with different Teff and gravity       #
+#   and model types (Next Generation, AMES dusty and condensed)         #
+#                                                                       #
+#########################################################################
+
+
