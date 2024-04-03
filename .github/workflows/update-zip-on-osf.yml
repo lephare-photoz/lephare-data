@@ -1,0 +1,29 @@
+name: Update zip on OSF
+
+on: 
+  workflow_dispatch:
+  #push:
+
+env:
+  OSF_PROJ_ID: "pmwcf" # TODO switch back to zip project "mvpks"
+  OSF_USER: "olynn@andrew.cmu.edu"
+  ZIP_NAME: "alloutputkeys.txt" # TODO switch back to zip name "LEPHARE-data.zip"
+
+jobs:
+  zip-and-upload:
+    name: Zip repo and upload to OSF
+    runs-on: ubuntu-latest
+    steps:
+#      - uses: actions/checkout@v3 # Check out the repository
+      - name: Import packages
+        run: |
+          pip install osfclient
+      - name: Zip repo # TODO
+      - name: Make .osfcli.config file
+        run: |
+          echo "[OSF]" > .osfcli.config
+          echo "username = $OSF_USER" >> .osfcli.config
+          echo "project = $OSF_PROJ_ID" >> .osfcli.config
+      - name: Update on OSF
+        run: |
+          osf --update $"ZIP_NAME" $"ZIP_NAME"
