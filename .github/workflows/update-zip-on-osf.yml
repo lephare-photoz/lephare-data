@@ -26,4 +26,4 @@ jobs:
           echo "project = $OSF_PROJ_ID" >> .osfcli.config
       - name: Update on OSF
         run: |
-          osf --update $"ZIP_NAME" $"ZIP_NAME"
+          osf upload --update $"ZIP_NAME" $"ZIP_NAME"
