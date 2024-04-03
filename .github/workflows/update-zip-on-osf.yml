@@ -18,7 +18,7 @@ jobs:
       - name: Import packages
         run: |
           pip install osfclient
-      - name: Zip repo # TODO
+#      - name: Zip repo # TODO
       - name: Make .osfcli.config file
         run: |
           echo "[OSF]" > .osfcli.config
