@@ -2,7 +2,7 @@ name: Update registry file
 
 on: 
   workflow_dispatch:
-  #push:
+  push:
 
 env:
   REGISTRY_FILE: data-registry.txt
