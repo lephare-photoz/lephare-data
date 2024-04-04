@@ -21,12 +21,12 @@ jobs:
 #      - name: Zip repo # TODO
       - name: Make .osfcli.config file
         env:
-          OSF_PASS: ${{ secrets.SuperSecret }}
+          OSF_PASSWORD: ${{ secrets.SuperSecret }}
         run: |
           echo "[osf]" > .osfcli.config
           echo "username = $OSF_USER" >> .osfcli.config
           echo "project = $OSF_PROJ_ID" >> .osfcli.config
-          echo "password = $OSF_PASS" >> .osfcli.config
+          echo "password = $OSF_PASSWORD" >> .osfcli.config
       - name: Check .osfcli.config file
         run: |
           cat .osfcli.config
