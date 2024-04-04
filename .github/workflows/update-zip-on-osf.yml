@@ -21,9 +21,12 @@ jobs:
 #      - name: Zip repo # TODO
       - name: Make .osfcli.config file
         run: |
-          echo "[OSF]" > .osfcli.config
+          echo "[osf]" > .osfcli.config
           echo "username = $OSF_USER" >> .osfcli.config
           echo "project = $OSF_PROJ_ID" >> .osfcli.config
+      - name: Check .osfcli.config file
+        run: |
+          cat .osfcli.config
       - name: Update on OSF
         run: |
           osf upload --update $"ZIP_NAME" $"ZIP_NAME"
