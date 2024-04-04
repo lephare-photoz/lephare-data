@@ -2,7 +2,7 @@ name: Update zip on OSF
 
 on: 
   workflow_dispatch:
-  #push:
+  push:
 
 env:
   ZIP_NAME: "LEPHARE-data.zip"
