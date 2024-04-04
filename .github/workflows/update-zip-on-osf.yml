@@ -15,7 +15,7 @@ jobs:
     name: Zip repo and upload to OSF
     runs-on: ubuntu-latest
     steps:
-#      - uses: actions/checkout@v3 # Check out the repository
+      - uses: actions/checkout@v3 # Check out the repository
       - name: Import packages
         run: |
           pip install osfclient
