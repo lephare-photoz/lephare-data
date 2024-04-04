@@ -6,7 +6,7 @@ on:
 
 env:
   ZIP_NAME: "alloutputkeys.txt" # TODO switch back to zip name "LEPHARE-data.zip"
-  OSF_PROJ_ID: "pmwcf" # TODO switch back to zip project "mvpks"
+  OSF_PROJ_ID: "64eg9" # TODO switch back to zip project "mvpks"
   OSF_USER: "olynn@andrew.cmu.edu"
   OSF_PASSWORD: ${{ secrets.OSF_PASS }}
 
