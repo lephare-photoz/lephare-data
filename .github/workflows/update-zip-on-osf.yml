@@ -7,7 +7,7 @@ on:
 env:
   ZIP_NAME: "LEPHARE-data.zip"
   OSF_PROJ_ID: "mvpks" 
-  OSF_USER: "olynn@andrew.cmu.edu"
+  OSF_USER: "olynn@andrew.cmu.edu" # TODO would be nice to have generic user account
   OSF_PASSWORD: ${{ secrets.OSF_PASS }}
 
 jobs:
@@ -19,9 +19,9 @@ jobs:
       - name: Import packages
         run: |
           pip install osfclient
-      - name: Zip repo
+      - name: Zip repo # TODO would be nice to compare hash of new zip to currently uploaded zip
         run: |
-          zip -r -v $ZIP_NAME .
+          zip -r $ZIP_NAME .
       - name: Make .osfcli.config file
         run: |
           echo "[osf]" > .osfcli.config
