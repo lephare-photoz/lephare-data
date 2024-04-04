@@ -5,9 +5,10 @@ on:
   #push:
 
 env:
+  ZIP_NAME: "alloutputkeys.txt" # TODO switch back to zip name "LEPHARE-data.zip"
   OSF_PROJ_ID: "pmwcf" # TODO switch back to zip project "mvpks"
   OSF_USER: "olynn@andrew.cmu.edu"
-  ZIP_NAME: "alloutputkeys.txt" # TODO switch back to zip name "LEPHARE-data.zip"
+  OSF_PASSWORD: ${{ secrets.OSF_PASS }}
 
 jobs:
   zip-and-upload:
@@ -20,8 +21,6 @@ jobs:
           pip install osfclient
 #      - name: Zip repo # TODO
       - name: Make .osfcli.config file
-        env:
-          OSF_PASSWORD: ${{ secrets.OSF_PASS }}
         run: |
           echo "[osf]" > .osfcli.config
           echo "username = $OSF_USER" >> .osfcli.config
