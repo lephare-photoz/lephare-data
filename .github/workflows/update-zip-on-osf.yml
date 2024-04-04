@@ -5,8 +5,8 @@ on:
   #push:
 
 env:
-  ZIP_NAME: "alloutputkeys.txt" # TODO switch back to zip name "LEPHARE-data.zip"
-  OSF_PROJ_ID: "64eg9" # TODO switch back to zip project "mvpks"
+  ZIP_NAME: "LEPHARE-data.zip"
+  OSF_PROJ_ID: "mvpks" 
   OSF_USER: "olynn@andrew.cmu.edu"
   OSF_PASSWORD: ${{ secrets.OSF_PASS }}
 
@@ -19,7 +19,9 @@ jobs:
       - name: Import packages
         run: |
           pip install osfclient
-#      - name: Zip repo # TODO
+      - name: Zip repo
+        run: |
+          zip -r -v $ZIP_NAME .
       - name: Make .osfcli.config file
         run: |
           echo "[osf]" > .osfcli.config
