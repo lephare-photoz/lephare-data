@@ -1,6 +1,35 @@
+import os
 import sys
 import pooch
 from pathlib import Path
+
+
+def write_hashes_to_registry(files, hashes, registry_name):
+    with open(registry_name, "a", encoding="utf-8") as outfile:
+        for fname, fhash in zip(files, hashes):
+            # Pooch requires us to use Unix separators for the registry
+            outfile.write("{} {}\n".format(
+                fname.replace("\\", "/"),
+                fhash
+            ))
+    print(f"Added {len(files)} files to registry {registry_name}.")
+
+
+def make_registry_for_data_file(filename, registry_file):
+    """
+    Make a registry of files and hashes for the given file.
+
+    Parameters
+    ----------
+    filename : str
+        Name of the file to put in the registry.
+    registry_file : str
+        Name of the output registry file.
+
+    """
+    hash = pooch.file_hash(filename)
+    write_hashes_to_registry([filename], [hash], registry_file)
+
 
 def make_registry_for_data_dir(directory, data_dir, registry_name, recursive=True):
     """
@@ -36,22 +65,16 @@ def make_registry_for_data_dir(directory, data_dir, registry_name, recursive=Tru
     )
 
     hashes = [pooch.file_hash(str(directory / fname)) for fname in files]
-
-    with open(registry_name, "a", encoding="utf-8") as outfile:
-        for fname, fhash in zip(files, hashes):
-            # Pooch requires us to use Unix separators for the registry
-            outfile.write("{} {}\n".format(
-                fname.replace("\\", "/"),
-                fhash
-            ))
+    write_hashes_to_registry(files, hashes, registry_name)
 
 
 if __name__ == "__main__":
-    #filename = sys.argv[1]
-    #registry_file = sys.argv[2]
-    #print(f"Adding {filename} to registry {registry_file}...")
-    data_dir = sys.argv[1]
+    data_dir_or_file = sys.argv[1]
     registry_name = sys.argv[2]
-    print(f"Making registry at {registry_name} for data dir {data_dir}...")
-    make_registry_for_data_dir(".", data_dir, registry_name)
+    if os.path.isfile(data_dir_or_file):
+        print(f"Making registry at {registry_name} for file {data_dir_or_file}...")
+        make_registry_for_data_file(data_dir_or_file, registry_name)
+    else:
+        print(f"Making registry at {registry_name} for data dir {data_dir}...")
+        make_registry_for_data_dir(".", data_dir, registry_name)
 
