@@ -21,10 +21,10 @@ jobs:
           rm -f "$REGISTRY_FILE"
       - name: Add files to registry
         run: |
+            python scripts/add_to_registry.py alloutputkeys.txt "$REGISTRY_FILE"
             for data_dir in examples/ ext/ filt/ opa/ sed/ test_fit/ tools/ vega/; do
               python scripts/add_to_registry.py "$data_dir" "$REGISTRY_FILE"
             done
-            python scripts/add_to_registry.py alloutputkeys.txt "$REGISTRY_FILE"
       - name: Cat new registry file
         run : 
           cat "$REGISTRY_FILE"
