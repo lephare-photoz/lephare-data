@@ -71,7 +71,7 @@ def make_registry_for_data_dir(directory, data_dir, registry_name, recursive=Tru
 if __name__ == "__main__":
     data_to_hash = sys.argv[1]
     registry_name = sys.argv[2]
-    registry_hash_name = f"{os.path.splitext(registry_name)[0]}-hash.txt"
+    registry_hash_name = f"{os.path.splitext(registry_name)[0]}_hash.txt"
 
     if os.path.isfile(data_to_hash):
         print(f"Making registry at {registry_name} for file {data_to_hash}...")
