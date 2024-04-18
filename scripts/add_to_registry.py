@@ -71,7 +71,7 @@ def make_registry_for_data_dir(directory, data_dir, registry_name, recursive=Tru
 if __name__ == "__main__":
     data_to_hash = sys.argv[1]
     registry_name = sys.argv[2]
-    registry_hash_name = f"{os.path.splitext(registry_name)[0]}_hash.txt"
+    registry_hash_name = f"{os.path.splitext(registry_name)[0]}_hash.sha256"
 
     if os.path.isfile(data_to_hash):
         print(f"Making registry at {registry_name} for file {data_to_hash}...")
@@ -81,6 +81,6 @@ if __name__ == "__main__":
         make_registry_for_data_dir(".", data_to_hash, registry_name)
     
     print(f"Making hash file at {registry_hash_name} for registry {registry_name}...")
-    registry_hash = pooch.file_hash(registry_name)
+    registry_hash = pooch.file_hash(registry_name, alg="sha256")
     with open(registry_hash_name, "w", encoding="utf-8") as outfile:
         outfile.write(registry_hash)
