@@ -5,7 +5,7 @@ on:
   push:
 
 env:
-  REGISTRY_FILE: data-registry.txt
+  REGISTRY_FILE: data_registry.txt
 
 jobs:
   get-files-job:
