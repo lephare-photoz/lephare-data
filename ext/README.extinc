@@ -25,11 +25,14 @@
    SB_calzetti_bump3.dat
 
 #
-# Added dust law
+# Added dust laws
 
 extlaw_0.9.dat
 was created in Arnouts+2013 
 
+
+salim18.dat
+added the low mass high-z analog from Salim+2018
 
 #
 # The atmospheric extinction curves for other purposes 

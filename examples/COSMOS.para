@@ -102,7 +102,7 @@ ZPHOTLIB	CE_COSMOS,STAR_COSMOS,QSO_COSMOS  # Library used for Chi2 (max:3)
 #------------------     Output catalog Name           ---------------------------------
 CAT_OUT		zphot.out 	# Output catalog  (-> working directory) 
 PARA_OUT        $LEPHAREDIR/examples/output.para     # Ouput parameters (full path) 
-VERBOSE         NO             # Display the templates/objects which are computed
+VERBOSE         YES             # Display the templates/objects which are computed
 PDZ_TYPE        BAY_ZG           # PDZ in output [def-BAY]. BAY_ZG sum all probabilities at a given z. MIN_ZG takes exp(-chi2_min/2) at a given z, with chi2_min the minimum chi2 at this z.
                                  # You can add and combine BAY_ZG,BAY_ZQ,MIN_ZG,MIN_ZQ,MASS,SFR,SSFR,AGE
 PDZ_OUT         test             # root of the pdz output files [def-NONE]
