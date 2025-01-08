@@ -1,6 +1,7 @@
 #! /bin/csh
 
-# Indicate the directory containing all the LePHARE data, as the templates/filters/attenutation
+# Indicate the directory containing all the LePHARE data, as the templates/filters/attenuation
+# You could get it by cloning lephare-data from the github directory
 export LEPHAREDIR='/data1/LEPHARE_GITHUB/lephare-data/'
 # Where to store the libraries created by filter/sedtolib/mag_gal
 export LEPHAREWORK='WORK'
