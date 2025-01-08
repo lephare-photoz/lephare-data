@@ -99,7 +99,7 @@ sedtolib -c COSMOS.para -t G --GAL_SED $LEPHAREDIR/examples/BC03COMB_MOD.list --
 mag_gal  -c COSMOS.para -t G --GAL_LIB_IN LIB_COMB  --GAL_LIB_OUT BC03_COSMOS  --MOD_EXTINC 0,12,0,12,0,12 --EXTINC_LAW SB_calzetti.dat,extlaw_0.9.dat,salim18.dat --EB_V 0.,0.1,0.2,0.3,0.4,0.5,0.6,0.7 --Z_STEP 0.03,0,6 --EM_LINES PHYS --EM_DISPERSION 1 --ADD_DUSTEM YES
 
 # Derive the stellar masses. Can be done with BC03 templates.
-zphota -c COSMOS.para --CAT_IN COSMOS.in  --CAT_OUT masses.out --ZPHOTLIB BC03_COSMOS  --ADD_EMLINES 0,100 --AUTO_ADAPT NO --APPLY_SYSSHIFT $SHIFT  --ZFIX YES --PARA_OUT output_mass.para
+zphota -c COSMOS.para --CAT_IN $LEPHAREDIR/examples/COSMOS.in  --CAT_OUT masses.out --ZPHOTLIB BC03_COSMOS  --ADD_EMLINES 0,100 --AUTO_ADAPT NO --APPLY_SYSSHIFT $SHIFT  --ZFIX YES --PARA_OUT output_mass.para
 
 # FIGURES
 # Diagnostics on the physical parameter quality
@@ -120,22 +120,22 @@ cp $LEPHAREDIR/examples/HERSCHEL.para .
 filter -c HERSCHEL.para
 
 #IR library from Dale
-sedtolib -c HERSCHEL.para -t G --GAL_SED DALE.list  --GAL_LIB LIB_DALE 
+sedtolib -c HERSCHEL.para -t G --GAL_SED $LEPHAREDIR/examples/DALE.list  --GAL_LIB LIB_DALE 
 mag_gal  -c HERSCHEL.para -t G --GAL_LIB_IN LIB_DALE  --GAL_LIB_OUT DALE_COSMOS --MOD_EXTINC 0,0
 
 # BC03 SED
-sedtolib -c HERSCHEL.para -t G --GAL_SED BC03COMB_MOD.list --GAL_LIB LIB_BC03CAL --SEL_AGE AGE_BC03COMB.dat
-mag_gal  -c HERSCHEL.para -t G --GAL_LIB_IN LIB_BC03CAL --GAL_LIB_OUT BC_COSMOS  --MOD_EXTINC 1,14,1,14 --EXTINC_LAW SB_calzetti.dat,extlaw_0.9.dat --EB_V 0.,0.1,0.2,0.3,0.4,0.5,0.6,0.7 
+sedtolib -c HERSCHEL.para -t G --GAL_SED $LEPHAREDIR/examples/BC03COMB_MOD.list --GAL_LIB LIB_BC03CAL --SEL_AGE $LEPHAREDIR/examples/AGE_BC03COMB.dat
+mag_gal  -c HERSCHEL.para -t G --GAL_LIB_IN LIB_BC03CAL --GAL_LIB_OUT BC_COSMOS  --MOD_EXTINC 1,14,1,14 --EXTINC_LAW SB_calzetti.dat,extlaw_0.9.dat --EB_V 0.,0.1,0.2,0.3,0.4,0.5,0.6,0.7  --EM_LINES PHYS --EM_DISPERSION 1 --ADD_DUSTEM NO
 
 # Fit in FIR
-zphota -c HERSCHEL.para --CAT_IN MIPS.in --CAT_OUT lumFIR.out --ZPHOTLIB BC_COSMOS  --ADD_EMLINES 0,100 --AUTO_ADAPT NO  --ZFIX YES --FIR_LIB DALE_COSMOS  --FIR_SUBSTELLAR YES  --FIR_FREESCALE YES  --FIR_CONT 8257536
+zphota -c HERSCHEL.para --CAT_IN $LEPHAREDIR/examples/MIPS.in --CAT_OUT lumFIR.out --ZPHOTLIB BC_COSMOS  --ADD_EMLINES 0,100 --AUTO_ADAPT NO  --ZFIX YES --FIR_LIB DALE_COSMOS  --FIR_SUBSTELLAR YES  --FIR_FREESCALE YES  --FIR_CONT 8257536
 
 # Fit in FIR with SED in output
-zphota -c HERSCHEL.para --CAT_IN MIPS.in --CAT_OUT testFIR.out --ZPHOTLIB BC_COSMOS  --ADD_EMLINES 0,100 --AUTO_ADAPT NO  --ZFIX YES --FIR_LIB DALE_COSMOS  --FIR_SUBSTELLAR YES  --FIR_FREESCALE YES  --FIR_CONT 8257536 --CAT_LINES 11980,12010 --SPEC_OUT YES
+zphota -c HERSCHEL.para --CAT_IN $LEPHAREDIR/examples/MIPS.in --CAT_OUT testFIR.out --ZPHOTLIB BC_COSMOS  --ADD_EMLINES 0,100 --AUTO_ADAPT NO  --ZFIX YES --FIR_LIB DALE_COSMOS  --FIR_SUBSTELLAR YES  --FIR_FREESCALE YES  --FIR_CONT 8257536 --CAT_LINES 11980,12010 --SPEC_OUT YES
 
 # Plot the best-fit templates
 # Results in MULTISPEC.pdf
-python spec.py Id*spec -d pdf
+python $LEPHAREDIR/examples/spec.py Id*spec -d pdf
 
 
 

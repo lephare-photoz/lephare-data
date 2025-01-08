@@ -244,9 +244,12 @@ for k in range(nspec):
      
   ### 2nd panel (inset) showing PDF(z)
   ax2=fig.add_axes([0.55,0.17,0.3,0.25])
-  poscond = np.where( (zpdf[1,:]/max(zpdf[1,:])>0.002) | (zpdf[2,:]/max(zpdf[2,:])>0.002))
-  zaxe = zpdf[0,poscond]
-  ax2.axis([min(zaxe[0])-0.1,max(zaxe[0]+0.1),0,1.1])
+  if((max(zpdf[1,:])>0.002) | (max(zpdf[2,:])>0.002)):
+    poscond = np.where( (zpdf[1,:]/max(zpdf[1,:])>0.002) | (zpdf[2,:]/max(zpdf[2,:])>0.002))
+    zaxe = zpdf[0,poscond]
+    ax2.axis([min(zaxe[0])-0.1,max(zaxe[0]+0.1),0,1.1])
+  else:
+    ax2.axis([0,15,0,1.1])
   ax2.plot(zpdf[0,:],zpdf[1,:]/max(zpdf[1,:]),color='k', linestyle='solid', label='P(z) Bayesian')
   ax2.plot(zpdf[0,:],zpdf[2,:]/max(zpdf[2,:]),color='k', linestyle='dashed', label='P(z) Profile')
   ax2.legend(fontsize="10")
