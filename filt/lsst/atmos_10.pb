@@ -2,7 +2,7 @@
 # Version 1.9
 # sha1 fcc05772f99427e4a45cd1b9da1628dded9a06d5
 # Aerosols added to atmosphere
-# Wavelength(nm)  Throughput(0-1)
+# Wavelength(A)  Throughput(0-1)
 3000.0 0.0155191599458
 3000.1 0.0162258176111
 3000.20000000000005 0.016932509528100402

@@ -1,7 +1,7 @@
 # LSST dark sky SED from syseng_throughputs repo
 # Version 1.9
 # sha1 fcc05772f99427e4a45cd1b9da1628dded9a06d5
-# Wavelength(nm)  Flambda(ergs/cm^s/s/nm)
+# Wavelength(A)  Flambda(ergs/cm^s/s/A)
 3000.00 6.44417e-17
 3000.10 6.465672e-17
 3000.20 6.487217e-17

@@ -1,3 +1,28 @@
 This directory is a fll copy of https://github.com/lsst/throughputs/tree/main/baseline v1.9 at the date of June 18th 2025.
 
-The pb files have wavelength in Angstrom rather than nanometer
+The pb files have wavelength in Angstrom rather than nanometer, with
+the following snippet of code :
+
+import os
+import glob
+
+filelist = glob.glob("./*.dat")
+for file in filelist :
+    base, _ = os.path.splitext(file)
+    output = f"{base}.pb"
+    with open(file) as f:
+        lines = f.readlines()
+        for k in range(len(lines)):
+            l = lines[k]
+            if l[0] == "#" :
+	    	if "(nm)" in l:
+                   lines[k] = l.replace('nm', 'A')
+                continue
+            else:
+                idx = l.find(".")
+                newline = l[:idx]+"0"+l[idx:]
+                lines[k] = newline
+        newf = open(output, "w")
+        newf.writelines(lines)
+
+

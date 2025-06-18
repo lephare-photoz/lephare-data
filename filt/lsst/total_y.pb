@@ -4,7 +4,7 @@
 # Aerosols added to atmosphere
 # Wavelen_cutoff_BLUE 907.50
 # Wavelen_cutoff_RED 1100.00
-# Wavelength(nm)  Throughput(0-1)
+# Wavelength(A)  Throughput(0-1)
 3000.0 0.0
 3000.1 0.0
 3000.20000000000005 0.0
