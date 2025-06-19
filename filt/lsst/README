@@ -15,14 +15,13 @@ for file in filelist :
         for k in range(len(lines)):
             l = lines[k]
             if l[0] == "#" :
-	    	if "(nm)" in l:
-                   lines[k] = l.replace('nm', 'A')
+                if "(nm)" in l:
+                    lines[k] = l.replace('nm', 'A')
                 continue
             else:
                 idx = l.find(".")
-                newline = l[:idx]+"0"+l[idx:]
+                #move comma right
+                newline = l[:idx]+l[idx+1]+"."+l[idx+2:]
                 lines[k] = newline
-        newf = open(output, "w")
-        newf.writelines(lines)
-
-
+        with open(output, "w") as newf:
+            newf.writelines(lines)
