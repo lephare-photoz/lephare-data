@@ -1,12 +1,10 @@
 #! /bin/csh
 
-# Indicate the directory containing all the LePHARE data, as the templates/filters/attenuation
-# You could get it by cloning lephare-data from the github directory
-export LEPHAREDIR='/data1/LEPHARE_GITHUB/lephare-data/'
-# Where to store the libraries created by filter/sedtolib/mag_gal
-export LEPHAREWORK='WORK'
+# Set the LEPHAREDIR and LEPHAREWORK variables automatically to defaults
+export LEPHAREDIR=$(python -c "import lephare as lp; print(f'{lp.LEPHAREDIR}')" | tail -n 1) # use tail to ignore the on-import print statement
+export LEPHAREWORK=$(python -c "import lephare as lp; print(f'{lp.dm.LEPHAREWORK}')" | tail -n 1) # use tail to ignore the on-import print statement
 # Maximum number of threads. Don't put more than available. It could result in a strange behaviour of the code.
-export OMP_NUM_THREADS='20' 
+# export OMP_NUM_THREADS='20' 
 
  
 #############
