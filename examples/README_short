@@ -1,12 +1,11 @@
 #! /bin/csh
 
 
-# Location of the code
-export LEPHAREDIR='/home/oilbert/LEPHARE/'
-# Where to store the libraries (if not create with the make file, you must have a $LEPHAREWORK/filt, $LEPHAREWORK/lib_bin, $LEPHAREWORK/lib_mag
-export LEPHAREWORK='WORK'
+# Set the LEPHAREDIR and LEPHAREWORK variables automatically to defaults
+export LEPHAREDIR=$(python -c "import lephare as lp; print(f'{lp.LEPHAREDIR}')" | tail -n 1) # use tail to ignore the on-import print statement
+export LEPHAREWORK=$(python -c "import lephare as lp; print(f'{lp.dm.LEPHAREWORK}')" | tail -n 1) # use tail to ignore the on-import print statement
 # Maximum number of threads
-export OMP_NUM_THREADS='30' 
+# export OMP_NUM_THREADS='30' 
 
  
 #############
