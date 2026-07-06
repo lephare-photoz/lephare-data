@@ -91,11 +91,22 @@ GLB_CONTEXT	0		 # Overwrite Context (Sum 2^n; n=0->nbd-1, 0->all bands, -1[-def]
 FORB_CONTEXT	-1		 # Not consider these filters in the fit  (Sum 2^n; n=0->nbd-1) 
 ERR_SCALE       0.02,0.02,0.02,0.02,0.02,0.02,0.02,0.05,0.05,0.05,0.05,0.02,0.02,0.02,0.02,0.02,0.02,0.02,0.02,0.02,0.02,0.02,0.02,0.05,0.05,0.05,0.05,0.1,0.2,0.3  # Systematic errors per band
 ERR_FACTOR      1.5              # Multiply all the flux uncertainties by this factor
-ADD_EMLINES     0,10000          # Range of template in which we add emission lines
+
+#
+#------------------    Milky Way dust exinction correction   --------------------------
+APPLY_MW_EXTINCTION  NO                        # NO[DEF], CLASSIC, GALAMETZ
+EXT_MW_CURVE         LMC_Fitzpatrick.dat       # Extinction curve to be considered for the MW extinction curve
+MW_REFERENCE_MODEL   sed/STAR/PICKLES/b5i.sed  # Reference SED used for MW E(B-V) in Galametz case.
+                                               # The default - a B5 star
+MW_GLOBAL_EBV        0.0                       # Global MW E(B-V) value
+                                               # If 0, read from the file defined by MW_EBV_FILE.
+MW_EBV_FILE          NONE                      # FILE with IDs corresponding to the input and MW EBV values.
 
 #
 #------------------    Theoretical libraries           --------------------------------
 ZPHOTLIB	CE_COSMOS,STAR_COSMOS,QSO_COSMOS  # Library used for Chi2 (max:3)
+ADD_EMLINES     0,10000          # Range of template in which we add emission lines
+
 
 #
 #------------------     Output catalog Name           ---------------------------------
