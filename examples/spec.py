@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages 
 import sys, getopt
 #import subprocess
-from lephare._spec import plotspec
+from lephare._spec import plot_spectrum
 
 ######## GET FILENAMES AND OPTIONS ########
 
@@ -94,7 +94,7 @@ for k in range(nspec):
 
   ### Open .spec file[s] and read the parameters
   filename=sys.argv[1+k].replace('.spec','')
-  plotspec(filename+'.spec')
+  plot_spectrum(filename+'.spec')
 
   if  odev=='.pdf': 
       plt.savefig(pdp,format='pdf',dpi=300,bbox_inches='tight')
