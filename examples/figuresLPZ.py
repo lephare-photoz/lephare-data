@@ -85,6 +85,101 @@ def zp_zs(magmin,magmax) :
 
 
 ############################
+# PHOTO-Z VERSUS SPEC-Z, COLOURED BY THE REDSHIFT QUALITY FLAG (Z_FLAG)
+# Z_FLAG is the sum of the following bits (higher = lower quality PDZ):
+#  1: large error, 2: high mean/max ratio, 4: large tail, 8: several peaks,
+#  16: error larger than half the z range. -99: flag not computable.
+def zp_zs_flag(magmin,magmax) :
+
+   #set the axis
+   axis([z_min,z_max,z_min,z_max])
+
+   condA = cond & condspec & (mag>magmin) & (mag<magmax)
+   Ngal = len(zp[condA])
+   fl = zflag[condA]
+
+   if Ngal > 0 :
+       # one colour per flag value present in the sample, sorted so that the
+       # worst flags are drawn last (on top)
+       vals = np.unique(fl)
+       order = np.argsort(fl, kind='stable')
+       cmap = matplotlib.colors.ListedColormap(
+           cm.RdYlGn_r(np.linspace(0.05, 0.95, max(len(vals), 2)))[:len(vals)])
+       bounds = np.append(vals - 0.5, vals[-1] + 0.5)
+       norm = matplotlib.colors.BoundaryNorm(bounds, cmap.N)
+       sc = scatter(zs[condA][order], zp[condA][order], c=fl[order], s=3,
+                    cmap=cmap, norm=norm, marker='s', alpha=0.7)
+       # colorbar with one tick per flag value present
+       cb = colorbar(sc, ticks=vals, pad=0.02)
+       cb.set_label('$Z\\_FLAG$', fontsize=14)
+       cb.ax.set_yticklabels([str(int(v)) for v in vals])
+
+       # statistics for the best quality (flag==0) sample
+       arg_std = (zp[condA] - zs[condA]) / (1. + zs[condA])
+       good = (fl == 0)
+       txt = '$N_{gal}  = '+str(Ngal)+'$\n'
+       txt += '$N_{flag=0}  = '+str(int(good.sum()))+'$'
+       if good.sum() > 0 :
+           NMAD0 = 1.4821 * np.median(abs(arg_std[good]))
+           eta0 = np.mean(abs(arg_std[good]) > 0.15)
+           txt += '\n$\\eta_{flag=0}  = '+str(round(100*eta0,2))+'\\ \\%$'
+           txt += '\n$\\sigma_{flag=0}  = '+str(round(NMAD0,5))+'$'
+       annotate(txt, xy=(0.1*z_max,0.7*z_max), color="black", fontsize=12)
+
+   #Trace the limits 0.15(1+z)
+   x_zs = np.array([0,6])
+   plot(x_zs, x_zs*1.15+0.15, 'c--')
+   plot(x_zs, x_zs, 'r-')
+   plot(x_zs, x_zs*0.85-0.15, 'c--')
+
+   #labels
+   title("$"+str(magmin)+" < mag < "+str(magmax)+"$")
+   xlabel('$z_{spec}$', fontsize=18, labelpad=13)
+   ylabel('$z_{phot} \\; minimum \\; \\chi^2$', fontsize=18, labelpad=13)
+
+   return
+
+
+############################
+# PERFORMANCE AS A FUNCTION OF THE VALUE OF THE REDSHIFT QUALITY FLAG
+def flag_performance(magmin,magmax) :
+
+   condA = cond & condspec & (mag>magmin) & (mag<magmax)
+   fl = zflag[condA]
+   arg_std = (zp[condA] - zs[condA]) / (1. + zs[condA])
+   vals = np.unique(fl)
+   Ntot = float(len(fl))
+   if Ntot == 0 :
+       return
+
+   Nv, eta, nmad = [], [], []
+   print("Z_FLAG  N  fraction  outlier_rate  NMAD   ("+str(magmin)+"<mag<"+str(magmax)+")")
+   for v in vals :
+       c = (fl == v)
+       Nv.append(c.sum())
+       eta.append(np.mean(abs(arg_std[c]) > 0.15))
+       nmad.append(1.4821 * np.median(abs(arg_std[c])))
+       print("%6d %6d %8.3f %12.4f %8.4f" % (v, c.sum(), c.sum()/Ntot, eta[-1], nmad[-1]))
+
+   pos = np.arange(len(vals))
+   labels = [str(int(v)) for v in vals]
+   ax1 = subplot(2,1,1)
+   bar(pos, np.array(Nv)/Ntot, color='gray')
+   ylabel('$N/N_{tot}$', fontsize=14)
+   xticks(pos, labels)
+   title("$Z\\_FLAG$, $"+str(magmin)+" < mag < "+str(magmax)+"$")
+   ax2 = subplot(2,1,2)
+   bar(pos-0.2, eta, width=0.4, color='r', label='$\\eta$ (outlier rate)')
+   bar(pos+0.2, nmad, width=0.4, color='b', label='$\\sigma_{NMAD}$')
+   xticks(pos, labels)
+   xlabel('$Z\\_FLAG$', fontsize=14)
+   ylim(0, 1.35*max(max(eta), max(nmad), 1e-3))
+   legend(loc='upper right', ncol=2, prop={'size':8})
+
+   return
+
+
+############################
 # PLOT PHOTO-Z ZML VERSUS ZBEST
 def zml_zp(magmin,magmax,ax) :
     
@@ -615,6 +710,30 @@ commandst = "Id,zp,zl68,zu68,zml,zmll68,zmlu68,chi,mod,law,ebv,zp2,chi2,mod2,ebv
 print(commandst)
 exec(commandst)
 
+# Redshift quality flag (Z_FLAG), if it is in the output parameters. Its column
+# is read from the "# Format:" line of the header, as it depends on PARA_OUT.
+def find_column(fname, key) :
+    with open(fname) as f :
+        for line in f :
+            if not line.startswith('#') :
+                break
+            if line.startswith('# Format:') and 'topcat' not in line :
+                # the following header line is "# KEY1 col1 KEY2 col2 ..."
+                tok = f.readline().lstrip('#').split()
+                for i in range(len(tok)-1) :
+                    if tok[i] == key :
+                        return int(tok[i+1]) - 1
+                break
+    return None
+
+colflag = find_column(fileIn, 'Z_FLAG')
+if colflag is not None :
+    zflag = np.loadtxt(fileIn, dtype='int', usecols=(colflag,))
+    print("Z_FLAG found in column", colflag+1, "of the catalogue")
+else :
+    zflag = None
+    print("Z_FLAG not found in the catalogue header: figures versus Z_FLAG are skipped")
+
 
 ##################################################
 #    CONDITION FOR SELECTION
@@ -657,6 +776,19 @@ for rm in range(len(range_mag)) :
     zp_zs(range_mag[rm-1],range_mag[rm])
 
     # store the figure in a PDF
+    savefig(pdfOut,format='pdf', bbox_inches='tight')
+
+
+############################
+##### PHOTO-Z VERSUS SPEC-Z, COLOURED BY Z_FLAG
+if zflag is not None :
+    for rm in range(1,len(range_mag)) :
+        clf()
+        zp_zs_flag(range_mag[rm-1],range_mag[rm])
+        savefig(pdfOut,format='pdf', bbox_inches='tight')
+    # and the performance versus the value of the flag, for the full range
+    clf()
+    flag_performance(range_mag[0],range_mag[-1])
     savefig(pdfOut,format='pdf', bbox_inches='tight')
 
 

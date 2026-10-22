@@ -158,3 +158,7 @@ LUM_K_BEST
 # ABSMAG_PRED()
 MAG_PRED()
 
+
+# Redshift quality flag from the PDF(z) (see Z_FLAG_PAR in the documentation).
+# Placed last so that the column numbers of the other parameters are unchanged
+Z_FLAG
