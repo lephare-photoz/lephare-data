@@ -3,6 +3,8 @@ name: Update registry file
 on: 
   workflow_dispatch:
   push:
+    tags-ignore:
+      - '**'
 
 env:
   REGISTRY_FILE: data_registry.txt
