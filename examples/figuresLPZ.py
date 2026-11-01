@@ -46,6 +46,25 @@ def area(zmin,zmax):
 
 
 ############################
+# FIXED COLOUR SCALE FOR THE REDSHIFT QUALITY FLAG (Z_FLAG)
+# Z_FLAG is the sum of the following bits (higher = lower quality PDZ):
+#  1: large error, 2: high mean/max ratio, 4: large tail, 8: several peaks,
+#  16: error larger than half the z range. -99: flag not computable.
+# One colour per possible value 0-31 (green=0 to red=31), the same in all the
+# figures whatever the flag values present in the sample; -99 is grey.
+flag_cmap = matplotlib.colors.ListedColormap(cm.RdYlGn_r(np.linspace(0.05, 0.95, 32)))
+flag_cmap.set_under('0.5')
+flag_norm = matplotlib.colors.BoundaryNorm(np.arange(-0.5, 32.5, 1.), flag_cmap.N)
+flag_ticks = [0, 8, 16, 24, 31]
+
+def flag_colorbar(sc) :
+   cb = colorbar(sc, ticks=flag_ticks, extend='min', pad=0.02)
+   cb.set_label('$Z\\_FLAG$', fontsize=14)
+   # the triangle at the bottom of the colorbar is the flag -99
+   cb.ax.text(0.5, -0.02, '-99', transform=cb.ax.transAxes, ha='center', va='top', fontsize=8)
+   return cb
+
+############################
 # PLOT PHOTO-Z VERSUS SPEC-Z
 def zp_zs(magmin,magmax) :
     
@@ -55,8 +74,15 @@ def zp_zs(magmin,magmax) :
    #new condition with the magnitude range 
    condA = cond & condspec & (mag>magmin) & (mag<magmax)  
 
-   # Plot photo-z versus spec-z
-   scatter(zs[condA], zp[condA], s=1, color='b',alpha=0.5,marker='s')
+   # Plot photo-z versus spec-z, coloured by the quality flag if available
+   if zflag is not None :
+       fl = zflag[condA]
+       # worst flags drawn last (on top)
+       order = np.argsort(fl, kind='stable')
+       sc = scatter(zs[condA][order], zp[condA][order], c=fl[order], s=3, cmap=flag_cmap, norm=flag_norm, marker='s', alpha=0.7)
+       flag_colorbar(sc)
+   else :
+       scatter(zs[condA], zp[condA], s=1, color='b',alpha=0.5,marker='s')
 
    #Check that we have some sources before performing statistics
    Ngal = len( zp[condA])
@@ -68,7 +94,7 @@ def zp_zs(magmin,magmax) :
        NMAD = 1.4821 * np.median( abs(arg_std))
        cond_outl = ( abs(arg_std) > 0.15 )
        outl_rate = len(arg_std[cond_outl]) / float(Ngal)
-       annotate(r'$N_{gal}  = '+str(Ngal)+'$ \n'+'$\eta  ='+str(100*round(outl_rate,3))+'  \%$\n'+'$ \sigma_{\Delta z /(1+z)}  = '+str(round(NMAD,5))+'$',xy=(0.1*z_max,0.8*z_max),color="black", fontsize=15)
+       annotate(r'$N_{gal}  = '+str(Ngal)+'$ \n'+'$\\eta  ='+str(100*round(outl_rate,3))+'  \\%$\n'+'$ \\sigma_{\\Delta z /(1+z)}  = '+str(round(NMAD,5))+'$',xy=(0.1*z_max,0.8*z_max),color="black", fontsize=15)
 
    #Trace the limits 0.15(1+z)
    x_zs = np.array([0,6])
@@ -79,7 +105,46 @@ def zp_zs(magmin,magmax) :
    #labels
    title("$"+str(magmin)+" < mag < "+str(magmax)+"$")
    xlabel('$z_{spec}$', fontsize=18, labelpad=13)
-   ylabel('$z_{phot} \; minimum \; \chi^2$', fontsize=18, labelpad=13)
+   ylabel('$z_{phot} \\; minimum \\; \\chi^2$', fontsize=18, labelpad=13)
+
+   return
+
+
+############################
+# PERFORMANCE AS A FUNCTION OF THE VALUE OF THE REDSHIFT QUALITY FLAG
+def flag_performance(magmin,magmax) :
+
+   condA = cond & condspec & (mag>magmin) & (mag<magmax)
+   fl = zflag[condA]
+   arg_std = (zp[condA] - zs[condA]) / (1. + zs[condA])
+   vals = np.unique(fl)
+   Ntot = float(len(fl))
+   if Ntot == 0 :
+       return
+
+   Nv, eta, nmad = [], [], []
+   print("Z_FLAG  N  fraction  outlier_rate  NMAD   ("+str(magmin)+"<mag<"+str(magmax)+")")
+   for v in vals :
+       c = (fl == v)
+       Nv.append(c.sum())
+       eta.append(np.mean(abs(arg_std[c]) > 0.15))
+       nmad.append(1.4821 * np.median(abs(arg_std[c])))
+       print("%6d %6d %8.3f %12.4f %8.4f" % (v, c.sum(), c.sum()/Ntot, eta[-1], nmad[-1]))
+
+   pos = np.arange(len(vals))
+   labels = [str(int(v)) for v in vals]
+   ax1 = subplot(2,1,1)
+   bar(pos, np.array(Nv)/Ntot, color='gray')
+   ylabel('$N/N_{tot}$', fontsize=14)
+   xticks(pos, labels)
+   title("$Z\\_FLAG$, $"+str(magmin)+" < mag < "+str(magmax)+"$")
+   ax2 = subplot(2,1,2)
+   bar(pos-0.2, eta, width=0.4, color='r', label='$\\eta$ (outlier rate)')
+   bar(pos+0.2, nmad, width=0.4, color='b', label='$\\sigma_{NMAD}$')
+   xticks(pos, labels)
+   xlabel('$Z\\_FLAG$', fontsize=14)
+   ylim(0, 1.35*max(max(eta), max(nmad), 1e-3))
+   legend(loc='upper right', ncol=2, prop={'size':8})
 
    return
 
@@ -123,10 +188,10 @@ def distz(magmin,magmax,nstep,ax,leg):
     if len( zp[condA]) > 0 :
 
        # Histogram with the photometric redshifts median PDF
-       ax.hist(zml[condA], bins=nstep, histtype='stepfilled', density=1, color='b', label='$z_{phot}\; median\; PDZ$')
+       ax.hist(zml[condA], bins=nstep, histtype='stepfilled', density=1, color='b', label='$z_{phot}\\; median\\; PDZ$')
 
        # Histogram with the photometric redshifts minimum chi2
-       ax.hist(zp[condA], bins=nstep, histtype='stepfilled', density=1, color='r', alpha=0.5, label='$z_{phot}\; minimum\; \chi^2$')
+       ax.hist(zp[condA], bins=nstep, histtype='stepfilled', density=1, color='r', alpha=0.5, label='$z_{phot}\\; minimum\\; \\chi^2$')
 
      
     #new condition with the magnitude range and spectro-z
@@ -160,10 +225,10 @@ def secondpeak(magmin,magmax,nstep,ax,leg):
     if len( zp2[condA]) > 1 :
 
      # Histogram with the photometric redshifts median PDF
-     ax.hist(zp2[condA], bins=nstep, histtype='stepfilled', density=1, color='b', label='$z_{phot}\; second\; peak$')
+     ax.hist(zp2[condA], bins=nstep, histtype='stepfilled', density=1, color='b', label='$z_{phot}\\; second\\; peak$')
 
      # Histogram with the photometric redshifts minimum chi2
-     ax.hist(zp[condA], bins=nstep, histtype='stepfilled', density=1, color='r', alpha=0.5, label='$z_{phot}\; minimum \; \chi^2$')
+     ax.hist(zp[condA], bins=nstep, histtype='stepfilled', density=1, color='r', alpha=0.5, label='$z_{phot}\\; minimum \\; \\chi^2$')
 
     # print the legend
     if leg==1:
@@ -208,7 +273,7 @@ def chi2dist(magmin,magmax,nstep,ax,leg):
 
      chireduit=chi[condA]/(nbFilt[condA]-1)
      # Histogram of log (reduced chi2 gal)
-     ax.hist(np.log10(chireduit), bins=nstep, histtype='stepfilled', density=1, color='b', label='$\chi^2_{gal} \; if \; \chi^2_{gal}<\chi^2_{stars}$')
+     ax.hist(np.log10(chireduit), bins=nstep, histtype='stepfilled', density=1, color='b', label='$\\chi^2_{gal} \\; if \\; \\chi^2_{gal}<\\chi^2_{stars}$')
 
     #new condition with the magnitude range for stars, chi star < chi gal
     condA = cond & condstar & (mag>magmin) & (mag<magmax) & (nbFilt>2)  & (chi>0)
@@ -216,7 +281,7 @@ def chi2dist(magmin,magmax,nstep,ax,leg):
 
      chireduit=chis[condA]/(nbFilt[condA]-1)
      # Histogram of log (reduced chi2 gal)
-     ax.hist(np.log10(chireduit), bins=nstep, histtype='stepfilled', density=1, color='r', alpha=0.5, label='$\chi^2_{star} \; if \;  \chi^2_{gal}>\chi^2_{stars}$')
+     ax.hist(np.log10(chireduit), bins=nstep, histtype='stepfilled', density=1, color='r', alpha=0.5, label='$\\chi^2_{star} \\; if \\;  \\chi^2_{gal}>\\chi^2_{stars}$')
 
     # print the legend
     if leg==1:
@@ -300,7 +365,7 @@ def BzK(zmin,zmax,ax,galstar):
     if galstar==0:
       ax.annotate("$"+str(zmin)+" < z < "+str(zmax)+"$",xy=(0.1,3),color="black", fontsize=15)
     else:
-      ax.annotate("$\chi_s<\chi_g$",xy=(0.1,3),color="black", fontsize=15)
+      ax.annotate("$\\chi_s<\\chi_g$",xy=(0.1,3),color="black", fontsize=15)
 
     return
 
@@ -391,9 +456,9 @@ def cumulative68(magmin,magmax,nstep,ax):
     if len( zml[condAzml]) > 1 :
     
        # Histogram with the photometric redshifts zml
-       ax.hist(diffzp[condAzp], bins=nstep, histtype='step', density=1, color='b', cumulative=True, label='$z_{phot}\; minimum \; \chi^2$')
+       ax.hist(diffzp[condAzp], bins=nstep, histtype='step', density=1, color='b', cumulative=True, label='$z_{phot}\\; minimum \\; \\chi^2$')
        # Histogram with the photometric redshifts zp
-       ax.hist(diffzml[condAzml], bins=nstep, histtype='step', density=1, color='r', cumulative=True, label='$z_{phot}\; median \; PDF$')
+       ax.hist(diffzml[condAzml], bins=nstep, histtype='step', density=1, color='r', cumulative=True, label='$z_{phot}\\; median \\; PDF$')
 
        # 68%
        ax.plot([1,1,0], [0,0.68,0.68], color='r')
@@ -429,7 +494,7 @@ def check_error() :
    plot([-10,100], [0,0.], color='r')
 
    xlabel('magnitude', fontsize=18, labelpad=13)
-   ylabel('$68\% \; photo-z \; error$', fontsize=18, labelpad=13)
+   ylabel('$68\\% \\; photo-z \\; error$', fontsize=18, labelpad=13)
 
    return
 
@@ -615,6 +680,30 @@ commandst = "Id,zp,zl68,zu68,zml,zmll68,zmlu68,chi,mod,law,ebv,zp2,chi2,mod2,ebv
 print(commandst)
 exec(commandst)
 
+# Redshift quality flag (Z_FLAG), if it is in the output parameters. Its column
+# is read from the "# Format:" line of the header, as it depends on PARA_OUT.
+def find_column(fname, key) :
+    with open(fname) as f :
+        for line in f :
+            if not line.startswith('#') :
+                break
+            if line.startswith('# Format:') and 'topcat' not in line :
+                # the following header line is "# KEY1 col1 KEY2 col2 ..."
+                tok = f.readline().lstrip('#').split()
+                for i in range(len(tok)-1) :
+                    if tok[i] == key :
+                        return int(tok[i+1]) - 1
+                break
+    return None
+
+colflag = find_column(fileIn, 'Z_FLAG')
+if colflag is not None :
+    zflag = np.loadtxt(fileIn, dtype='int', usecols=(colflag,))
+    print("Z_FLAG found in column", colflag+1, "of the catalogue")
+else :
+    zflag = None
+    print("Z_FLAG not found in the catalogue header: figures versus Z_FLAG are skipped")
+
 
 ##################################################
 #    CONDITION FOR SELECTION
@@ -661,6 +750,14 @@ for rm in range(len(range_mag)) :
 
 
 ############################
+##### PERFORMANCE VERSUS THE VALUE OF Z_FLAG (if available)
+if zflag is not None :
+    clf()
+    flag_performance(range_mag[0],range_mag[-1])
+    savefig(pdfOut,format='pdf', bbox_inches='tight')
+
+
+############################
 ##### PHOTO-Z ZML VERSUS ZBEST
 
 
@@ -671,8 +768,8 @@ f, axarr = subplots(nbRowM,nbColM,sharex=True,sharey=True)
 subplots_adjust( hspace=0,wspace=0)
 
 # label of the figure
-f.text(0.5, 0.04, '$z_{phot}\; minimum\; \chi^2$', ha='center')
-f.text(0.04, 0.5, '$z_{phot}\; median\; PDZ$', va='center', rotation='vertical')
+f.text(0.5, 0.04, '$z_{phot}\\; minimum\\; \\chi^2$', ha='center')
+f.text(0.04, 0.5, '$z_{phot}\\; median\\; PDZ$', va='center', rotation='vertical')
                      
 # Loop over the magnitude bins
 for rm in range(len(range_mag)) :
@@ -798,7 +895,7 @@ f, axarr = subplots(nbRowM,nbColM,sharex=True,sharey=True)
 subplots_adjust( hspace=0,wspace=0)
 
 # label of the figure
-f.text(0.5, 0.04, 'log($\chi^2$)', ha='center')
+f.text(0.5, 0.04, 'log($\\chi^2$)', ha='center')
 f.text(0.04, 0.5, '$N_{normalized}$', va='center', rotation='vertical')
                      
 # Loop over the magnitude bins
@@ -1030,7 +1127,7 @@ subplots_adjust( hspace=0,wspace=0)
 
 # label of the figure
 f.text(0.5, 0.04, '$mag$', ha='center')
-f.text(0.04, 0.5, '$z_{phot} \; uncertainties$', va='center', rotation='vertical')
+f.text(0.04, 0.5, '$z_{phot} \\; uncertainties$', va='center', rotation='vertical')
                      
 # Loop over the redshift bins
 for rm in range(len(range_z)) :
@@ -1055,7 +1152,7 @@ subplots_adjust( hspace=0,wspace=0)
 
 # label of the figure
 f.text(0.5, 0.04, '$z_{phot}$', ha='center')
-f.text(0.04, 0.5, '$z_{phot} \; uncertainties$', va='center', rotation='vertical')
+f.text(0.04, 0.5, '$z_{phot} \\; uncertainties$', va='center', rotation='vertical')
                      
 # Loop over the redshift bins
 for rm in range(len(range_mag)) :
